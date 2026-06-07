@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef, useMemo } from "react";
 import { useAuth } from "../context/useAuth";
+import QuestionRenderer from "../components/ui/QuestionRenderer";
+
 import { apiEndpoints } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, ErrorMessage, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
@@ -84,9 +86,9 @@ function getQuestionMeta(question) {
 }
 
 function PredictionsPage() {
+  const { user } = useAuth();
   const [predictions, setPredictions] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const { user } = useAuth();
   const location = useLocation();
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedPaperType, setSelectedPaperType] = useState("CQ");
@@ -97,22 +99,104 @@ function PredictionsPage() {
   const initialSubjectCode = String(location.state?.subject_code || "").trim();
   const academicProfileSignature = getAcademicProfileSignature(user);
 
-  const loadPredictionData = useCallback(async (subjectCode, paperType, subjectOverride = null) => {
-    const subject = subjectOverride || subjects.find((item) => item.subject_code === subjectCode) || null;
-    const paperTypeOptions = getPaperTypeOptions(subject, user);
+  const loadPredictionData = useRef(null);
+const userRef = useRef(user);
 
-    if (paperTypeOptions.length > 0) {
-      const selectedType = paperTypeOptions.includes(paperType) ? paperType : getDefaultPaperType(paperTypeOptions);
+  // ... inside PredictionsPage component ...
 
-      if (!selectedType) {
-        throw new Error("Please select CQ, MCQ, or WRITTEN before loading.");
+    const stableUser = useMemo(() => user, [user?.id, user?.academic_level, user?.institution_id]);
+
+useEffect(() => {
+  userRef.current = user;
+}, [user]);
+
+    const subjectsLoadedRef = useRef(false);
+
+    useEffect(() => {
+        let active = true;
+
+        const params = buildSubjectScopeParams(stableUser, { status: "published" });
+
+        async function initialize() {
+          if (subjectsLoadedRef.current) {
+            return;
+          }
+
+          try {
+            const response = await apiEndpoints.getSubjects(params);
+
+            if (!active) {
+              return;
+            }
+
+            const subjectList = normalizeSubjectList(response.data);
+            setSubjects(subjectList);
+
+            const subjectCode = initialSubjectCode || subjectList[0]?.subject_code || "";
+
+            if (!subjectCode) {
+              setMessage("Subject list is unavailable. Enter a subject code manually to load predictions.");
+              return;
+            }
+
+            setSelectedSubject(subjectCode);
+            const nextSubject = subjectList.find((subject) => subject.subject_code === subjectCode) || null;
+            const nextPaperType = getDefaultPaperType(getPaperTypeOptions(nextSubject, stableUser));
+            setSelectedPaperType(nextPaperType || "CQ");
+
+            try {
+              const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
+              if (active) {
+                const nextPredictions = normalizePredictions(predictionResponse.data);
+                setPredictions(nextPredictions);
+                setMessage(nextPredictions.length === 0 ? getPredictionMessage(predictionResponse.data, "No predictions returned for this subject.") : "");
+              }
+            } catch (error) {
+              console.error(error);
+              if (active) {
+                setPredictions([]);
+                setMessage(getApiErrorMessage(error, "Subjects loaded, but prediction data could not be loaded for the selected subject."));
+              }
+            }
+
+            subjectsLoadedRef.current = true;
+          } catch (error) {
+            console.error(error);
+            if (active) {
+              setSubjects([]);
+              setMessage(getApiErrorMessage(error, "Subject list could not be loaded. Enter a subject code manually."));
+            }
+          } finally {
+            if (active) {
+              setLoading(false);
+            }
+          }
+        }
+
+        initialize();
+
+        return () => {
+          active = false;
+        };
+      }, [academicProfileSignature, initialSubjectCode]);
+
+    loadPredictionData.current = async (subjectCode, paperType, subjectOverride = null) => {
+      const subject = subjectOverride || subjects.find((item) => item.subject_code === subjectCode) || null;
+      const paperTypeOptions = getPaperTypeOptions(subject, stableUser);
+
+      if (paperTypeOptions.length > 0) {
+        const selectedType = paperTypeOptions.includes(paperType) ? paperType : getDefaultPaperType(paperTypeOptions);
+
+        if (!selectedType) {
+          throw new Error("Please select CQ, MCQ, or WRITTEN before loading.");
+        }
+
+        return apiEndpoints.getPredictions(subjectCode, { paperType: selectedType });
       }
 
-      return apiEndpoints.getPredictions(subjectCode, { paperType: selectedType });
-    }
+      return apiEndpoints.getPredictions(subjectCode);
+    };
 
-    return apiEndpoints.getPredictions(subjectCode);
-  }, [subjects, user]);
 
   useEffect(() => {
     let active = true;
@@ -142,7 +226,7 @@ function PredictionsPage() {
         setSelectedPaperType(nextPaperType || "CQ");
 
         try {
-          const predictionResponse = await loadPredictionData(subjectCode, nextPaperType, nextSubject);
+          const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
           if (active) {
             const nextPredictions = normalizePredictions(predictionResponse.data);
             setPredictions(nextPredictions);
@@ -192,7 +276,7 @@ function PredictionsPage() {
     setMessage("");
 
     try {
-      const response = await loadPredictionData(subjectCode, nextPaperType, nextSubject);
+      const response = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
       const nextPredictions = normalizePredictions(response.data);
       setPredictions(nextPredictions);
       setMessage(nextPredictions.length === 0 ? getPredictionMessage(response.data, "No predictions returned for this subject.") : "");
@@ -376,27 +460,34 @@ function PredictionsPage() {
                   <QuestionExtras item={item} />
 
                   {Array.isArray(item.related_questions) && item.related_questions.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      <p className="text-sm font-semibold text-slate-950">Related Previous Questions</p>
-                      {item.related_questions.slice(0, 4).map((question, questionIndex) => (
-                        <div key={question.id || questionIndex} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                          <p className="whitespace-pre-line break-words leading-6">{getQuestionText(question)}</p>
-                          {getQuestionMeta(question) && (
-                            <p className="mt-1 text-xs font-medium uppercase tracking-[0.14em] text-slate-500">
-                              {getQuestionMeta(question)}
-                            </p>
-                          )}
-                          <DiagramRenderer question={question} />
-                          <QuestionExtras item={question} />
-                          <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500">
-                            {question.exam_year && <span>{question.exam_year}</span>}
-                            {question.question_no && <span>{question.question_no}</span>}
-                            {question.marks && <span>{question.marks} marks</span>}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                                                        <div className="mt-4 space-y-4">
+                                                          <p className="text-sm font-semibold text-slate-950">Related Previous Questions</p>
+                                                          {item.related_questions.slice(0, 4).map((related, questionIndex) => {
+                                                            const safeQuestion = {
+                                                              id: related.id || related.question_id || `related-${questionIndex}`,
+                                                              question_no: related.question_no || "",
+                                                              question_text: related.question_text || related.text || "",
+                                                              marks: related.marks || null,
+                                                              topic: related.topic || item.topic || "",
+                                                              exam_year: related.exam_year || null,
+                                                              paper_type: related.paper_type || "",
+                                                              table_data: related.table_data || null,
+                                                              sub_questions: related.sub_questions || null,
+                                                              diagram_svg: related.diagram_svg || null,
+                                                              diagram_type: related.diagram_type || null,
+                                                              word_box: related.word_box || null,
+                                                              diagram_required: related.diagram_required || false,
+                                                              diagram_description: related.diagram_description || "",
+                                                              instruction: related.instruction || "",
+                                                              section: related.section || "",
+                                                              question_type: related.question_type || "",
+                                                              options: related.options || [],
+                                                            };
+
+                                                            return <QuestionRenderer key={safeQuestion.id} question={safeQuestion} index={questionIndex} />;
+                                                          })}
+                                                        </div>
+                                                      )}
 
                   <Button
                     type="button"

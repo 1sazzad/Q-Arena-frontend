@@ -14,7 +14,7 @@ import UploadPage from "./pages/UploadPage";
 import QuestionsPage from "./pages/QuestionsPage";
 import BoardPapersPage from "./pages/BoardPapersPage";
 import SimilarQuestionsPage from "./pages/SimilarQuestionsPage";
-import TopicsPage from "./pages/TopicsPage";
+import AnalysisPage from "./pages/AnalysisPage";
 import PredictionsPage from "./pages/PredictionsPage";
 import SuggestionsPage from "./pages/SuggestionsPage";
 import GenerateAnswerPage from "./pages/GenerateAnswerPage";
@@ -111,7 +111,7 @@ function App() {
             <Route path="/search" element={<SimilarQuestionsPage />} />
             <Route path="/suggestions" element={<SuggestionsPage />} />
             <Route path="/generate-answer" element={<GenerateAnswerPage />} />
-            <Route path="/analysis" element={<TopicsPage />} />
+            <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/profile" element={<ProfilePage />} />
 
             <Route path="/predict" element={<PredictionsPage />} />

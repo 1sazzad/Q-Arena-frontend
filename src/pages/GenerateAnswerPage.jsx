@@ -260,8 +260,23 @@ function GenerateAnswerPage() {
     }
   }
 
+  const lastLoadedSubjectsKeyRef = useRef(null);
+
+  // Effect A: Load subjects only when stable user academic filters change
   useEffect(() => {
     let active = true;
+
+    const key = JSON.stringify({
+      university_id: user?.university_id || null,
+      department_id: user?.department_id || null,
+    });
+
+    if (lastLoadedSubjectsKeyRef.current === key) {
+      // Already loaded for this key, skip
+      return;
+    }
+
+    lastLoadedSubjectsKeyRef.current = key;
 
     const params = { status: "published" };
     if (user?.university_id) params.university_id = user.university_id;
@@ -275,10 +290,6 @@ function GenerateAnswerPage() {
 
         const subjectList = normalizeSubjectList(response.data);
         setSubjects(subjectList);
-
-        if (!subjectCode && subjectList.length > 0) {
-          setSubjectCode(subjectList[0].subject_code);
-        }
         setMissingScope(false);
       })
       .catch((error) => {
@@ -293,7 +304,14 @@ function GenerateAnswerPage() {
     return () => {
       active = false;
     };
-  }, [subjectCode, user?.university_id, user?.department_id]);
+  }, [user?.university_id, user?.department_id]);
+
+  // Effect B: Set default subjectCode only after subjects are loaded and subjectCode is empty
+  useEffect(() => {
+    if (!subjectCode && subjects.length > 0) {
+      setSubjectCode(subjects[0].subject_code);
+    }
+  }, [subjectCode, subjects]);
 
   async function handleGenerateAnswer(event) {
     event?.preventDefault?.();

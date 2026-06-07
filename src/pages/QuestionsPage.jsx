@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import QuestionRenderer from "../components/ui/QuestionRenderer";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { apiEndpoints, getAnswerGenerationErrorMessage, logAnswerGenerationError } from "../api/api";
@@ -1013,7 +1014,7 @@ function QuestionsPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject } })}
+                  onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
                   className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
                 >
                   <p className="text-sm font-semibold text-slate-950">Topic analysis</p>
@@ -1021,7 +1022,7 @@ function QuestionsPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => navigate("/predict", { state: { subject_code: selectedSubject } })}
+                  onClick={() => navigate("/predict", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
                   className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
                 >
                   <p className="text-sm font-semibold text-slate-950">Predictions</p>
@@ -1102,40 +1103,44 @@ function QuestionsPage() {
                 const questionAnswer = answers[questionKey];
                 const questionError = errorMap[questionKey];
 
+                // Format question number display
+                let displayQuestionNo = "";
+                if (question.question_no) {
+                  displayQuestionNo = `Q${question.question_no}`;
+                } else {
+                  displayQuestionNo = `Q${index + 1}`;
+                }
+
+                // Determine topic display
+                let topicDisplay = null;
+                if (question.topic && question.topic.trim() !== "") {
+                  topicDisplay = question.topic;
+                } else if (question.topic === "" || question.topic === null || question.topic === undefined) {
+                  topicDisplay = null; // Hide topic if empty
+                }
+
+                // Determine year display
+                let yearDisplay = question.exam_year ?? selectedYear ?? null;
+
                 return (
                 <article key={questionKey} className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">
-                        {question.subject_code || selectedSubject || "Published subject"}
-                      </p>
-                      <h3 className="mt-2 text-xl font-semibold text-slate-950">
-                        {question.question_no ? `Question ${question.question_no}` : `Question ${index + 1}`}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-xl font-semibold text-slate-950">
+                        {displayQuestionNo}
                       </h3>
                     </div>
                     <Badge>
                       {question.marks ?? "-"} marks
                     </Badge>
-                    {getQuestionPaperType(question, selectedPaperType) && (
-                      <Badge tone={getQuestionPaperType(question, selectedPaperType) === "MCQ" ? "cyan" : getQuestionPaperType(question, selectedPaperType) === "WRITTEN" ? "green" : "indigo"}>
-                        {getQuestionPaperType(question, selectedPaperType)}
-                      </Badge>
-                    )}
                   </div>
 
-                  <QuestionBody
-                    question={question}
-                    paperType={selectedPaperType}
-                    selectedSubQuestionLabel={selectedSubQuestionMap[questionKey] || ""}
-                    onSelectSubQuestion={(subQuestionLabel) => handleSelectSubQuestion(questionKey, subQuestionLabel)}
-                  />
-                  <QuestionExtras item={question} />
-
-                  <div className="mt-4 flex flex-wrap gap-2 text-sm text-slate-600">
-                    {question.exam_name && <span className="rounded-full bg-white px-3 py-1">{question.exam_name}</span>}
-                    {question.exam_year && <span className="rounded-full bg-white px-3 py-1">{question.exam_year}</span>}
-                    {question.topic && <span className="rounded-full bg-indigo-50 px-3 py-1 text-indigo-700">{question.topic}</span>}
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    {topicDisplay && <span className="rounded-full bg-indigo-50 px-3 py-1 text-indigo-700">{topicDisplay}</span>}
+                    {yearDisplay && <span className="rounded-full bg-slate-200 px-3 py-1 text-slate-700">{yearDisplay}</span>}
                   </div>
+
+                  <QuestionRenderer question={question} index={index} />
 
                   <div className="mt-5">
                     <button

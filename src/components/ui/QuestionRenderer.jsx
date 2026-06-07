@@ -60,7 +60,16 @@ function QuestionRenderer({ question, index }) {
   const questionType = getOptionalText(question?.question_type);
   const instruction = getOptionalText(question?.instruction);
   const stem = getQuestionStem(question);
-  const questionText = getQuestionText(question);
+  let questionText = getQuestionText(question);
+
+  // Normalize escaped LaTeX delimiters for proper rendering
+  if (typeof questionText === "string") {
+    questionText = questionText
+      .replace(/\\\\\(/g, "\\(")
+      .replace(/\\\\\)/g, "\\)")
+      .replace(/\\\\\[/g, "\\[")
+      .replace(/\\\\\]/g, "\\]");
+  }
   const wordBoxWords = getWordBoxWords(question?.word_box);
   const { columns, rows } = getTableData(question?.table_data);
   const diagramSvg = getOptionalText(question?.diagram_svg);
@@ -132,14 +141,14 @@ function QuestionRenderer({ question, index }) {
         </div>
       )}
 
-      {columns.length > 0 && rows.length > 0 && (
+            {columns.length > 0 && rows.length > 0 && (
         <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
           <table className="min-w-full border-collapse text-left text-sm text-slate-700">
             <thead>
               <tr>
                 {columns.map((column, columnIndex) => (
                   <th key={`${columnIndex}-${String(column)}`} className="border border-slate-200 px-3 py-2 font-semibold align-top">
-                    {String(column)}
+                    <MathRenderer value={String(column)} />
                   </th>
                 ))}
               </tr>
@@ -149,7 +158,7 @@ function QuestionRenderer({ question, index }) {
                 <tr key={rowIndex}>
                   {columns.map((column, columnIndex) => (
                     <td key={`${rowIndex}-${columnIndex}`} className="border border-slate-200 px-3 py-2 align-top">
-                      {String(renderTableCell(row, column, columnIndex) ?? "")}
+                      <MathRenderer value={String(renderTableCell(row, column, columnIndex) ?? "")} />
                     </td>
                   ))}
                 </tr>

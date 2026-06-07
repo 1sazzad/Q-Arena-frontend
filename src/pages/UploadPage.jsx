@@ -862,14 +862,47 @@ function UploadPage() {
   }
 
   function applyImportedExam(rawPayload) {
+    // Support nested JSON with subject and exams array
+    if (rawPayload && rawPayload.subject && Array.isArray(rawPayload.exams)) {
+      // Merge subject fields into each exam with normalization
+      const mergedExams = rawPayload.exams.map((exam) => ({
+        subject_name: exam.subject_name || rawPayload.subject.subject_name || "",
+        subject_code: exam.subject_code || rawPayload.subject.subject_code || "",
+        academic_level: exam.academic_level || rawPayload.subject.academic_level || "",
+        program: exam.program || rawPayload.subject.program || "",
+        year: exam.year || rawPayload.subject.year || "",
+        semester: exam.semester || rawPayload.subject.semester || "",
+        curriculum: exam.curriculum || rawPayload.subject.curriculum || "",
+        ...exam,
+      }));
+
+      try {
+        if (scopeType === SCOPE_TYPES.BOARD) {
+          normalizeExamsForScope(mergedExams);
+        } else {
+          normalizeBatchPayload(mergedExams);
+        }
+        setIsBatchMode(true);
+        setMessage(`Batch mode detected: ${mergedExams.length} exam(s) ready to upload.`);
+        setJsonError("");
+      } catch (error) {
+        console.error(error);
+        setIsBatchMode(false);
+        setJsonError(error.message || "Batch JSON is missing required exam fields.");
+      }
+      return;
+    }
+
+    // Fallback to existing logic
     const expandedPayload = expandImportedPayload(rawPayload);
 
-    // Detect if this is a batch upload (array) or single exam
     if (Array.isArray(expandedPayload)) {
       try {
-        scopeType === SCOPE_TYPES.BOARD
-          ? normalizeExamsForScope(expandedPayload)
-          : normalizeBatchPayload(expandedPayload);
+        if (scopeType === SCOPE_TYPES.BOARD) {
+          normalizeExamsForScope(expandedPayload);
+        } else {
+          normalizeBatchPayload(expandedPayload);
+        }
         setIsBatchMode(true);
         setMessage(`Batch mode detected: ${expandedPayload.length} exam(s) ready to upload.`);
         setJsonError("");
@@ -945,7 +978,23 @@ function UploadPage() {
 
     try {
       const { parsedJson, exams } = parseJsonImportPayload(jsonImport);
-      const payload = buildImportPayload(exams);
+
+      // If nested subject and exams, merge subject fields into each exam before building payload
+      let normalizedExams = exams;
+      if (parsedJson && parsedJson.subject && Array.isArray(parsedJson.exams)) {
+        normalizedExams = parsedJson.exams.map((exam) => ({
+          subject_name: exam.subject_name || parsedJson.subject.subject_name || "",
+          subject_code: exam.subject_code || parsedJson.subject.subject_code || "",
+          academic_level: exam.academic_level || parsedJson.subject.academic_level || "",
+          program: exam.program || parsedJson.subject.program || "",
+          year: exam.year || parsedJson.subject.year || "",
+          semester: exam.semester || parsedJson.subject.semester || "",
+          curriculum: exam.curriculum || parsedJson.subject.curriculum || "",
+          ...exam,
+        }));
+      }
+
+      const payload = buildImportPayload(normalizedExams);
       if (!payload) {
         return;
       }
@@ -954,10 +1003,10 @@ function UploadPage() {
       const result = response.data || {};
 
       setUploadResponse({
-        mode: exams.length > 1 ? "batch" : "single",
+        mode: normalizedExams.length > 1 ? "batch" : "single",
         ...result,
       });
-      setMessage(formatValue(result.message, exams.length > 1 ? "Batch drafts saved." : "Draft exam saved."));
+      setMessage(formatValue(result.message, normalizedExams.length > 1 ? "Batch drafts saved." : "Draft exam saved."));
       if (result.job_id || result.status_url) {
         const statusUrl = result.status_url || `/jobs/${encodeURIComponent(result.job_id)}`;
         setImportJob({ job_id: result.job_id, status_url: statusUrl });
@@ -967,9 +1016,46 @@ function UploadPage() {
     } catch (error) {
       console.error(error);
       const errorData = error.response?.data || {};
-      const errorMessage = error.response
-        ? getErrorMessage(errorData, "Imported JSON save failed.")
-        : error.message || "Invalid JSON. Check the file format.";
+      // Simplify error message for UI display
+      let errorMessage = "Upload failed.";
+      if (errorData && typeof errorData === "object") {
+        if (errorData.errors && Array.isArray(errorData.errors) && errorData.errors.length > 0) {
+          // Show first error only
+          const firstError = errorData.errors[0];
+          if (firstError.loc && firstError.msg) {
+            // Strip large object details from error message
+            let msg = firstError.msg;
+            const receivedIndex = msg.indexOf("Received");
+            if (receivedIndex >= 0) {
+              msg = msg.substring(0, receivedIndex).trim();
+            }
+            errorMessage = `Upload failed: ${firstError.loc.join(".")}: ${msg}`;
+          } else if (firstError.msg) {
+            let msg = firstError.msg;
+            const receivedIndex = msg.indexOf("Received");
+            if (receivedIndex >= 0) {
+              msg = msg.substring(0, receivedIndex).trim();
+            }
+            errorMessage = `Upload failed: ${msg}`;
+          }
+        } else if (errorData.detail) {
+          let msg = errorData.detail;
+          const receivedIndex = msg.indexOf("Received");
+          if (receivedIndex >= 0) {
+            msg = msg.substring(0, receivedIndex).trim();
+          }
+          errorMessage = `Upload failed: ${msg}`;
+        } else if (errorData.message) {
+          let msg = errorData.message;
+          const receivedIndex = msg.indexOf("Received");
+          if (receivedIndex >= 0) {
+            msg = msg.substring(0, receivedIndex).trim();
+          }
+          errorMessage = `Upload failed: ${msg}`;
+        }
+      } else if (error.message) {
+        errorMessage = `Upload failed: ${error.message}`;
+      }
 
       setUploadResponse({
         mode: "import",
@@ -1066,7 +1152,12 @@ function UploadPage() {
       } catch (error) {
         console.error(error);
         const errorData = error.response?.data || {};
-        const errorMessage = getErrorMessage(errorData, "Submission failed. Check the backend and payload format.");
+        // Strip large object details from error message
+        let errorMessage = getErrorMessage(errorData, "Submission failed. Check the backend and payload format.");
+        const receivedIndex = errorMessage.indexOf("Received");
+        if (receivedIndex >= 0) {
+          errorMessage = errorMessage.substring(0, receivedIndex).trim();
+        }
         setUploadResponse({
           mode: "single",
           error: true,
@@ -1115,7 +1206,11 @@ function UploadPage() {
       } catch (error) {
         console.error(error);
         const errorData = error.response?.data || {};
-        const errorMessage = getErrorMessage(errorData, "Batch submission failed. Check JSON format and backend response.");
+        let errorMessage = getErrorMessage(errorData, "Batch submission failed. Check JSON format and backend response.");
+        const receivedIndex = errorMessage.indexOf("Received");
+        if (receivedIndex >= 0) {
+          errorMessage = errorMessage.substring(0, receivedIndex).trim();
+        }
         setUploadResponse({
           mode: "batch",
           error: true,
