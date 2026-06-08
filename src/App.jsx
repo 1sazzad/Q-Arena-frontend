@@ -8,6 +8,7 @@ import AdminRoute from "./routes/AdminRoute";
 import SuperAdminRoute from "./routes/SuperAdminRoute";
 import { useAuth } from "./context/useAuth";
 import { useSidebarCollapsed } from "./hooks/useSidebarCollapsed";
+import { SIDEBAR_COLLAPSED_PL, SIDEBAR_EXPANDED_PL } from "./config/sidebar";
 import { PERMISSION_DENIED_MESSAGE } from "./utils/auth";
 
 import UploadPage from "./pages/UploadPage";
@@ -81,9 +82,7 @@ function App() {
       <div
         className={`min-w-0 overflow-x-hidden transition-all duration-300 ${
           isAuthenticated && !isPublicAuthPage && !isHomePage
-            ? isCollapsed
-              ? "lg:pl-20"
-              : "lg:pl-72"
+            ? (isCollapsed ? SIDEBAR_COLLAPSED_PL : SIDEBAR_EXPANDED_PL)
             : ""
         }`}
       >

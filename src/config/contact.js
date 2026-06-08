@@ -8,9 +8,9 @@ export const CONTACT_METHODS = [
   },
   {
     type: "Email",
-    label: "ras.fey.37@gmail.com",
+    label: "founder@qarena.me",
     actionLabel: "Send Email",
-    href: "mailto:ras.fey.37@gmail.com",
+    href: "mailto:founder@qarena.me",
     tone: "indigo",
   },
 ];

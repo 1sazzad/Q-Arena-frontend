@@ -6,6 +6,7 @@ import Button from "./ui/Button";
 import { isSuperAdminRole } from "../utils/auth";
 import { useSidebarCollapsed } from "../hooks/useSidebarCollapsed";
 import BrandLogo from "./BrandLogo";
+import { SIDEBAR_COLLAPSED_CLASS, SIDEBAR_EXPANDED_CLASS } from "../config/sidebar";
 
 const publicNavItems = [
   { to: "/#features", label: "Features" },
@@ -268,7 +269,7 @@ function Navbar() {
 
       <aside
         className={`fixed inset-y-0 left-0 z-40 hidden border-r border-slate-200/80 bg-white/98 transition-all duration-300 lg:flex lg:flex-col ${
-          isCollapsed ? "w-20" : "w-72"
+          isCollapsed ? SIDEBAR_COLLAPSED_CLASS : SIDEBAR_EXPANDED_CLASS
         }`}
       >
         {/* Header with Brand and Collapse Button */}
