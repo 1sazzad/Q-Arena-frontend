@@ -70,7 +70,7 @@ function getArrayCandidate(value) {
   return null;
 }
 
-function getSuggestionEntries(payload, preferredKeys = ["items", "suggestions", "predictions"]) {
+function getSuggestionEntries(payload, preferredKeys = ["suggestions", "items", "probable_questions"]) {
   if (Array.isArray(payload)) {
     return payload;
   }
@@ -90,11 +90,18 @@ function getSuggestionEntries(payload, preferredKeys = ["items", "suggestions", 
     payload.data,
     payload.results,
     payload.questions,
-    payload.data?.items,
     payload.data?.suggestions,
-    payload.data?.predictions,
-    payload.data?.results,
-    payload.data?.questions,
+    payload.data?.items,
+    payload.data?.probable_questions,
+    payload.data?.retrieved_context,
+    payload.data?.most_repeated_topics,
+    payload.data?.evidence,
+    payload.data?.warnings,
+    payload.data?.warning,
+    payload.data?.note,
+    payload.data?.prediction_data_available,
+    payload.data?.exam_years_analyzed,
+    payload.data?.total_questions_analyzed,
   ];
 
   for (const candidate of nestedCandidates) {
@@ -182,8 +189,42 @@ export function normalizeSuggestionItem(item = {}) {
   };
 }
 
+function flattenImportantQuestionsFromTopics(topics) {
+  if (!Array.isArray(topics)) return [];
+
+  return topics.flatMap((topicItem) => {
+    const importantQuestions = Array.isArray(topicItem?.important_questions)
+      ? topicItem.important_questions
+      : [];
+
+    return importantQuestions.map((question) => ({
+      ...question,
+      topic: question.topic || topicItem.topic || "",
+      frequency: question.frequency ?? topicItem.frequency,
+      total_marks: question.total_marks ?? topicItem.total_marks,
+      years_appeared: question.years_appeared || topicItem.appeared_years || topicItem.years || [],
+      probability: question.probability || topicItem.probability,
+      importance: question.importance || topicItem.importance,
+      source: "most_repeated_topics",
+    }));
+  });
+}
+
 export function normalizeSuggestionResponse(payload) {
-  return getSuggestionEntries(payload).map(normalizeSuggestionItem);
+  // Prefer richer question sources when available: probable_questions, retrieved_context, items, suggestions
+  const suggestions = getSuggestionEntries(payload, ["probable_questions", "retrieved_context", "items", "suggestions"]);
+  if (Array.isArray(suggestions) && suggestions.length > 0) {
+    return suggestions.map(normalizeSuggestionItem);
+  }
+
+  // fallback to important_questions inside most_repeated_topics
+  const mostRepeatedTopics = payload?.most_repeated_topics || payload?.data?.most_repeated_topics || [];
+  const fallbackQuestions = flattenImportantQuestionsFromTopics(mostRepeatedTopics);
+  if (fallbackQuestions.length > 0) {
+    return fallbackQuestions.map(normalizeSuggestionItem);
+  }
+
+  return [];
 }
 
 export function normalizePredictionResponse(payload) {

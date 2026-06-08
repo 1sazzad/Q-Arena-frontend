@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { apiEndpoints } from "../api/api";
 import { Badge, Button, Card, EmptyState, ErrorMessage, LoadingSpinner, PageHeader, ResponsiveContainer } from "../components/ui";
+import QuestionRenderer from "../components/ui/QuestionRenderer";
+import { hasRenderableQuestionText, normalizeQuestionForRenderer } from "../utils/questionRenderUtils";
 
 function AnalysisPage() {
   const location = useLocation();
@@ -327,7 +329,15 @@ function AnalysisPage() {
                     <p><strong>Examples:</strong></p>
                     <ul className="list-disc list-inside text-sm">
                       {examples.map((ex, i) => (
-                        <li key={i}>{ex}</li>
+                        <li key={i}>{typeof ex === "object" ? (
+                          hasRenderableQuestionText(ex) ? (
+                            <QuestionRenderer question={normalizeQuestionForRenderer(ex)} index={i} />
+                          ) : (
+                            String(ex)
+                          )
+                        ) : (
+                          ex
+                        )}</li>
                       ))}
                     </ul>
                   </>

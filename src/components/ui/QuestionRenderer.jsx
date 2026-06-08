@@ -53,6 +53,16 @@ function renderTableCell(row, column, cellIndex) {
   return row;
 }
 
+function isSafeInlineSvg(svg) {
+  if (typeof svg !== "string") return false;
+  const trimmed = svg.trim().toLowerCase();
+  if (!trimmed.startsWith("<svg")) return false;
+  if (trimmed.includes("<script")) return false;
+  if (trimmed.includes("foreignobject")) return false;
+  if (trimmed.includes("javascript:")) return false;
+  return true;
+}
+
 function QuestionRenderer({ question, index }) {
   const questionNo = getOptionalText(question?.question_no);
   const marks = question?.marks ?? question?.question_marks ?? question?.total_marks ?? null;
@@ -72,13 +82,30 @@ function QuestionRenderer({ question, index }) {
   }
   const wordBoxWords = getWordBoxWords(question?.word_box);
   const { columns, rows } = getTableData(question?.table_data);
-  const diagramSvg = getOptionalText(question?.diagram_svg);
-  const diagramType = getOptionalText(question?.diagram_type).toLowerCase();
+    const diagramSvg = getOptionalText(question?.diagram_svg);
+  const diagramTypeRaw = getOptionalText(question?.diagram_type);
+  const diagramType = diagramTypeRaw ? diagramTypeRaw.toLowerCase() : "";
   const diagramDescription = getOptionalText(question?.diagram_description);
   const diagramRequired = question?.diagram_required === true || question?.diagram_required === "true";
   const subQuestions = Array.isArray(question?.sub_questions) ? question.sub_questions : [];
-  const showSvg = Boolean(diagramSvg && diagramType === "svg");
-  const sanitizedSvg = showSvg ? DOMPurify.sanitize(diagramSvg, { USE_PROFILES: { svg: true, svgFilters: true } }) : "";
+
+  // Show SVG if diagram_svg exists and diagram_type is 'svg' or missing
+  const showSvg = Boolean(diagramSvg && (diagramType === "svg" || diagramType === ""));
+
+    // Sanitize diagram SVG using DOMPurify (avoid rendering raw SVG from backend)
+  let cleanSvg = "";
+  if (showSvg && diagramSvg) {
+    try {
+      cleanSvg = DOMPurify.sanitize(diagramSvg, {
+        USE_PROFILES: { svg: true, svgFilters: true },
+      });
+    } catch (e) {
+      // If sanitization fails, keep cleanSvg empty to prevent unsafe rendering
+      cleanSvg = "";
+    }
+  }
+
+
 
   return (
     <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
@@ -98,7 +125,12 @@ function QuestionRenderer({ question, index }) {
         </div>
 
         {marks !== null && marks !== undefined && marks !== "" && (
-          <span className="inline-flex rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">{marks} marks</span>
+          <span className="inline-flex rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
+            {marks} marks
+            {question.marks_breakdown && (
+              <small className="ml-2 text-xs font-normal text-slate-300">Breakdown: {question.marks_breakdown}</small>
+            )}
+          </span>
         )}
       </div>
 
@@ -114,19 +146,24 @@ function QuestionRenderer({ question, index }) {
         </div>
       )}
 
-      {sanitizedSvg ? (
+                        {cleanSvg ? (
         <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-3">
-          <div className="diagram-svg mx-auto w-fit max-w-full" dangerouslySetInnerHTML={{ __html: sanitizedSvg }} />
+          <div className="diagram-svg mx-auto w-fit max-w-full" dangerouslySetInnerHTML={{ __html: cleanSvg }} />
         </div>
-      ) : diagramRequired && diagramDescription ? (
+      ) : null}
+
+
+      {!showSvg && diagramRequired && diagramDescription && (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
           <strong>Diagram:</strong> {diagramDescription}
         </div>
-      ) : diagramRequired ? (
+      )}
+
+      {!showSvg && diagramRequired && !diagramDescription && (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
           Diagram required.
         </div>
-      ) : null}
+      )}
 
       {wordBoxWords.length > 0 && (
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-3">
@@ -141,7 +178,7 @@ function QuestionRenderer({ question, index }) {
         </div>
       )}
 
-            {columns.length > 0 && rows.length > 0 && (
+      {columns.length > 0 && rows.length > 0 && (
         <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
           <table className="min-w-full border-collapse text-left text-sm text-slate-700">
             <thead>

@@ -3,6 +3,8 @@ import { useAuth } from "../context/useAuth";
 import { apiEndpoints } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, ErrorMessage, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
+import QuestionRenderer from "../components/ui/QuestionRenderer";
+import { hasRenderableQuestionText, normalizeQuestionForRenderer } from "../utils/questionRenderUtils";
 import { buildSubjectScopeParams, getAcademicProfileSignature, isSecondaryAcademicProfile } from "../utils/academicProfile";
 import { formatSubjectLabel, normalizeSubjectList } from "../utils/subjectLookups";
 import { getDefaultPaperType, normalizeSupportedPaperTypes } from "../utils/paperTypes";
@@ -331,12 +333,16 @@ function TopicsPage() {
                       {Array.isArray(topic.important_questions) && topic.important_questions.length > 0 && (
                         <div className="mt-3 space-y-2">
                           <p className="text-sm font-semibold text-slate-900">Important questions</p>
-                          {topic.important_questions.slice(0, 3).map((question, questionIndex) => (
-                            <div key={question.id || questionIndex} className="rounded-2xl bg-white px-3 py-2 text-sm leading-6 text-slate-700">
-                              <p className="whitespace-pre-line break-words">{getQuestionText(question)}</p>
-                              <DiagramRenderer question={question} />
-                              <QuestionExtras item={question} />
-                            </div>
+                                                    {topic.important_questions.slice(0, 3).map((question, questionIndex) => (
+                            hasRenderableQuestionText(question) ? (
+                              <QuestionRenderer key={question.id || questionIndex} question={normalizeQuestionForRenderer(question, { index: questionIndex })} index={questionIndex} />
+                            ) : (
+                              <div key={question.id || questionIndex} className="rounded-2xl bg-white px-3 py-2 text-sm leading-6 text-slate-700">
+                                <p className="whitespace-pre-line break-words">{getQuestionText(question)}</p>
+                                <DiagramRenderer question={question} />
+                                <QuestionExtras item={question} />
+                              </div>
+                            )
                           ))}
                         </div>
                       )}
@@ -389,12 +395,16 @@ function TopicsPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-slate-950">Sample questions</h3>
                   <div className="mt-3 space-y-2">
-                    {analysis.sample_questions.map((question, index) => (
-                      <div key={index} className="break-words rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
-                        {getQuestionText(question)}
-                        <DiagramRenderer question={question} />
-                        <QuestionExtras item={question} />
-                      </div>
+                                        {analysis.sample_questions.map((question, index) => (
+                      hasRenderableQuestionText(question) ? (
+                        <QuestionRenderer key={index} question={normalizeQuestionForRenderer(question, { index })} index={index} />
+                      ) : (
+                        <div key={index} className="break-words rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
+                          {getQuestionText(question)}
+                          <DiagramRenderer question={question} />
+                          <QuestionExtras item={question} />
+                        </div>
+                      )
                     ))}
                   </div>
                 </div>

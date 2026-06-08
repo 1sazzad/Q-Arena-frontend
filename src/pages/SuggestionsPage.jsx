@@ -7,6 +7,8 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { apiEndpoints, getAnswerGenerationErrorMessage, getApiStatus } from "../api/api";
 import MathRenderer from "../components/MathRenderer";
+import QuestionRenderer from "../components/ui/QuestionRenderer";
+import { hasRenderableQuestionText, normalizeQuestionForRenderer } from "../utils/questionRenderUtils";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, ErrorMessage, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
 import { MISSING_STUDENT_SCOPE_MESSAGE, getApiErrorMessage, isMissingStudentScopeError } from "../utils/auth";
 import { buildSubjectScopeParams, getAcademicProfileSignature, isSecondaryAcademicProfile } from "../utils/academicProfile";
@@ -26,6 +28,57 @@ const KATEX_OPTIONS = {
   strict: false,
   trust: false,
 };
+
+const DEFAULT_EVIDENCE = {
+  topic_frequency: {},
+  marks_by_topic: {},
+  years_by_topic: {},
+  question_type_distribution: {},
+};
+
+function isStudySuggestion(item) {
+  return Boolean(
+    item?.recommended_action ||
+    item?.suggestion_type ||
+    item?.years_appeared ||
+    item?.likely_question_types ||
+    item?.frequency ||
+    item?.total_marks
+  );
+}
+
+function hasAnswerableQuestion(item) {
+  const text = buildQuestionTextForAnswer(item);
+  return Boolean(text && text !== "Suggested question");
+}
+
+function formatListValue(value) {
+  if (!value) return "-";
+  if (Array.isArray(value)) return value.filter(Boolean).join(", ") || "-";
+  return String(value);
+}
+
+function getEvidenceTopicEntries(evidencePayload, limit = 5) {
+  const topicFrequency = evidencePayload?.topic_frequency;
+  if (!topicFrequency || typeof topicFrequency !== "object" || Array.isArray(topicFrequency)) {
+    return [];
+  }
+
+  return Object.entries(topicFrequency)
+    .filter(([topic]) => topic)
+    .sort((a, b) => Number(b[1] || 0) - Number(a[1] || 0))
+    .slice(0, limit);
+}
+
+function getDisplayScore(item) {
+  const raw = getSuggestionScore(item);
+  const numeric = Number(raw);
+  if (Number.isFinite(numeric)) {
+    const normalized = numeric <= 1 ? numeric * 100 : numeric;
+    return `${normalized.toFixed(2)}%`;
+  }
+  return formatSuggestionScore(raw);
+}
 
 const markdownComponents = {
   h2: (props) => <h2 className="mt-6 border-b border-slate-200 pb-2 text-lg font-semibold leading-snug text-slate-950 first:mt-0" {...props} />,
@@ -558,6 +611,14 @@ function SuggestionsPage() {
   const [topicFilter, setTopicFilter] = useState("");
   const [predictionLevel, setPredictionLevel] = useState("All");
   const [fallbackWarning, setFallbackWarning] = useState("");
+  const [mostRepeatedTopics, setMostRepeatedTopics] = useState([]);
+  const [retrievedContext, setRetrievedContext] = useState(null);
+  const [evidence, setEvidence] = useState(DEFAULT_EVIDENCE);
+  const [predictionDataAvailable, setPredictionDataAvailable] = useState(false);
+  const [examYearsAnalyzed, setExamYearsAnalyzed] = useState([]);
+  const [totalQuestionsAnalyzed, setTotalQuestionsAnalyzed] = useState(null);
+  const [warnings, setWarnings] = useState([]);
+  const [note, setNote] = useState("");
   const [subjectsLoading, setSubjectsLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -623,6 +684,14 @@ function SuggestionsPage() {
     setSuggestions([]);
     setAnswerStates({});
     setExpandedAnswers({});
+    setMostRepeatedTopics([]);
+    setRetrievedContext(null);
+    setEvidence(DEFAULT_EVIDENCE);
+    setPredictionDataAvailable(false);
+    setExamYearsAnalyzed([]);
+    setTotalQuestionsAnalyzed(null);
+    setWarnings([]);
+    setNote("");
 
     try {
       const response = await apiEndpoints.getSuggestions({
@@ -638,6 +707,18 @@ function SuggestionsPage() {
       setModeMessage(statusMessage);
       setWarning(response.data?.warning || "");
       setFallbackWarning(response.data?.fallback_warning || "");
+      setMostRepeatedTopics(response.data?.most_repeated_topics || []);
+      setRetrievedContext(response.data?.retrieved_context || null);
+      setEvidence(
+        response.data?.evidence && typeof response.data.evidence === "object" && !Array.isArray(response.data.evidence)
+          ? response.data.evidence
+          : DEFAULT_EVIDENCE
+      );
+      setPredictionDataAvailable(Boolean(response.data?.prediction_data_available));
+      setExamYearsAnalyzed(Array.isArray(response.data?.exam_years_analyzed) ? response.data.exam_years_analyzed : []);
+      setTotalQuestionsAnalyzed(response.data?.total_questions_analyzed ?? null);
+      setWarnings(Array.isArray(response.data?.warnings) ? response.data.warnings : []);
+      setNote(response.data?.note || "");
       setMissingScope(false);
     } catch (error) {
       console.error(error);
@@ -755,6 +836,15 @@ function SuggestionsPage() {
     setMessage("");
   }
 
+  const hasSummaryData =
+    suggestions.length > 0 ||
+    totalQuestionsAnalyzed !== null ||
+    examYearsAnalyzed.length > 0 ||
+    warnings.length > 0 ||
+    note;
+
+  const evidenceTopicEntries = getEvidenceTopicEntries(evidence);
+
   if (subjectsLoading) {
     return <LoadingSpinner label="Loading suggestions..." />;
   }
@@ -852,14 +942,94 @@ function SuggestionsPage() {
         </div>
       </Card>
 
+      {hasSummaryData && (
+        <Card>
+          <div className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Questions analyzed</p>
+              <p className="mt-1 text-lg font-bold text-slate-950">{totalQuestionsAnalyzed ?? "-"}</p>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Exam years</p>
+              <p className="mt-1 text-sm font-semibold text-slate-950">
+                {examYearsAnalyzed.length > 0 ? examYearsAnalyzed.join(", ") : "-"}
+              </p>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Prediction data</p>
+              <p className="mt-1 text-lg font-bold text-slate-950">
+                {predictionDataAvailable ? "Available" : "History only"}
+              </p>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Study suggestions</p>
+              <p className="mt-1 text-lg font-bold text-slate-950">{suggestions.length}</p>
+            </div>
+          </div>
+        </Card>
+      )}
+
       <div className="screen-suggestions grid gap-4">
           <ErrorMessage tone="warning">{warning}</ErrorMessage>
           <ErrorMessage tone="warning">{fallbackWarning}</ErrorMessage>
           {modeMessage && suggestions.length > 0 && <ErrorMessage tone="info">{modeMessage}</ErrorMessage>}
-          
+          {warnings
+            .filter((item) => item && item !== warning && item !== fallbackWarning)
+            .map((item, index) => (
+              <ErrorMessage key={`${index}-${item}`} tone="warning">{item}</ErrorMessage>
+            ))}
+          {note && <ErrorMessage tone="info">{note}</ErrorMessage>}
+
+          {Array.isArray(mostRepeatedTopics) && mostRepeatedTopics.length > 0 && (
+            <Card>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-950">Most repeated topics</h2>
+                  <p className="text-sm text-slate-600">Topics that appeared most often in previous question papers.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {mostRepeatedTopics.slice(0, 6).map((topicItem, topicIndex) => {
+                  const topicName = topicItem.topic || topicItem.name || topicItem.title || `Topic ${topicIndex + 1}`;
+                  const topicMarks = topicItem.total_marks ?? topicItem.marks ?? topicItem.mark ?? null;
+                  return (
+                    <div key={`${topicIndex}-${topicName}`} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                      <p className="font-semibold text-slate-950">{topicName}</p>
+                      <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+                        <span className="rounded-full bg-white px-3 py-1">Frequency: {topicItem.frequency ?? topicItem.count ?? "-"}</span>
+                        {topicMarks !== null && <span className="rounded-full bg-white px-3 py-1">Marks: {topicMarks}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+          )}
+
+          {evidenceTopicEntries.length > 0 && (
+            <Card>
+              <h2 className="text-lg font-bold text-slate-950">Evidence Summary</h2>
+              <p className="text-sm text-slate-600">Top topic-frequency evidence from the backend analysis.</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {evidenceTopicEntries.map(([topicName, frequency]) => (
+                  <div key={topicName} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                    <p className="font-semibold text-slate-950">{topicName}</p>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+                      <span className="rounded-full bg-white px-3 py-1">Frequency: {frequency}</span>
+                      <span className="rounded-full bg-white px-3 py-1">Marks: {evidence?.marks_by_topic?.[topicName] ?? "-"}</span>
+                      <span className="rounded-full bg-white px-3 py-1">Years: {formatListValue(evidence?.years_by_topic?.[topicName])}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+
           {filteredSuggestions.map((item, index) => {
             const scoreMeta = getScoreMeta(item);
-            const scoreText = formatSuggestionScore(item.prediction_score);
+            const scoreText = getDisplayScore(item);
+            const studySuggestion = isStudySuggestion(item);
+            const answerableQuestion = hasAnswerableQuestion(item);
             const suggestionKey = getSuggestionKey(item, index);
             const answerState = answerStates[suggestionKey] || {};
             const answerResult = answerState.result;
@@ -869,9 +1039,37 @@ function SuggestionsPage() {
             return (
               <Card as="article" key={suggestionKey}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold text-indigo-700">Suggestion {item.suggestion_no || index + 1}</p>
-                    <SuggestionPrompt item={item} paperType={selectedPaperType} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-indigo-700">Suggestion {item.rank || item.suggestion_no || index + 1}</p>
+                    {studySuggestion && (
+                      <div className="mt-2 rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-3">
+                        <h2 className="text-lg font-bold leading-7 text-slate-950 sm:text-xl">
+                          {item.topic || item.final_topic || item.suggested_topic || "Study suggestion"}
+                        </h2>
+                        {item.recommended_action && (
+                          <p className="mt-2 text-sm font-semibold leading-6 text-indigo-800">{item.recommended_action}</p>
+                        )}
+                        {item.reason && (
+                          <p className="mt-2 text-sm leading-6 text-slate-700">{item.reason}</p>
+                        )}
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+                          {item.suggestion_type && <span className="rounded-full bg-white px-3 py-1">Type: {String(item.suggestion_type).replaceAll("_", " ")}</span>}
+                          {item.years_appeared && <span className="rounded-full bg-white px-3 py-1">Years: {formatListValue(item.years_appeared)}</span>}
+                          {item.total_marks !== undefined && <span className="rounded-full bg-white px-3 py-1">Total marks: {item.total_marks}</span>}
+                          {item.frequency !== undefined && <span className="rounded-full bg-white px-3 py-1">Frequency: {item.frequency}</span>}
+                          {item.likely_marks && <span className="rounded-full bg-white px-3 py-1">Likely marks: {item.likely_marks}</span>}
+                          {item.likely_question_types && <span className="rounded-full bg-white px-3 py-1">Question types: {formatListValue(item.likely_question_types)}</span>}
+                          {item.confidence !== undefined && <span className="rounded-full bg-white px-3 py-1">Confidence: {getDisplayScore({ score: item.confidence })}</span>}
+                        </div>
+                      </div>
+                    )}
+                    {hasRenderableQuestionText(item) ? (
+                      <QuestionRenderer question={normalizeQuestionForRenderer(item)} index={index} />
+                    ) : (
+                      (!studySuggestion || answerableQuestion) && (
+                        <SuggestionPrompt item={item} paperType={selectedPaperType} />
+                      )
+                    )}
                   </div>
                   <div className="flex flex-wrap justify-end gap-2">
                     {getSuggestionPaperType(item, selectedPaperType) && (
@@ -897,15 +1095,47 @@ function SuggestionsPage() {
                 </p>
                 <QuestionExtras item={item} />
 
+                {/* Evidence questions section */}
+                {Array.isArray(item.evidence_questions) && item.evidence_questions.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="mb-2 text-lg font-semibold text-slate-900">Evidence Questions</h3>
+                    <div className="grid gap-3">
+                      {item.evidence_questions.map((eq, eqIndex) => (
+                        hasRenderableQuestionText(eq) ? (
+                          <QuestionRenderer key={eq.id || eq.question_id || eqIndex} question={normalizeQuestionForRenderer(eq)} index={eqIndex} />
+                        ) : (
+                          <Card key={eq.id || eq.question_id || eqIndex} className="p-3">
+                            <div className="flex flex-wrap justify-between gap-2 text-sm font-medium text-slate-700">
+                              <span>Year: {eq.year || eq.exam_year || "Unknown"}</span>
+                              <span>Q No: {eq.question_no || "-"}</span>
+                              <span>Marks: {eq.marks ?? eq.total_marks ?? "-"}</span>
+                              {eq.source_page && <span>Source: {eq.source_page}</span>}
+                            </div>
+                            <div className="mt-1 text-sm text-slate-900">
+                              <MathRenderer value={getSuggestionText(eq)} className="prose max-w-none" />
+                            </div>
+                          </Card>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <Button
-                    type="button"
-                    variant="dark"
-                    onClick={() => handleGetAnswer(item, index)}
-                    disabled={answerState.loading}
-                  >
-                    {answerState.loading ? "Loading answer..." : "Get Answer"}
-                  </Button>
+                  {answerableQuestion ? (
+                    <Button
+                      type="button"
+                      variant="dark"
+                      onClick={() => handleGetAnswer(item, index)}
+                      disabled={answerState.loading}
+                    >
+                      {answerState.loading ? "Loading answer..." : "Get Answer"}
+                    </Button>
+                  ) : studySuggestion ? (
+                    <p className="rounded-xl bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600">
+                      Use the evidence questions below to practice this topic.
+                    </p>
+                  ) : null}
                   {cacheStatus && (
                     <Badge tone={cacheStatus === "hit" ? "green" : "indigo"}>
                       Cache {cacheStatus === "hit" ? "hit" : "miss"}
@@ -998,7 +1228,7 @@ function SuggestionsPage() {
                   </div>
                 )}
 
-                {item.reason && (
+                {item.reason && !studySuggestion && (
                   <p className="mt-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
                     <span className="font-semibold text-slate-950">Reason:</span> {item.reason}
                   </p>
@@ -1009,7 +1239,7 @@ function SuggestionsPage() {
 
           {suggestions.length === 0 && !loading && (
             <EmptyState
-              title={selectedPaperType ? `No ${selectedPaperType} suggestions found for this subject.` : "No suggestions found"}
+              title={showPaperSelector && selectedPaperType ? `No ${selectedPaperType} suggestions found for this subject.` : "No suggestions found"}
               description="Try changing the subject, topic, prediction level, or query."
             />
           )}
