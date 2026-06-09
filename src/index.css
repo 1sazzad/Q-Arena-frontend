@@ -56,6 +56,43 @@
     height: auto;
   }
 
+  /* Responsive helpers for Q Arena */
+  .qa-responsive-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @media (min-width: 640px) {
+    .qa-responsive-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .qa-responsive-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .qa-safe-text {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  .qa-table-surface {
+    overflow-x: auto;
+  }
+
+  /* Ensure cards and header don't force overflow in flex/grid containers */
+  .qa-card,
+  .qa-page-header,
+  .qa-page > *,
+  .qa-responsive-grid > * {
+    min-width: 0;
+  }
+
   input,
   textarea,
   select {
@@ -169,6 +206,15 @@
 }
 
 /* App-level safe area when a fixed sidebar is present on desktop */
+/* Default: no left padding on small screens. The desktop offset is applied only at >=1024px. */
+.app-with-sidebar {
+  padding-left: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  min-width: 0;
+}
+
 @media (min-width: 1024px) {
   .app-with-sidebar {
     /* --sidebar-width should be set inline on the container (from React) */
@@ -179,12 +225,15 @@
   }
 }
 
+
 /* Q Arena shared UI tokens and utility classes (modern minimalist)
    Applied to shared components only (Card, Button, FormInput, PageHeader, ResponsiveContainer)
 */
 .qa-page {
   background: transparent; /* page background controlled via body */
   color: #0f172a;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .qa-page-header {

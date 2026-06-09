@@ -256,7 +256,8 @@ function AnalysisPage() {
     return (
       <Card>
         <h2 className="text-xl font-semibold mb-4">Recommended Study Priority</h2>
-        <table className="min-w-full border-collapse border border-slate-300">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-slate-300">
           <thead>
             <tr className="bg-slate-100">
               <th className="border border-slate-300 px-3 py-1 text-left">Rank</th>
@@ -295,6 +296,7 @@ function AnalysisPage() {
             })}
           </tbody>
         </table>
+        </div>
       </Card>
     );
   }

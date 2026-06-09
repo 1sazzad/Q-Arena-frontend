@@ -51,10 +51,10 @@ function DiagramRenderer({
     return (
       <div className={`my-4 ${className}`}>
         <div className="flex flex-col items-center gap-1">
-          <QuestionDiagram
+                    <QuestionDiagram
             diagramType={diagram.diagramType}
             diagramSvg={diagram.diagramSvg}
-            className="inline-block w-fit max-w-full overflow-x-auto rounded-lg border bg-white p-2"
+            className="w-full max-w-full overflow-x-auto rounded-lg border bg-white p-2"
           />
           {diagram.diagramReference && (
             <p className="text-[11px] leading-4 text-slate-500">Reference: {diagram.diagramReference}</p>

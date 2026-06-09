@@ -1,6 +1,6 @@
 function PageHeader({ eyebrow, title, description, actions, stats }) {
   return (
-    <header className="qa-page-header min-w-0 overflow-hidden rounded-[1.25rem] border border-slate-200/80 bg-white p-5 sm:p-6 lg:p-7">
+    <header className="qa-page-header min-w-0 rounded-[1.25rem] border border-slate-200/80 bg-white p-5 sm:p-6 lg:p-7">
       <div className="mb-4 h-1 w-20 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400" aria-hidden="true" />
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="min-w-0">
