@@ -8,7 +8,7 @@ import AdminRoute from "./routes/AdminRoute";
 import SuperAdminRoute from "./routes/SuperAdminRoute";
 import { useAuth } from "./context/useAuth";
 import { useSidebarCollapsed } from "./hooks/useSidebarCollapsed";
-import { SIDEBAR_COLLAPSED_PL, SIDEBAR_EXPANDED_PL } from "./config/sidebar";
+import { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from "./config/sidebar";
 import { PERMISSION_DENIED_MESSAGE } from "./utils/auth";
 
 import UploadPage from "./pages/UploadPage";
@@ -80,11 +80,12 @@ function App() {
       )}
 
       <div
-        className={`min-w-0 overflow-x-hidden transition-all duration-300 ${
+        className={`app-with-sidebar min-w-0 overflow-x-hidden transition-all duration-300`}
+        style={
           isAuthenticated && !isPublicAuthPage && !isHomePage
-            ? (isCollapsed ? SIDEBAR_COLLAPSED_PL : SIDEBAR_EXPANDED_PL)
-            : ""
-        }`}
+            ? { ["--sidebar-width"]: isCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_EXPANDED_WIDTH }
+            : undefined
+        }
       >
         <Routes>
           <Route path="/" element={<HomePage />} />

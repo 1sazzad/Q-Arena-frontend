@@ -30,9 +30,8 @@
 
   body {
     margin: 0;
-    background:
-      radial-gradient(circle at top, rgba(99, 102, 241, 0.08), transparent 28%),
-      linear-gradient(180deg, #f8fafc 0%, #f8fafc 40%, #eef2ff 130%);
+    /* simplified subtle background for a modern minimalist look */
+    background: #f8fafc;
     color: #0f172a;
     overflow-x: hidden;
     min-width: 320px;
@@ -168,3 +167,81 @@
     text-decoration: none;
   }
 }
+
+/* App-level safe area when a fixed sidebar is present on desktop */
+@media (min-width: 1024px) {
+  .app-with-sidebar {
+    /* --sidebar-width should be set inline on the container (from React) */
+    padding-left: var(--sidebar-width, 0);
+    transition: padding-left 0.3s ease;
+    /* ensure content doesn't get hidden behind fixed sidebar */
+    min-width: 0;
+  }
+}
+
+/* Q Arena shared UI tokens and utility classes (modern minimalist)
+   Applied to shared components only (Card, Button, FormInput, PageHeader, ResponsiveContainer)
+*/
+.qa-page {
+  background: transparent; /* page background controlled via body */
+  color: #0f172a;
+}
+
+.qa-page-header {
+  /* subtle header surface */
+  box-shadow: 0 1px 4px rgba(2,6,23,0.04);
+  border-radius: 0.75rem;
+}
+
+.qa-card {
+  border-color: rgba(148,163,184,0.12); /* softer border */
+  box-shadow: 0 1px 6px rgba(2,6,23,0.04); /* softer, smaller shadow */
+  border-radius: 0.75rem;
+}
+
+.qa-card-soft {
+  background: #fbfbfd;
+  border: 1px solid rgba(148,163,184,0.06);
+  box-shadow: none;
+}
+
+.qa-button-primary {
+  /* calmer solid variant using brand color */
+  background-image: none !important;
+  background-color: #4f46e5 !important; /* indigo-600 */
+  color: white !important;
+  box-shadow: 0 6px 18px rgba(79,70,229,0.08);
+}
+
+.qa-button-secondary {
+  background: white;
+  color: #0f172a;
+  border-color: rgba(148,163,184,0.12);
+}
+
+.qa-input {
+  background: #ffffff;
+  border-color: rgba(148,163,184,0.12) !important;
+  box-shadow: none !important;
+}
+
+.qa-select {
+  background: #ffffff;
+  border-color: rgba(148,163,184,0.12) !important;
+}
+
+.qa-section {
+  padding: 1rem 1rem;
+}
+
+.qa-muted-text {
+  color: #6b7280;
+}
+
+.qa-table-surface {
+  background: #ffffff;
+  border: 1px solid rgba(148,163,184,0.06);
+  border-radius: 0.5rem;
+  overflow: auto;
+}
+

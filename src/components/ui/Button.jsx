@@ -1,9 +1,9 @@
 const variantClasses = {
-  primary: "border-transparent bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg shadow-indigo-600/20 hover:from-indigo-700 hover:to-cyan-700",
-  secondary: "border-slate-200/80 bg-white text-slate-700 shadow-sm hover:border-indigo-200 hover:bg-indigo-50/70 hover:text-indigo-700",
-  dark: "border-transparent bg-slate-950 text-white shadow-sm hover:bg-slate-800",
-  ghost: "border-transparent bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-  danger: "border-transparent bg-rose-600 text-white shadow-sm hover:bg-rose-700",
+  primary: "qa-button-primary border-transparent bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-md hover:from-indigo-700 hover:to-cyan-700",
+  secondary: "qa-button-secondary border-slate-200/80 bg-white text-slate-700 shadow-sm hover:border-indigo-200 hover:bg-indigo-50/70 hover:text-indigo-700",
+  dark: "qa-button-secondary border-transparent bg-slate-950 text-white shadow-sm hover:bg-slate-800",
+  ghost: "qa-button-secondary border-transparent bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-950",
+  danger: "qa-button-secondary border-transparent bg-rose-600 text-white shadow-sm hover:bg-rose-700",
 };
 
 const sizeClasses = {

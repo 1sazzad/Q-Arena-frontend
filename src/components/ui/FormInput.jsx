@@ -5,10 +5,10 @@ const FormInput = forwardRef(function FormInput(
   ref,
 ) {
   const control = (
-    <Component
+        <Component
       ref={ref}
       className={[
-        "w-full rounded-2xl border border-slate-200/80 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100",
+        "qa-input w-full rounded-2xl border border-slate-200/80 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100",
         error ? "border-rose-300 focus:border-rose-400 focus:ring-rose-100" : "",
         inputClassName,
       ].join(" ")}
