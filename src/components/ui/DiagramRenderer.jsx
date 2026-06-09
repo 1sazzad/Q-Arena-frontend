@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import QuestionDiagram from "./QuestionDiagram";
 
 function getOptionalText(value) {
   if (value === null || value === undefined) {
@@ -31,7 +31,8 @@ function DiagramRenderer({
   diagram_reference,
   className = "",
 }) {
-  const diagram = getDiagramProps(
+    const diagram = getDiagramProps(
+
     question || {
       diagram_required,
       diagram_type,
@@ -41,30 +42,28 @@ function DiagramRenderer({
     },
   );
 
+
   if (!diagram.diagramRequired && !diagram.diagramSvg && !diagram.diagramDescription) {
     return null;
   }
 
-  if (diagram.diagramSvg) {
-    const cleanSvg = DOMPurify.sanitize(diagram.diagramSvg, {
-      USE_PROFILES: { svg: true, svgFilters: true },
-    });
-
-    if (cleanSvg) {
-      return (
-        <div className={`my-4 ${className}`}>
-          <div className="flex flex-col items-center gap-1">
-            <div className="inline-block w-fit max-w-full overflow-x-auto rounded-lg border bg-white p-2">
-              <div className="diagram-svg" dangerouslySetInnerHTML={{ __html: cleanSvg }} />
-            </div>
-            {diagram.diagramReference && (
-              <p className="text-[11px] leading-4 text-slate-500">Reference: {diagram.diagramReference}</p>
-            )}
-          </div>
+    if (diagram.diagramSvg) {
+    return (
+      <div className={`my-4 ${className}`}>
+        <div className="flex flex-col items-center gap-1">
+          <QuestionDiagram
+            diagramType={diagram.diagramType}
+            diagramSvg={diagram.diagramSvg}
+            className="inline-block w-fit max-w-full overflow-x-auto rounded-lg border bg-white p-2"
+          />
+          {diagram.diagramReference && (
+            <p className="text-[11px] leading-4 text-slate-500">Reference: {diagram.diagramReference}</p>
+          )}
         </div>
-      );
-    }
+      </div>
+    );
   }
+
 
   if (diagram.diagramDescription) {
     return (

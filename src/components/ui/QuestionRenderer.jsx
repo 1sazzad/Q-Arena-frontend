@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import QuestionDiagram from "./QuestionDiagram";
 import MathRenderer from "../MathRenderer";
 import SubQuestionRenderer from "./SubQuestionRenderer";
 
@@ -53,17 +53,10 @@ function renderTableCell(row, column, cellIndex) {
   return row;
 }
 
-function isSafeInlineSvg(svg) {
-  if (typeof svg !== "string") return false;
-  const trimmed = svg.trim().toLowerCase();
-  if (!trimmed.startsWith("<svg")) return false;
-  if (trimmed.includes("<script")) return false;
-  if (trimmed.includes("foreignobject")) return false;
-  if (trimmed.includes("javascript:")) return false;
-  return true;
-}
+
 
 function QuestionRenderer({ question, index }) {
+  
   const questionNo = getOptionalText(question?.question_no);
   const marks = question?.marks ?? question?.question_marks ?? question?.total_marks ?? null;
   const section = getOptionalText(question?.section);
@@ -82,28 +75,16 @@ function QuestionRenderer({ question, index }) {
   }
   const wordBoxWords = getWordBoxWords(question?.word_box);
   const { columns, rows } = getTableData(question?.table_data);
-    const diagramSvg = getOptionalText(question?.diagram_svg);
+  const diagramSvg = getOptionalText(question?.diagram_svg);
   const diagramTypeRaw = getOptionalText(question?.diagram_type);
   const diagramType = diagramTypeRaw ? diagramTypeRaw.toLowerCase() : "";
   const diagramDescription = getOptionalText(question?.diagram_description);
   const diagramRequired = question?.diagram_required === true || question?.diagram_required === "true";
   const subQuestions = Array.isArray(question?.sub_questions) ? question.sub_questions : [];
 
-  // Show SVG if diagram_svg exists and diagram_type is 'svg' or missing
-  const showSvg = Boolean(diagramSvg && (diagramType === "svg" || diagramType === ""));
+  // diagram info
+  // diagramSvg and diagramType are used by QuestionDiagram to render inline SVGs safely
 
-    // Sanitize diagram SVG using DOMPurify (avoid rendering raw SVG from backend)
-  let cleanSvg = "";
-  if (showSvg && diagramSvg) {
-    try {
-      cleanSvg = DOMPurify.sanitize(diagramSvg, {
-        USE_PROFILES: { svg: true, svgFilters: true },
-      });
-    } catch (e) {
-      // If sanitization fails, keep cleanSvg empty to prevent unsafe rendering
-      cleanSvg = "";
-    }
-  }
 
 
 
@@ -146,20 +127,16 @@ function QuestionRenderer({ question, index }) {
         </div>
       )}
 
-                        {cleanSvg ? (
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-3">
-          <div className="diagram-svg mx-auto w-fit max-w-full" dangerouslySetInnerHTML={{ __html: cleanSvg }} />
-        </div>
-      ) : null}
+      <QuestionDiagram diagramType={diagramType} diagramSvg={diagramSvg} />
 
+      {!diagramSvg && diagramRequired && diagramDescription && (
 
-      {!showSvg && diagramRequired && diagramDescription && (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
           <strong>Diagram:</strong> {diagramDescription}
         </div>
       )}
 
-      {!showSvg && diagramRequired && !diagramDescription && (
+      {!diagramSvg && diagramRequired && !diagramDescription && (
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
           Diagram required.
         </div>
