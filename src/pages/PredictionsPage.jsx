@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useRef, useMemo } from "react";
 import { useAuth } from "../context/useAuth";
 import QuestionRenderer from "../components/ui/QuestionRenderer";
 
-import { apiEndpoints } from "../api/api";
+import { apiEndpoints, downloadPredictionPdf } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, ErrorMessage, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
 import { getApiErrorMessage } from "../utils/auth";
@@ -12,6 +12,12 @@ import { getDefaultPaperType, normalizeSupportedPaperTypes } from "../utils/pape
 import { formatSuggestionScore, normalizePredictionResponse, normalizeSuggestionScore } from "../utils/suggestionLookups";
 
 const PAPER_TYPE_OPTIONS = ["CQ", "MCQ", "WRITTEN"];
+const TOP_K_OPTIONS = [
+  { label: "Top 10", value: 10 },
+  { label: "Top 20", value: 20 },
+  { label: "Full Report", value: 50 },
+];
+
 
 function isSecondarySubject(subject) {
   const academicLevel = String(subject?.academic_level || "").trim().toUpperCase();
@@ -86,14 +92,17 @@ function getQuestionMeta(question) {
 }
 
 function PredictionsPage() {
-  const { user } = useAuth();
+    const { user } = useAuth();
   const [predictions, setPredictions] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const location = useLocation();
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedPaperType, setSelectedPaperType] = useState("CQ");
+  const [topK, setTopK] = useState(10);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [exporting, setExporting] = useState(false);
+
 
   const navigate = useNavigate();
   const initialSubjectCode = String(location.state?.subject_code || "").trim();
@@ -145,7 +154,7 @@ useEffect(() => {
             setSelectedPaperType(nextPaperType || "CQ");
 
             try {
-              const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
+              const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject, topK);
               if (active) {
                 const nextPredictions = normalizePredictions(predictionResponse.data);
                 setPredictions(nextPredictions);
@@ -180,22 +189,23 @@ useEffect(() => {
         };
       }, [academicProfileSignature, initialSubjectCode]);
 
-    loadPredictionData.current = async (subjectCode, paperType, subjectOverride = null) => {
-      const subject = subjectOverride || subjects.find((item) => item.subject_code === subjectCode) || null;
-      const paperTypeOptions = getPaperTypeOptions(subject, stableUser);
+    loadPredictionData.current = async (subjectCode, paperType, subjectOverride = null, topKParam = topK) => {
+          const subject = subjectOverride || subjects.find((item) => item.subject_code === subjectCode) || null;
+          const paperTypeOptions = getPaperTypeOptions(subject, stableUser);
 
-      if (paperTypeOptions.length > 0) {
-        const selectedType = paperTypeOptions.includes(paperType) ? paperType : getDefaultPaperType(paperTypeOptions);
+          if (paperTypeOptions.length > 0) {
+            const selectedType = paperTypeOptions.includes(paperType) ? paperType : getDefaultPaperType(paperTypeOptions);
 
-        if (!selectedType) {
-          throw new Error("Please select CQ, MCQ, or WRITTEN before loading.");
-        }
+            if (!selectedType) {
+              throw new Error("Please select CQ, MCQ, or WRITTEN before loading.");
+            }
 
-        return apiEndpoints.getPredictions(subjectCode, { paperType: selectedType });
-      }
+            return apiEndpoints.getPredictions(subjectCode, { paperType: selectedType, top_k: topKParam });
+          }
 
-      return apiEndpoints.getPredictions(subjectCode);
-    };
+          return apiEndpoints.getPredictions(subjectCode, { top_k: topKParam });
+        };
+
 
 
   useEffect(() => {
@@ -226,7 +236,7 @@ useEffect(() => {
         setSelectedPaperType(nextPaperType || "CQ");
 
         try {
-          const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
+          const predictionResponse = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject, topK);
           if (active) {
             const nextPredictions = normalizePredictions(predictionResponse.data);
             setPredictions(nextPredictions);
@@ -276,7 +286,7 @@ useEffect(() => {
     setMessage("");
 
     try {
-      const response = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject);
+      const response = await loadPredictionData.current(subjectCode, nextPaperType, nextSubject, topK);
       const nextPredictions = normalizePredictions(response.data);
       setPredictions(nextPredictions);
       setMessage(nextPredictions.length === 0 ? getPredictionMessage(response.data, "No predictions returned for this subject.") : "");
@@ -320,7 +330,7 @@ useEffect(() => {
     setMessage("");
 
     try {
-      const response = await loadPredictionData(selectedSubject.trim(), resolvedPaperType, currentSubject);
+      const response = await loadPredictionData.current(selectedSubject.trim(), resolvedPaperType, currentSubject, topK);
       const nextPredictions = normalizePredictions(response.data);
       setPredictions(nextPredictions);
       setMessage(nextPredictions.length === 0 ? getPredictionMessage(response.data, "No predictions returned for this subject.") : "");
@@ -351,11 +361,101 @@ useEffect(() => {
 
   return (
     <ResponsiveContainer>
-      <PageHeader
+            <PageHeader
         eyebrow="Prediction engine"
         title="Rank likely future questions by confidence"
         description="View dynamic confidence scores from approved analysis and jump straight into answer practice."
-        actions={<Button onClick={() => navigate("/answers", { state: { subject_code: selectedSubject } })}>Open answer builder</Button>}
+        actions={
+          <div className="flex flex-wrap gap-2 items-center">
+                      <Button onClick={() => navigate("/answers", { state: { subject_code: selectedSubject } })}>Open answer builder</Button>
+
+                      <div className="mt-0">
+                        <label className="sr-only">Prediction range</label>
+                        <select
+                          value={topK}
+                          onChange={async (e) => {
+                            const nextTopK = Number(e.target.value) || 10;
+                            setTopK(nextTopK);
+                            // refetch predictions with new top_k if subject is selected
+                            if (!selectedSubject || !selectedSubject.trim()) return;
+
+                            setLoading(true);
+                            setMessage("");
+
+                            try {
+                              const response = await loadPredictionData.current(selectedSubject.trim(), selectedPaperType, currentSubject, nextTopK);
+                              const nextPredictions = normalizePredictions(response.data);
+                              setPredictions(nextPredictions);
+                              setMessage(nextPredictions.length === 0 ? getPredictionMessage(response.data, "No predictions returned for this subject.") : "");
+                            } catch (err) {
+                              console.error(err);
+                              setPredictions([]);
+                              setMessage(getApiErrorMessage(err, "Prediction lookup failed for this subject."));
+                            } finally {
+                              setLoading(false);
+                            }
+                          }}
+                          className="mt-0 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        >
+                          {TOP_K_OPTIONS.map((opt) => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                        {topK === 50 && (
+                          <p className="mt-1 text-xs text-slate-500">Full Report may take longer to generate.</p>
+                        )}
+                      </div>
+
+                      <Button
+                        variant="secondary"
+                        onClick={async () => {
+                          if (!selectedSubject || !selectedSubject.trim()) {
+                            setMessage("Enter a subject code first.");
+                            return;
+                          }
+
+                          setExporting(true);
+                          setMessage("");
+
+                          try {
+                            const result = await downloadPredictionPdf(selectedSubject.trim(), { top_k: topK });
+                            const blob = result && result.data ? result.data : null;
+                            const filename = (result && result.filename) || `q-arena-predictions-${selectedSubject.trim()}.pdf`;
+
+                            if (!blob) {
+                              throw new Error("No data received from server.");
+                            }
+
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
+                            URL.revokeObjectURL(url);
+                          } catch (error) {
+                            console.error(error);
+                            setMessage(getApiErrorMessage(error, "Unable to export prediction PDF."));
+                          } finally {
+                            setExporting(false);
+                          }
+                        }}
+                        disabled={exporting}
+                      >
+                        {exporting ? (
+                          <span className="inline-flex items-center gap-2">
+                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-200 border-t-indigo-600" aria-hidden="true" />
+                            Exporting...
+                          </span>
+                        ) : (
+                          "Export Prediction PDF"
+                        )}
+                      </Button>
+
+                      <div className="ml-2 text-sm text-slate-600">Showing {predictions.length}</div>
+                    </div>
+        }
       />
 
         <Card>

@@ -860,9 +860,9 @@ function QuestionsPage() {
   return (
     <ResponsiveContainer>
         <PageHeader
-          eyebrow="Subject discovery"
-          title="Find published data by subject code or name"
-          description="Search subjects first, then browse previous-year questions, topic summaries, and prediction availability."
+          eyebrow="Subjects / Overview"
+          title="Subject Overview"
+          description="Choose a subject, review smart predictions, find similar questions, and browse previous-year questions."
         />
 
         <Card as="form" onSubmit={handleSearch} className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
@@ -946,104 +946,140 @@ function QuestionsPage() {
         )}
 
         {overview ? (
-          <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-            <Card>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Overview</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-950">
-                    {overview.subject_code || selectedSubject}
-                  </h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    {overview.subject_name || formatSubjectLabel(subjects.find((subject) => subject.subject_code === selectedSubject)) || "Published subject"}
-                  </p>
-                  {formatSubjectMeta(currentSubject) && (
-                    <p className="mt-1 text-sm font-medium text-slate-600">{formatSubjectMeta(currentSubject)}</p>
-                  )}
-                </div>
-                <Badge>
-                  Prediction {overview.prediction_available ? "available" : "not ready"}
-                </Badge>
-              </div>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-sm text-slate-500">Questions</p>
-                  <p className="mt-1 text-2xl font-semibold text-slate-950">{overview.total_questions ?? questions.length}</p>
-                </div>
-                <div className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-sm text-slate-500">Years</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-950">
-                    {availableYears.length > 0 ? availableYears.join(", ") : "N/A"}
-                  </p>
-                </div>
-                <div className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-sm text-slate-500">Topics</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-950">{topicEntries.length}</p>
-                </div>
-              </div>
-              <QuestionExtras item={overview} />
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {topicEntries.length > 0 ? (
-                  topicEntries.slice(0, 6).map((topic, index) => (
-                    <Badge key={topic.topic || topic.name || index} tone="indigo">
-                      {topic.topic || topic.name || topic}
-                    </Badge>
-                  ))
-                ) : (
-                  <span className="text-sm text-slate-500">No topic summary returned.</span>
+          <div className="grid gap-4">
+            {/* Hero / Summary */}
+            <Card className="lg:flex lg:items-center lg:justify-between lg:gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Overview</p>
+                <h2 className="mt-2 text-2xl font-semibold text-slate-950">{`Prepare smarter for ${overview.subject_name || overview.subject_code || selectedSubject}`}</h2>
+                <p className="mt-1 text-sm text-slate-500">{`${overview.total_questions ?? questions.length} previous questions analysed across ${availableYears.length > 0 ? availableYears.join(", ") : "multiple years"}.`}</p>
+                {formatSubjectMeta(currentSubject) && (
+                  <p className="mt-1 text-sm font-medium text-slate-600">{formatSubjectMeta(currentSubject)}</p>
                 )}
               </div>
-            </Card>
 
-            <Card className="space-y-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Next steps</p>
-                <h2 className="mt-2 text-2xl font-semibold text-slate-950">Use the subject in other workflows</h2>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => navigate("/search", { state: { subject_code: selectedSubject } })}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                >
-                  <p className="text-sm font-semibold text-slate-950">Semantic search</p>
-                  <p className="mt-1 text-sm text-slate-500">Find similar published questions.</p>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                >
-                  <p className="text-sm font-semibold text-slate-950">Topic analysis</p>
-                  <p className="mt-1 text-sm text-slate-500">Review repeated topics and marks.</p>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate("/predict", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                >
-                  <p className="text-sm font-semibold text-slate-950">Predictions</p>
-                  <p className="mt-1 text-sm text-slate-500">See likely exam topics.</p>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate("/answers", { state: { subject_code: selectedSubject } })}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                >
-                  <p className="text-sm font-semibold text-slate-950">Answer help</p>
-                  <p className="mt-1 text-sm text-slate-500">Draft an exam-style answer.</p>
-                </button>
+              <div className="mt-4 flex flex-wrap gap-2 lg:mt-0">
+                <Button onClick={() => navigate("/predict", { state: { subject_code: selectedSubject } })}>
+                  View Smart Predictions
+                </Button>
+                <Button onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })} variant="secondary">
+                  Topic Analysis
+                </Button>
               </div>
             </Card>
+
+            {/* Prediction highlight and tools */}
+            <div className="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
+              <Card className="p-6">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Smart Prediction</p>
+                    <div className="mt-2 flex items-center gap-3">
+                      <h3 className="text-2xl font-semibold text-slate-950">Smart Prediction</h3>
+                      <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-700">Recommended</span>
+                    </div>
+                    <p className="mt-3 text-sm text-slate-700">Find likely exam topics based on previous-year questions, frequency, marks, and repeated patterns.</p>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                      <div className="rounded-2xl bg-slate-50 p-3">
+                        <p className="text-sm text-slate-500">Topics found</p>
+                        <p className="mt-1 font-semibold text-slate-950">{topicEntries.length}</p>
+                      </div>
+                      <div className="rounded-2xl bg-slate-50 p-3">
+                        <p className="text-sm text-slate-500">Years analysed</p>
+                        <p className="mt-1 font-semibold text-slate-950">{availableYears.length}</p>
+                      </div>
+                      <div className="rounded-2xl bg-slate-50 p-3">
+                        <p className="text-sm text-slate-500">Questions analysed</p>
+                        <p className="mt-1 font-semibold text-slate-950">{overview.total_questions ?? questions.length}</p>
+                      </div>
+                    </div>
+
+                    {topicEntries.length > 0 && (
+                      <div className="mt-4">
+                        <p className="text-sm text-slate-500">Top topics</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {topicEntries.slice(0, 6).map((topic, index) => (
+                            <Badge key={topic.topic || topic.name || index} tone="indigo">{topic.topic || topic.name || topic}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Removed duplicate CTAs - primary actions are in the hero above */}
+                </div>
+              </Card>
+
+              <Card className="space-y-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Smart Preparation Tools</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-950">Get started</h2>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/predict", { state: { subject_code: selectedSubject } })}
+                    className="relative rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-semibold text-slate-950">Smart Prediction</p>
+                        <p className="mt-1 text-sm text-slate-500">See likely exam topics based on repeated questions, frequency, and marks.</p>
+                      </div>
+                      <span className="ml-3 inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-700">Recommended</span>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
+                  >
+                    <p className="text-sm font-semibold text-slate-950">Topic Analysis</p>
+                    <p className="mt-1 text-sm text-slate-500">Review repeated topics, marks, and previous question patterns.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate("/search", { state: { subject_code: selectedSubject } })}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
+                  >
+                    <p className="text-sm font-semibold text-slate-950">Semantic Search</p>
+                    <p className="mt-1 text-sm text-slate-500">Paste a question and find similar previous questions.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate("/answers", { state: { subject_code: selectedSubject } })}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
+                  >
+                    <p className="text-sm font-semibold text-slate-950">Answer Builder</p>
+                    <p className="mt-1 text-sm text-slate-500">Generate an exam-style answer.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      /* focus or navigate to published questions below */
+                      const el = document.querySelector('[data-published-questions]');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
+                  >
+                    <p className="text-sm font-semibold text-slate-950">Browse previous questions</p>
+                    <p className="mt-1 text-sm text-slate-500">Review all published questions for practice.</p>
+                  </button>
+                </div>
+              </Card>
+            </div>
           </div>
         ) : (
           <EmptyState title="No published subject data loaded yet" description="Search for a subject code or choose one from the list to load details." />
         )}
 
-        <Card>
+        <Card data-published-questions>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Published questions</p>

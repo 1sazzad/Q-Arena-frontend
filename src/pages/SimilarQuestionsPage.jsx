@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/useAuth";
 import { apiEndpoints } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -20,9 +20,12 @@ function SimilarQuestionsPage() {
   const [subjectCode, setSubjectCode] = useState("");
   const [topK, setTopK] = useState(5);
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
   const [booting, setBooting] = useState(true);
-  const [message, setMessage] = useState("Run a search to see similar questions from the database.");
+    const [message, setMessage] = useState("Run a search to see similar questions from the database.");
+  const requestCounterRef = useRef(0);
+
+
 
   const navigate = useNavigate();
   const initialSubjectCode = String(location.state?.subject_code || "").trim();
@@ -63,7 +66,7 @@ function SimilarQuestionsPage() {
     };
   }, [academicProfileSignature, initialSubjectCode, user]);
 
-  async function fetchSimilarQuestions(event) {
+    async function fetchSimilarQuestions(event) {
     event.preventDefault();
 
     if (!query.trim()) {
@@ -71,24 +74,52 @@ function SimilarQuestionsPage() {
       return;
     }
 
+    // increment request id to help ignore stale responses
+    requestCounterRef.current = (requestCounterRef.current || 0) + 1;
+    const requestId = requestCounterRef.current;
+
     try {
       setLoading(true);
       setMessage("Searching semantic matches...");
+      // clear previous results immediately to avoid showing stale results while loading
+      setResults([]);
 
-      const response = await apiEndpoints.searchQuestions({
+      const payload = {
         query: query.trim(),
         subject_code: subjectCode || undefined,
         top_k: Number(topK),
-      });
+      };
+
+      // Log the outgoing payload to help debug request shapes
+      // eslint-disable-next-line no-console
+      console.debug("[semantic-search] sending request", { requestId, payload });
+
+      const response = await apiEndpoints.searchQuestions(payload);
+
+      // If a newer request was started after this one, ignore this response
+      if (requestCounterRef.current !== requestId) {
+        // eslint-disable-next-line no-console
+        console.debug("[semantic-search] ignoring stale response", { requestId, current: requestCounterRef.current });
+        return;
+      }
 
       const nextResults = normalizeResults(response.data);
       setResults(nextResults);
       setMessage(`Found ${nextResults.length} similar question(s).`);
     } catch (error) {
+      // If a newer request is in flight, do not overwrite its message
+      if (requestCounterRef.current !== requestId) {
+        // eslint-disable-next-line no-console
+        console.debug("[semantic-search] error for stale request ignored", { requestId, current: requestCounterRef.current });
+        return;
+      }
+
       console.error(error);
       setMessage(error.response?.data?.detail || "Search failed. Check the backend and embeddings.");
     } finally {
-      setLoading(false);
+      if (requestCounterRef.current === requestId) {
+        setLoading(false);
+      }
     }
   }
 

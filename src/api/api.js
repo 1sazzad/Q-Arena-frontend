@@ -411,6 +411,40 @@ export function getBoardPaperById(examId) {
   return API.get(`/papers/board/${encodePath(examId)}`).then((response) => response.data);
 }
 
+export async function downloadPredictionPdf(subjectCode, params = {}) {
+  if (!subjectCode) {
+    throw new Error("subjectCode is required");
+  }
+
+  const response = await API.get(`/subjects/${encodePath(subjectCode)}/predictions/export/pdf`, {
+    params: buildPaperTypeParams(params),
+    responseType: "blob",
+  });
+
+  // Try to read filename from Content-Disposition header
+  const contentDisposition = response.headers && (response.headers["content-disposition"] || response.headers["Content-Disposition"] || "");
+  let filename = `q-arena-predictions-${String(subjectCode).trim()}.pdf`;
+
+  if (contentDisposition) {
+    // Common patterns: filename="name.pdf" or filename*=UTF-8''name.pdf
+    const filenameRegex = /filename\*=UTF-8''([^;\n\r]+)|filename="([^";\n\r]+)"|filename=([^;\n\r]+)/i;
+    const matches = filenameRegex.exec(contentDisposition);
+    if (matches) {
+      const raw = matches[1] || matches[2] || matches[3] || "";
+      try {
+        filename = decodeURIComponent(raw.replace(/^["']|["']$/g, ""));
+      } catch (e) {
+        filename = raw.replace(/^["']|["']$/g, "");
+      }
+    }
+  }
+
+  return {
+    data: response.data,
+    filename,
+  };
+}
+
 export { buildQuery };
 
 export default API;
