@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import BrandLogo from "../components/BrandLogo";
+import WorkflowSteps from "../components/ui/WorkflowSteps";
 import { Badge, Card, ErrorMessage, PageHeader, ResponsiveContainer, StatCard, SectionCard } from "../components/ui";
 
 const workflows = [
@@ -63,6 +64,8 @@ function DashboardPage() {
           </>
         }
       />
+
+      <WorkflowSteps mode="loggedin" />
 
       <ErrorMessage tone="warning">{location.state?.message}</ErrorMessage>
 

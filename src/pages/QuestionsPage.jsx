@@ -4,6 +4,7 @@ import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { apiEndpoints, getAnswerGenerationErrorMessage, logAnswerGenerationError } from "../api/api";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
+import WorkflowSteps from "../components/ui/WorkflowSteps";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
 import { getApiErrorMessage, isMissingStudentScopeError } from "../utils/auth";
 import { getDefaultPaperType, hasPaperTypeSupport, normalizePaperType, normalizeSupportedPaperTypes } from "../utils/paperTypes";
@@ -965,11 +966,15 @@ function QuestionsPage() {
                 <Button onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })} variant="secondary">
                   Topic Analysis
                 </Button>
+                <Button onClick={() => navigate("/search", { state: { subject_code: selectedSubject } })} variant="secondary" className="hidden sm:inline-flex">
+                  Find similar questions
+                </Button>
               </div>
             </Card>
 
-            {/* Prediction highlight and tools */}
-            <div className="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
+            <WorkflowSteps mode="loggedin" selectedSubject={selectedSubject} />
+
+            {/* Smart Prediction preview (primary feature) */}
               <Card className="p-6">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="min-w-0">
@@ -1007,73 +1012,8 @@ function QuestionsPage() {
                     )}
                   </div>
 
-                  {/* Removed duplicate CTAs - primary actions are in the hero above */}
                 </div>
               </Card>
-
-              <Card className="space-y-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">Smart Preparation Tools</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-950">Get started</h2>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <button
-                    type="button"
-                    onClick={() => navigate("/predict", { state: { subject_code: selectedSubject } })}
-                    className="relative rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-semibold text-slate-950">Smart Prediction</p>
-                        <p className="mt-1 text-sm text-slate-500">See likely exam topics based on repeated questions, frequency, and marks.</p>
-                      </div>
-                      <span className="ml-3 inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-700">Recommended</span>
-                    </div>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => navigate("/analysis", { state: { subject_code: selectedSubject, subjectCode: selectedSubject, selectedSubject } })}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                  >
-                    <p className="text-sm font-semibold text-slate-950">Topic Analysis</p>
-                    <p className="mt-1 text-sm text-slate-500">Review repeated topics, marks, and previous question patterns.</p>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => navigate("/search", { state: { subject_code: selectedSubject } })}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                  >
-                    <p className="text-sm font-semibold text-slate-950">Semantic Search</p>
-                    <p className="mt-1 text-sm text-slate-500">Paste a question and find similar previous questions.</p>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => navigate("/answers", { state: { subject_code: selectedSubject } })}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                  >
-                    <p className="text-sm font-semibold text-slate-950">Answer Builder</p>
-                    <p className="mt-1 text-sm text-slate-500">Generate an exam-style answer.</p>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      /* focus or navigate to published questions below */
-                      const el = document.querySelector('[data-published-questions]');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50"
-                  >
-                    <p className="text-sm font-semibold text-slate-950">Browse previous questions</p>
-                    <p className="mt-1 text-sm text-slate-500">Review all published questions for practice.</p>
-                  </button>
-                </div>
-              </Card>
-            </div>
           </div>
         ) : (
           <EmptyState title="No published subject data loaded yet" description="Search for a subject code or choose one from the list to load details." />

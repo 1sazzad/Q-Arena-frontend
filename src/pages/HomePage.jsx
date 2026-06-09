@@ -9,6 +9,7 @@ import BrandLogo from "../components/BrandLogo";
 import PublicNavbar from "../components/PublicNavbar";
 import { useAuth } from "../context/useAuth";
 import { Button, Card } from "../components/ui";
+import WorkflowSteps from "../components/ui/WorkflowSteps";
 
 const features = [
   {
@@ -236,24 +237,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="How It Works"
-            title="Three steps from search to suggestion"
-            bangla="সার্চ থেকে সাজেশন পর্যন্ত সহজ তিনটি ধাপ।"
-          />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {steps.map((step) => (
-              <Card key={step.number}>
-                <p className="text-sm font-semibold text-cyan-700">{step.number}</p>
-                <h3 className="mt-4 break-words text-xl font-semibold text-slate-950">{step.title}</h3>
-                <p className="mt-3 break-words text-base leading-relaxed text-slate-600">{step.bangla}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WorkflowSteps mode="public" />
 
       <section id="request-subject" className="bg-white px-4 py-12 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
