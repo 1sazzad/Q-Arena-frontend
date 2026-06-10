@@ -1,26 +1,51 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, Sparkles, X } from "lucide-react";
 import BrandLogo from "./BrandLogo";
 
 function PublicNavbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
     { label: "Home", href: "#home" },
     { label: "Features", href: "#features" },
-    { label: "How It Works", href: "#how-it-works" },
+    { label: "How It Works", href: "/#how-it-works" },
     { label: "Support", href: "#support" },
   ];
 
   const handleNavClick = (href) => {
+    // Close mobile menu in all cases when a nav item is clicked
+    setIsOpen(false);
+
+    // Local hash on the current page (e.g. "#features")
     if (href.startsWith("#")) {
-      setIsOpen(false);
       const target = document.querySelector(href);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+      return;
+    }
+
+    // Cross-route hash to the homepage ("/#how-it-works")
+    if (href.startsWith("/#")) {
+      const hash = "#" + href.split("#")[1];
+      if (location.pathname === "/") {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } else {
+        // Navigate to the homepage with hash; HomePage has an effect to handle scrolling after navigation
+        navigate(href);
+      }
+      return;
+    }
+
+    // Fallback: normal navigation for absolute paths
+    if (href.startsWith("/")) {
+      navigate(href);
     }
   };
 

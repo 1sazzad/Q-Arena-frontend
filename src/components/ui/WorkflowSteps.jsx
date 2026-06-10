@@ -51,7 +51,7 @@ export default function WorkflowSteps({ mode = "public", selectedSubject = "" })
   const stepsToRender = isLoggedIn ? loggedInSteps : publicSteps;
 
   return (
-    <section id={isLoggedIn ? "workflow-loggedin" : "how-q-arena-works"} className="px-4 py-4 sm:px-6 md:py-6 lg:px-8">
+    <section id={isLoggedIn ? "workflow-loggedin" : "how-it-works"} style={isLoggedIn ? undefined : { scrollMarginTop: "96px" }} className="px-4 py-4 sm:px-6 md:py-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-cyan-700">{isLoggedIn ? "Your Smart Preparation Workflow" : "How Q Arena Works"}</p>
