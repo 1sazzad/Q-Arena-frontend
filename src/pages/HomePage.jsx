@@ -8,8 +8,10 @@ import Footer from "../components/Footer";
 import BrandLogo from "../components/BrandLogo";
 import PublicNavbar from "../components/PublicNavbar";
 import { useAuth } from "../context/useAuth";
-import { Button, Card } from "../components/ui";
+import { Button, Card, StatCard, Badge } from "../components/ui";
 import WorkflowSteps from "../components/ui/WorkflowSteps";
+import LockedPreviewCard from "../components/home/LockedPreviewCard";
+import { demoSubjectOverview, demoPatternAnalysis, demoPredictions, unlockBenefits } from "../data/homepagePreviewData";
 
 const features = [
   {
@@ -238,6 +240,178 @@ function HomePage() {
       </section>
 
       <WorkflowSteps mode="public" />
+
+      {/* Product Preview Sections - static curated demo-only content */}
+      <section id="product-preview-subject" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="PREVIEW" title="Everything starts from your subject" description="A curated preview of the subject overview and quick signals (demo only)." />
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            <div>
+              <Card>
+                <p className="text-xs uppercase tracking-[0.22em] text-cyan-700">Subject</p>
+                <h3 className="mt-2 text-2xl font-semibold text-slate-950">{demoSubjectOverview.subjectName}</h3>
+                <p className="mt-1 text-sm text-slate-600">{demoSubjectOverview.department} — {demoSubjectOverview.program}</p>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  {demoSubjectOverview.stats.map((s) => (
+                    <div key={s.label} className="rounded-2xl bg-slate-50 p-3">
+                      <p className="text-sm text-slate-500">{s.label}</p>
+                      <p className="mt-1 font-semibold text-slate-950">{s.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-sm text-slate-500">Top topics</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {demoSubjectOverview.topTopics.slice(0, 3).map((topic) => (
+                      <Badge key={topic} tone="indigo">{topic}</Badge>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <LockedPreviewCard title="Previous question preview is locked" description="Sample previous question preview is hidden in public demo." />
+                </div>
+
+                <div className="mt-4">
+                  <Button as={Link} to="/register">Create free account to view full subject report</Button>
+                </div>
+              </Card>
+            </div>
+
+            <div className="lg:col-span-2">
+              <Card>
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.22em] text-cyan-700">Pattern Analysis (demo)</p>
+                    <h3 className="mt-2 text-2xl font-semibold text-slate-950">See what repeats every year</h3>
+                    <p className="mt-1 text-sm text-slate-600">A compact preview of recommended study priorities and repeated patterns.</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  {demoPatternAnalysis.stats.map((s) => (
+                    <div key={s.label} className="rounded-2xl bg-slate-50 p-3">
+                      <p className="text-sm text-slate-500">{s.label}</p>
+                      <p className="mt-1 font-semibold text-slate-950">{s.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold text-slate-900">Recommended study priority</h4>
+                  <div className="mt-3 overflow-x-auto">
+                    <table className="w-full border-collapse border border-slate-300 max-w-full">
+                      <thead>
+                        <tr className="bg-slate-100">
+                          <th className="border border-slate-300 px-3 py-1 text-left">Rank</th>
+                          <th className="border border-slate-300 px-3 py-1 text-left">Topic</th>
+                          <th className="border border-slate-300 px-3 py-1 text-right">Frequency</th>
+                          <th className="border border-slate-300 px-3 py-1 text-right">Marks</th>
+                          <th className="border border-slate-300 px-3 py-1 text-left">Priority</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {demoPatternAnalysis.priorityRows.map((row) => (
+                          <tr key={row.rank} className="bg-white">
+                            <td className="border border-slate-300 px-3 py-1">{row.rank}</td>
+                            <td className="border border-slate-300 px-3 py-1">{row.topic}</td>
+                            <td className="border border-slate-300 px-3 py-1 text-right">{row.frequency}</td>
+                            <td className="border border-slate-300 px-3 py-1 text-right">{row.marks}</td>
+                            <td className="border border-slate-300 px-3 py-1">{row.priority}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {demoPatternAnalysis.repeatedPatterns.map((p) => (
+                      <div key={p.title} className="rounded-2xl border border-slate-100 bg-white p-4">
+                        <h5 className="font-semibold text-slate-900">{p.title}</h5>
+                        <p className="mt-1 text-sm text-slate-600">{p.years}</p>
+                        <p className="mt-2 text-sm text-slate-700">Frequency: {p.frequency}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6">
+                    <Button as={Link} to="/register" className="w-full sm:w-auto">Unlock full analysis after login</Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="product-preview-predictions" className="bg-white px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="PREDICTION PREVIEW" title="Rank likely topics before exam" description="Top 3 sample predictions (demo only). Register to unlock full report and export options." />
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {demoPredictions.map((p) => (
+              <Card key={p.rank} className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Prediction {p.rank}</p>
+                    <h3 className="mt-2 text-lg font-semibold text-slate-950">{p.topic}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{p.reason}</p>
+                  </div>
+                  <Badge tone="indigo">{p.confidence}%</Badge>
+                </div>
+
+                <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full bg-indigo-500" style={{ width: `${Math.max(0, Math.min(100, p.confidence))}%` }} />
+                </div>
+
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <div className="rounded-xl bg-slate-50 px-3 py-2">
+                    <p className="text-sm text-slate-400">Importance</p>
+                    <p className="font-semibold text-slate-950">{p.importance}</p>
+                  </div>
+                  <div className="rounded-xl bg-slate-50 px-3 py-2">
+                    <p className="text-sm text-slate-400">Confidence</p>
+                    <p className="font-semibold text-slate-950">{p.confidence}%</p>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <LockedPreviewCard title="Related previous questions are locked" description="Related questions are hidden in this demo preview." />
+                </div>
+
+                <div className="mt-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
+                    <Button as={Link} to="/register" className="w-full sm:w-auto">Register to unlock</Button>
+                    <Button as={Link} to="/register" variant="secondary" className="w-full sm:w-auto">Export PDF (login required)</Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="product-preview-unlock" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="UNLOCK" title="Create a free account to unlock your full preparation report" description="Sign up to access full subject dashboards, predictions, previous questions, PDF export and AI answer support." />
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {unlockBenefits.map((b) => (
+              <Card key={b} className="rounded-2xl p-4">
+                <p className="text-sm font-semibold text-slate-900">{b}</p>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-8 flex gap-3">
+            <Button as={Link} to="/register">Create Free Account</Button>
+            <Button as={Link} to="/login" variant="secondary">Log In</Button>
+          </div>
+        </div>
+      </section>
 
       <section id="request-subject" className="bg-white px-4 py-12 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">

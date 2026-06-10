@@ -1,0 +1,3379 @@
+{
+  "url": "http://localhost:5173/",
+  "requested": [
+    {
+      "url": "http://localhost:5173/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": 1781088857930,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@vite/client",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088857993,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/main.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088857995,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@react-refresh",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088857998,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858027,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858027,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858027,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/App.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858027,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ErrorBoundary.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858027,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/AuthContext.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858028,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/katex/dist/katex.min.css",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858028,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/index.css?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858028,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858028,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858118,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Navbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/AnalyticsTracker.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/ProtectedRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/AdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/SuperAdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/useAuth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/hooks/useSidebarCollapsed.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/sidebar.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/auth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/UploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/QuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/BoardPapersPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858127,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SimilarQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AnalysisPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PredictionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SuggestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/GenerateAnswerPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/LoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/RegisterPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/VerifyEmailPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResendVerificationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ForgotPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResetPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/FeedbackPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/DonationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/HomePage.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PrivacyPolicyPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/TermsOfServicePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858128,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ContactPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminLoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminCreatePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/JobStatusPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminDashboardPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminUploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageSubjectsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageUniversitiesPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageDepartmentsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/authApi.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/auth-context.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/chunk-CYJPkc-J.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858129,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lucide-react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858130,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Button.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858130,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/BrandLogo.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858130,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/api.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858145,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicProfile.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858147,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858219,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/subjectLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858219,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/index.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/WorkflowSteps.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/paperTypes.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/questionRenderUtils.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/suggestionLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-markdown.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/rehype-katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-gfm.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-math.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/MathRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858264,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/common/AnswerWarningBanner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858447,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ResendVerificationForm.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Footer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/contact.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/app.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/PublicNavbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/home/LockedPreviewCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/data/homepagePreviewData.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858448,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/institution.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858462,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858471,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/axios.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858471,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionDiagram.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SubQuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Badge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Card.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/DiagramRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorAlert.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/EmptyState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorMessage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/FormInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingSpinner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PrimaryButton.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858472,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PageHeader.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PasswordInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperTypeSelector.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SectionCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionExtras.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ResponsiveContainer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatusBadge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858473,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858476,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/space-separated-tokens-D9U8x8uh.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858476,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-kyYtBv8U.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858476,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dev-D_QnfcgP.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858489,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-RrQkqIxu.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858489,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/longest-streak-DQv_PYZr.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858489,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858489,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dompurify.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088858532,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088858779,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088858781,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v1/analytics/visit",
+      "method": "POST",
+      "resourceType": "xhr",
+      "timestamp": 1781088859299,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": 1781088861638,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@vite/client",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861771,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/main.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861771,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@react-refresh",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861772,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861772,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861772,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861772,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/App.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861772,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ErrorBoundary.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861793,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/AuthContext.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861795,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/katex/dist/katex.min.css",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861795,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/index.css?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861795,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861795,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/chunk-CYJPkc-J.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861798,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861798,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861798,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Navbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/AnalyticsTracker.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/ProtectedRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/AdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/SuperAdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/useAuth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861808,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/hooks/useSidebarCollapsed.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/sidebar.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/auth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/UploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/QuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/BoardPapersPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SimilarQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AnalysisPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PredictionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SuggestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/GenerateAnswerPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/LoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/RegisterPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/VerifyEmailPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResendVerificationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ForgotPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResetPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861809,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/FeedbackPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/DonationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/HomePage.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PrivacyPolicyPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/TermsOfServicePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ContactPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminLoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminCreatePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/JobStatusPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminDashboardPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminUploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageSubjectsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageUniversitiesPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageDepartmentsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/authApi.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/auth-context.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861810,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lucide-react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861813,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Button.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861813,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/BrandLogo.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861813,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/api.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861879,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicProfile.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861879,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861909,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/subjectLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861909,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861910,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/index.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861910,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/WorkflowSteps.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861910,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/paperTypes.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861910,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/questionRenderUtils.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861929,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/suggestionLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861935,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-markdown.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861958,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/rehype-katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861960,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-gfm.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-math.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/MathRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dev-D_QnfcgP.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/space-separated-tokens-D9U8x8uh.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-RrQkqIxu.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861975,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861976,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-kyYtBv8U.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861976,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/longest-streak-DQv_PYZr.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861976,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/common/AnswerWarningBanner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088861976,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ResendVerificationForm.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862037,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/app.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/contact.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Footer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/PublicNavbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/home/LockedPreviewCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/data/homepagePreviewData.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862053,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/institution.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862131,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/axios.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862248,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionDiagram.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862286,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SubQuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862286,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Badge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Card.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/DiagramRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorAlert.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/EmptyState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorMessage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/FormInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingSpinner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PrimaryButton.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PageHeader.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PasswordInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperTypeSelector.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SectionCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionExtras.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ResponsiveContainer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatusBadge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862287,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dompurify.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088862313,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088862498,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088862510,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v1/analytics/visit",
+      "method": "POST",
+      "resourceType": "xhr",
+      "timestamp": 1781088862568,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": 1781088864379,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@vite/client",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864463,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/main.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864463,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@react-refresh",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864463,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864463,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864463,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/App.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ErrorBoundary.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/AuthContext.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/katex/dist/katex.min.css",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/index.css?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864464,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/chunk-CYJPkc-J.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Navbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/AnalyticsTracker.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/ProtectedRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/AdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/SuperAdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864465,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/useAuth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/hooks/useSidebarCollapsed.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/sidebar.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/auth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/UploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/QuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/BoardPapersPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SimilarQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AnalysisPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PredictionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SuggestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/GenerateAnswerPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/LoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/RegisterPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864466,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/VerifyEmailPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResendVerificationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ForgotPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResetPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/FeedbackPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/DonationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/HomePage.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PrivacyPolicyPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/TermsOfServicePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ContactPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminLoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminCreatePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864467,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/JobStatusPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminDashboardPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminUploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageSubjectsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageUniversitiesPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageDepartmentsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/authApi.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/auth-context.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864468,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lucide-react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864469,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Button.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864469,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/BrandLogo.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864469,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/api.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864480,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicProfile.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864480,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864529,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/index.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864529,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/WorkflowSteps.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864529,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/paperTypes.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864529,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/subjectLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864529,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864541,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/questionRenderUtils.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864541,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/suggestionLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864552,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-markdown.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864564,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/rehype-katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864564,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-gfm.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864564,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-math.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864564,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/MathRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864564,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dev-D_QnfcgP.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/space-separated-tokens-D9U8x8uh.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-RrQkqIxu.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-kyYtBv8U.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/longest-streak-DQv_PYZr.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864570,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/common/AnswerWarningBanner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864572,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ResendVerificationForm.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864572,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864594,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/app.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864594,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/contact.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864595,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Footer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864595,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/PublicNavbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864595,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/home/LockedPreviewCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864595,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/data/homepagePreviewData.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864596,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/institution.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864615,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/axios.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionDiagram.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864648,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SubQuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864648,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Badge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Card.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/DiagramRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorAlert.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/EmptyState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorMessage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/FormInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864658,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingSpinner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PrimaryButton.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PageHeader.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PasswordInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperTypeSelector.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SectionCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionExtras.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ResponsiveContainer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatusBadge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864659,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dompurify.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088864662,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088864819,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088864821,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v1/analytics/visit",
+      "method": "POST",
+      "resourceType": "xhr",
+      "timestamp": 1781088864880,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/",
+      "method": "GET",
+      "resourceType": "document",
+      "timestamp": 1781088866490,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@vite/client",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/main.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/@react-refresh",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/vite/dist/client/env.mjs",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866555,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/App.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ErrorBoundary.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/AuthContext.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/katex/dist/katex.min.css",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/index.css?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/chunk-CYJPkc-J.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-dom.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866601,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Navbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/AnalyticsTracker.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/ProtectedRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/AdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/routes/SuperAdminRoute.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/useAuth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/hooks/useSidebarCollapsed.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/sidebar.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/auth.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/UploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/QuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/BoardPapersPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866631,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SimilarQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AnalysisPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PredictionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/SuggestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/GenerateAnswerPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/LoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/RegisterPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/VerifyEmailPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResendVerificationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ForgotPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ResetPasswordPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/FeedbackPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/DonationPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/HomePage.jsx?t=1781088763920",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/PrivacyPolicyPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/TermsOfServicePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ContactPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminLoginPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/AdminCreatePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/ProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866632,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/JobStatusPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminDashboardPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminUploadPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageQuestionsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageSubjectsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageUniversitiesPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/ManageDepartmentsPage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866633,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/pages/admin/AdminProfilePage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/authApi.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/context/auth-context.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lucide-react.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Button.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/BrandLogo.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/api/api.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866639,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicProfile.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866640,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/academicLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866693,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/subjectLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866693,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866699,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/index.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866699,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/WorkflowSteps.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866699,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/paperTypes.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866699,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/questionRenderUtils.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866708,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/suggestionLookups.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866828,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react-markdown.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866828,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/rehype-katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-gfm.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/remark-math.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/MathRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/react_jsx-runtime.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dev-D_QnfcgP.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/space-separated-tokens-D9U8x8uh.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-RrQkqIxu.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866829,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/katex.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866830,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/lib-kyYtBv8U.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866830,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/longest-streak-DQv_PYZr.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866830,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/common/AnswerWarningBanner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866911,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ResendVerificationForm.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866911,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/Footer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/app.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/config/contact.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/PublicNavbar.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/home/LockedPreviewCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/data/homepagePreviewData.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866915,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/utils/institution.js",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866965,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png?import",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866994,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/axios.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866995,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionDiagram.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866996,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SubQuestionRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866996,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Badge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/Card.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/DiagramRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorAlert.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/EmptyState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ErrorMessage.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/FormInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088866999,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingState.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867002,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/LoadingSpinner.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867002,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PrimaryButton.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperRenderer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PageHeader.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PasswordInput.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/PaperTypeSelector.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/SectionCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/QuestionExtras.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/ResponsiveContainer.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatCard.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/components/ui/StatusBadge.jsx",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867003,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/dompurify.js?v=4a757f04",
+      "method": "GET",
+      "resourceType": "script",
+      "timestamp": 1781088867109,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/branding/q_arena_logo.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088867241,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://localhost:5173/src/assets/hero.png",
+      "method": "GET",
+      "resourceType": "image",
+      "timestamp": 1781088867242,
+      "matchedProtected": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v1/analytics/visit",
+      "method": "POST",
+      "resourceType": "xhr",
+      "timestamp": 1781088867295,
+      "matchedProtected": false
+    }
+  ],
+  "protectedPaths": [
+    "/subjects",
+    "/subjects/search",
+    "/predictions",
+    "/questions",
+    "/overview",
+    "/generate-answer",
+    "/answers",
+    "/export/pdf",
+    "/predictions/export/pdf",
+    "/api/v1/subjects",
+    "/api/v1/subjects/search",
+    "/api/v1/generate-answer"
+  ]
+}

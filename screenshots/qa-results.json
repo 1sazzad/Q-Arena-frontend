@@ -1,0 +1,48 @@
+[
+  {
+    "viewport": {
+      "vw": 1440,
+      "vh": 1024
+    },
+    "hasHorizontalScroll": false,
+    "issues": [
+      "Forbidden text found: PDF, answer"
+    ],
+    "numButtons": 45
+  },
+  {
+    "viewport": {
+      "vw": 1024,
+      "vh": 768
+    },
+    "hasHorizontalScroll": false,
+    "issues": [
+      "Forbidden text found: PDF, answer"
+    ],
+    "numButtons": 45
+  },
+  {
+    "viewport": {
+      "vw": 768,
+      "vh": 1024
+    },
+    "hasHorizontalScroll": false,
+    "issues": [
+      "Forbidden text found: PDF, answer"
+    ],
+    "numButtons": 45
+  },
+  {
+    "viewport": {
+      "vw": 390,
+      "vh": 844
+    },
+    "hasHorizontalScroll": false,
+    "issues": [
+      "Elements overflow right: [{\"tag\":\"DIV\",\"class\":\"\",\"right\":452.265625},{\"tag\":\"SECTION\",\"class\":\"qa-card min-w-0 rounded-[1.25rem] border bg-white p-5 sm:p-6 lg:p-7 \",\"right\":452.265625},{\"tag\":\"P\",\"class\":\"text-xs uppercase tracking-[0.22em] text-cyan-700\",\"right\":431.265625},{\"tag\":\"H3\",\"class\":\"mt-2 text-2xl font-semibold text-slate-950\",\"right\":431.265625},{\"tag\":\"P\",\"class\":\"mt-1 text-sm text-slate-600\",\"right\":431.265625},{\"tag\":\"DIV\",\"class\":\"mt-4 grid gap-3 sm:grid-cols-3\",\"right\":431.265625},{\"tag\":\"DIV\",\"class\":\"rounded-2xl bg-slate-50 p-3\",\"right\":431.265625},{\"tag\":\"P\",\"class\":\"text-sm text-slate-500\",\"right\":419.265625},{\"tag\":\"P\",\"class\":\"mt-1 font-semibold text-slate-950\",\"right\":419.265625},{\"tag\":\"DIV\",\"class\":\"rounded-2xl bg-slate-50 p-3\",\"right\":431.265625}]",
+      "Table width > viewport: [{\"width\":394.265625,\"html\":\"<table class=\\\"w-full border-collapse border border-slate-300 max-w-full\\\"><thead><tr class=\\\"bg-slate-100\\\"><th class=\\\"border border-slate-300 px-3 py-1 text-left\\\">Rank</th><th class=\\\"border border-slate\"}]",
+      "Forbidden text found: PDF, answer"
+    ],
+    "numButtons": 40
+  }
+]
