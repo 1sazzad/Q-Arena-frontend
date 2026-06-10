@@ -88,7 +88,7 @@ function PublicNavbar() {
               className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:from-indigo-700 hover:to-cyan-700"
             >
               <Sparkles className="h-4 w-4" />
-              Get Started
+              Create Free Account
             </button>
           </div>
 
@@ -137,7 +137,7 @@ function PublicNavbar() {
                 }}
                 className="block w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 px-3 py-2 text-center text-sm font-semibold text-white transition hover:from-indigo-700 hover:to-cyan-700"
               >
-                Get Started
+                Create Free Account
               </button>
             </div>
           </div>

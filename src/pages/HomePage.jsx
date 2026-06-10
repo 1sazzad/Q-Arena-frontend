@@ -153,12 +153,19 @@ function HomePage() {
               {APP_NAME} helps you search subjects, understand repeated topics, receive AI-based suggestions, and export useful results for focused revision.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button as={Link} to={searchPath} size="lg" className="w-full sm:w-auto">
-                Search Subject
+              <Button as={Link} to={isAuthenticated ? "/subjects" : "/register"} size="lg" className="w-full sm:w-auto">
+                {isAuthenticated ? "Search Subject" : "Create Free Account"}
               </Button>
-              <Button as={Link} to={getStartedPath} variant="secondary" size="lg" className="w-full sm:w-auto">
-                Get Started
-              </Button>
+
+              {isAuthenticated ? (
+                <Button as={Link} to="/dashboard" variant="secondary" size="lg" className="w-full sm:w-auto">
+                  Dashboard
+                </Button>
+              ) : (
+                <Button as="a" href="#how-it-works" variant="secondary" size="lg" className="w-full sm:w-auto">
+                  See How It Works
+                </Button>
+              )}
             </div>
           </div>
 
@@ -202,46 +209,8 @@ function HomePage() {
           </div>
         </div>
       </section>
-
-      <section id="problem" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="EXAM WEEK CHAOS | পরীক্ষার আগের বাস্তবতা"
-            title="Students spend more time finding questions than preparing for exams."
-            titleBangla="পরীক্ষার প্রস্তুতির চেয়ে প্রশ্ন খুঁজতেই শিক্ষার্থীদের বেশি সময় চলে যায়।"
-          />
-          <div className="mt-8 grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {painPoints.map((item) => (
-              <Card key={item.title} as="article" className="h-full rounded-2xl p-5 sm:p-6">
-                <h3 className="break-words text-lg font-semibold leading-snug text-slate-950 sm:text-xl">{item.title}</h3>
-                <p className="mt-2 break-words text-base font-semibold leading-7 text-slate-900">{item.titleBangla}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="features" className="bg-white px-4 py-12 sm:px-6 md:py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="FEATURES | ফিচারসমূহ"
-            title="Everything students need for smarter revision"
-            titleBangla="স্মার্ট রিভিশনের জন্য শিক্ষার্থীদের প্রয়োজনীয় সবকিছু"
-          />
-          <div className="mt-8 grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {features.map((feature) => (
-              <Card key={feature.title} className="h-full">
-                <h3 className="break-words text-lg font-semibold text-slate-950">{feature.title}</h3>
-                <p className="mt-2 break-words text-base font-semibold leading-7 text-slate-900">{feature.titleBangla}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <WorkflowSteps mode="public" />
-
       {/* Product Preview Sections - static curated demo-only content */}
+      <WorkflowSteps mode="public" />
       <section id="product-preview-subject" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading eyebrow="PREVIEW" title="Everything starts from your subject" description="A curated preview of the subject overview and quick signals (demo only)." />
@@ -276,7 +245,7 @@ function HomePage() {
                 </div>
 
                 <div className="mt-4">
-                  <Button as={Link} to="/register">Create free account to view full subject report</Button>
+                  <Button as={Link} to="/register">Create Free Account</Button>
                 </div>
               </Card>
             </div>
@@ -338,7 +307,7 @@ function HomePage() {
                   </div>
 
                   <div className="mt-6">
-                    <Button as={Link} to="/register" className="w-full sm:w-auto">Unlock full analysis after login</Button>
+                    <Button as={Link} to="/register" className="w-full sm:w-auto">Register to unlock</Button>
                   </div>
                 </div>
               </Card>
@@ -385,7 +354,7 @@ function HomePage() {
                 <div className="mt-4">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
                     <Button as={Link} to="/register" className="w-full sm:w-auto">Register to unlock</Button>
-                    <Button as={Link} to="/register" variant="secondary" className="w-full sm:w-auto">Export PDF (login required)</Button>
+                    <Button as={Link} to="/register" variant="secondary" className="w-full sm:w-auto">Export PDF after registration</Button>
                   </div>
                 </div>
               </Card>
@@ -394,21 +363,38 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="product-preview-unlock" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+      <section id="problem" className="px-4 py-12 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="UNLOCK" title="Create a free account to unlock your full preparation report" description="Sign up to access full subject dashboards, predictions, previous questions, PDF export and AI answer support." />
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {unlockBenefits.map((b) => (
-              <Card key={b} className="rounded-2xl p-4">
-                <p className="text-sm font-semibold text-slate-900">{b}</p>
+          <SectionHeading
+            eyebrow="EXAM WEEK CHAOS | পরীক্ষার আগের বাস্তবতা"
+            title="Students spend more time finding questions than preparing for exams."
+            titleBangla="পরীক্ষার প্রস্তুতির চেয়ে প্রশ্ন খুঁজতেই শিক্ষার্থীদের বেশি সময় চলে যায়।"
+          />
+          <div className="mt-8 grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+            {painPoints.map((item) => (
+              <Card key={item.title} as="article" className="h-full rounded-2xl p-5 sm:p-6">
+                <h3 className="break-words text-lg font-semibold leading-snug text-slate-950 sm:text-xl">{item.title}</h3>
+                <p className="mt-2 break-words text-base font-semibold leading-7 text-slate-900">{item.titleBangla}</p>
               </Card>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-8 flex gap-3">
-            <Button as={Link} to="/register">Create Free Account</Button>
-            <Button as={Link} to="/login" variant="secondary">Log In</Button>
+      <section id="features" className="bg-white px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="FEATURES | ফিচারসমূহ"
+            title="Everything students need for smarter revision"
+            titleBangla="স্মার্ট রিভিশনের জন্য শিক্ষার্থীদের প্রয়োজনীয় সবকিছু"
+          />
+          <div className="mt-8 grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+            {features.map((feature) => (
+              <Card key={feature.title} className="h-full">
+                <h3 className="break-words text-lg font-semibold text-slate-950">{feature.title}</h3>
+                <p className="mt-2 break-words text-base font-semibold leading-7 text-slate-900">{feature.titleBangla}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
