@@ -7,6 +7,7 @@ import { Badge, Button, Card, DiagramRenderer, EmptyState, LoadingSpinner, PageH
 import WorkflowSteps from "../components/ui/WorkflowSteps";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
 import { getApiErrorMessage, isMissingStudentScopeError } from "../utils/auth";
+import TutorModal from "../components/ui/TutorModal";
 import { getDefaultPaperType, hasPaperTypeSupport, normalizePaperType, normalizeSupportedPaperTypes } from "../utils/paperTypes";
 import {
   formatSubjectMeta,
@@ -573,6 +574,12 @@ function QuestionsPage() {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalQuestionPages, setTotalQuestionPages] = useState(0);
   const [answers, setAnswers] = useState({});
+  // Tutor modal state
+  const [tutorModalOpen, setTutorModalOpen] = useState(false);
+  const [tutorResponse, setTutorResponse] = useState(null);
+  const [tutorLoading, setTutorLoading] = useState(false);
+  const [tutorError, setTutorError] = useState(null);
+  const [selectedTutorQuestion, setSelectedTutorQuestion] = useState(null);
   const [loadingMap, setLoadingMap] = useState({});
   const [errorMap, setErrorMap] = useState({});
   const [selectedSubQuestionMap, setSelectedSubQuestionMap] = useState({});
@@ -852,6 +859,45 @@ function QuestionsPage() {
       ...prev,
       [questionKey]: subQuestionLabel,
     }));
+  }
+
+  // Tutor API handlers
+  async function handleExplainWithTutor(question) {
+    setSelectedTutorQuestion(question || null);
+    setTutorResponse(null);
+    setTutorError(null);
+    setTutorModalOpen(true);
+
+    if (!question || !question?.id) {
+      setTutorError("Question ID is missing, so Tutor preview cannot be loaded.");
+      return;
+    }
+
+    setTutorLoading(true);
+    try {
+      const payload = {
+        mode: "simple_explanation",
+        language: "en",
+        student_level: "beginner",
+        include_whiteboard: true,
+        include_hints: true,
+        include_practice: true,
+      };
+      const resp = await apiEndpoints.explainTutorQuestion(question.id, payload);
+      const data = resp?.data ?? resp;
+      setTutorResponse(data);
+    } catch (err) {
+      console.error(err);
+      setTutorError(getApiErrorMessage(err, "Unable to load Tutor preview."));
+    } finally {
+      setTutorLoading(false);
+    }
+  }
+
+  function handleRetryTutor() {
+    if (selectedTutorQuestion) {
+      handleExplainWithTutor(selectedTutorQuestion);
+    }
   }
 
   if (booting) {
@@ -1146,6 +1192,16 @@ function QuestionsPage() {
                         </p>
                       </div>
                     )}
+
+                    {/* Explain with Tutor button (opens modal) */}
+                    <button
+                      type="button"
+                      onClick={() => handleExplainWithTutor(question)}
+                      disabled={tutorLoading && selectedTutorQuestion?.id === question?.id}
+                      className="mt-4 ml-3 rounded-lg bg-amber-600 px-4 py-2 text-white transition hover:bg-amber-700 disabled:opacity-50"
+                    >
+                      {tutorLoading && selectedTutorQuestion?.id === question?.id ? "Loading Tutor..." : "Explain with Tutor"}
+                    </button>
                   </div>
                 </article>
                 );
@@ -1179,7 +1235,15 @@ function QuestionsPage() {
                 })}
             </div>
           )}
-        </Card>
+                </Card>
+          <TutorModal
+            isOpen={tutorModalOpen}
+            onClose={() => setTutorModalOpen(false)}
+            tutorResponse={tutorResponse}
+            loading={tutorLoading}
+            error={tutorError}
+            onRetry={handleRetryTutor}
+          />
     </ResponsiveContainer>
   );
 }

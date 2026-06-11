@@ -125,9 +125,9 @@ API.interceptors.response.use(
       error.response.data = responseData.quota
         ? responseData
         : {
-            ...responseData,
-            detail: message,
-          };
+          ...responseData,
+          detail: message,
+        };
       window.dispatchEvent(new CustomEvent("api:rate-limit", { detail: { message } }));
     }
 
@@ -292,6 +292,13 @@ function buildBoardPaperParams(params = {}) {
   return normalizedParams.toString();
 }
 
+const TUTOR_EXPLAIN_PATH = (id) => {
+  const base = String(API_BASE_URL || "");
+  return base.includes("/api/v1")
+    ? `/tutor/questions/${encodePath(id)}/explain`
+    : `/v1/tutor/questions/${encodePath(id)}/explain`;
+};
+
 export const apiEndpoints = {
   register: (payload) => API.post("/auth/register", payload),
   login: (payload) =>
@@ -330,6 +337,9 @@ export const apiEndpoints = {
     }),
   generateAnswer: (payload) => API.post("/generate-answer", payload),
   generateQuestionAnswer: (payload) => API.post("/generate-answer", payload),
+  // Tutor metadata-only explanation endpoint
+  explainTutorQuestion: (questionId, payload) =>
+    API.post(TUTOR_EXPLAIN_PATH(questionId), payload),
   submitFeedback: (payload) => API.post("/feedback", payload),
   getPublicFeedback: (params) => API.get("/feedback/public", { params }),
   getDonationInfo: () => API.get("/donation-info"),
