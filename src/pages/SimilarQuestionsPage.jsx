@@ -4,6 +4,7 @@ import { apiEndpoints } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, LoadingSpinner, PageHeader, QuestionExtras, ResponsiveContainer } from "../components/ui";
 import QuestionRenderer from "../components/ui/QuestionRenderer";
+import MathRenderer from "../components/MathRenderer";
 import { hasRenderableQuestionText, normalizeQuestionForRenderer } from "../utils/questionRenderUtils";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
 import { formatSubjectLabel, normalizeSubjectList } from "../utils/subjectLookups";
@@ -192,8 +193,8 @@ function SimilarQuestionsPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Result {index + 1}</p>
-                  <h2 className="mt-2 whitespace-pre-line break-words text-lg font-semibold leading-7 text-slate-950 sm:text-xl">
-                    {result.question_text || result.question || result.main_question || "Similar question"}
+                                    <h2 className="mt-2 whitespace-pre-line break-words text-lg font-semibold leading-7 text-slate-950 sm:text-xl">
+                    <MathRenderer value={result.question_text || result.question || result.main_question || "Similar question"} className="prose max-w-none" />
                   </h2>
                 </div>
                 <Badge tone="indigo">

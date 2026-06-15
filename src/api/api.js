@@ -1,6 +1,43 @@
 import axios from "axios";
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+function normalizeApiBaseUrl(rawBaseUrl) {
+  const fallbackBaseUrl = "/api";
+  const input = String(rawBaseUrl || fallbackBaseUrl).trim();
+
+  const appendV1IfNeeded = (pathname) => {
+    if (pathname.endsWith("/api/v1")) {
+      return pathname;
+    }
+
+    if (pathname.endsWith("/api")) {
+      return `${pathname}/v1`;
+    }
+
+    if (pathname === "" || pathname === "/") {
+      return "/api/v1";
+    }
+
+    return pathname;
+  };
+
+  const isAbsoluteUrl = /^[a-z][a-z\d+\-.]*:\/\//i.test(input) || input.startsWith("//");
+
+  if (!isAbsoluteUrl) {
+    const normalizedPath = appendV1IfNeeded(input.replace(/\/+$/, ""));
+    return normalizedPath.startsWith("/") ? normalizedPath : `/${normalizedPath}`;
+  }
+
+  try {
+    const url = new URL(input);
+    const normalizedPathname = appendV1IfNeeded(url.pathname.replace(/\/+$/, ""));
+    url.pathname = normalizedPathname;
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return input;
+  }
+}
+
+export const API_BASE_URL = normalizeApiBaseUrl(import.meta.env.VITE_API_BASE_URL || "/api");
 export const RATE_LIMIT_MESSAGE = "Too many requests. Please try again later.";
 
 export function getApiStatus(error) {
@@ -299,6 +336,13 @@ const TUTOR_EXPLAIN_PATH = (id) => {
     : `/v1/tutor/questions/${encodePath(id)}/explain`;
 };
 
+const TUTOR_CHAT_PATH = (id) => {
+  const base = String(API_BASE_URL || "");
+  return base.includes("/api/v1")
+    ? `/tutor/questions/${encodePath(id)}/chat`
+    : `/v1/tutor/questions/${encodePath(id)}/chat`;
+};
+
 export const apiEndpoints = {
   register: (payload) => API.post("/auth/register", payload),
   login: (payload) =>
@@ -340,6 +384,9 @@ export const apiEndpoints = {
   // Tutor metadata-only explanation endpoint
   explainTutorQuestion: (questionId, payload) =>
     API.post(TUTOR_EXPLAIN_PATH(questionId), payload),
+  // Tutor chat endpoint (interactive)
+  chatTutorQuestion: (questionId, payload) =>
+    API.post(TUTOR_CHAT_PATH(questionId), payload),
   submitFeedback: (payload) => API.post("/feedback", payload),
   getPublicFeedback: (params) => API.get("/feedback/public", { params }),
   getDonationInfo: () => API.get("/donation-info"),
@@ -443,7 +490,7 @@ export async function downloadPredictionPdf(subjectCode, params = {}) {
       const raw = matches[1] || matches[2] || matches[3] || "";
       try {
         filename = decodeURIComponent(raw.replace(/^["']|["']$/g, ""));
-      } catch (e) {
+      } catch {
         filename = raw.replace(/^["']|["']$/g, "");
       }
     }

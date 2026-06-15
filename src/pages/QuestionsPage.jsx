@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import QuestionRenderer from "../components/ui/QuestionRenderer";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import { apiEndpoints, getAnswerGenerationErrorMessage, logAnswerGenerationError } from "../api/api";
+import { apiEndpoints } from "../api/api";
 import { Badge, Button, Card, DiagramRenderer, EmptyState, LoadingSpinner, PageHeader, PaperTypeSelector, QuestionExtras, ResponsiveContainer } from "../components/ui";
 import WorkflowSteps from "../components/ui/WorkflowSteps";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
@@ -573,16 +573,12 @@ function QuestionsPage() {
   const [questionLimit] = useState(QUESTIONS_PER_PAGE);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalQuestionPages, setTotalQuestionPages] = useState(0);
-  const [answers, setAnswers] = useState({});
   // Tutor modal state
   const [tutorModalOpen, setTutorModalOpen] = useState(false);
   const [tutorResponse, setTutorResponse] = useState(null);
   const [tutorLoading, setTutorLoading] = useState(false);
   const [tutorError, setTutorError] = useState(null);
   const [selectedTutorQuestion, setSelectedTutorQuestion] = useState(null);
-  const [loadingMap, setLoadingMap] = useState({});
-  const [errorMap, setErrorMap] = useState({});
-  const [selectedSubQuestionMap, setSelectedSubQuestionMap] = useState({});
   const [booting, setBooting] = useState(true);
   const [loadingSubject, setLoadingSubject] = useState(false);
   const [searching, setSearching] = useState(false);
@@ -596,10 +592,6 @@ function QuestionsPage() {
       setQuestionPage(1);
       setTotalQuestions(0);
       setTotalQuestionPages(0);
-      setAnswers({});
-      setLoadingMap({});
-      setErrorMap({});
-      setSelectedSubQuestionMap({});
       return;
     }
 
@@ -622,10 +614,6 @@ function QuestionsPage() {
       setQuestionPage(Number(questionPayload.current_page || questionPayload.page || safePage));
       setTotalQuestions(Number(questionPayload.total || 0));
       setTotalQuestionPages(Number(questionPayload.total_pages || 0));
-      setAnswers({});
-      setLoadingMap({});
-      setErrorMap({});
-      setSelectedSubQuestionMap({});
       setMissingScope(false);
       setMessage(`Loaded published data for ${subjectCode}${paperType ? ` (${paperType})` : ""}.`);
     } catch (error) {
@@ -634,10 +622,6 @@ function QuestionsPage() {
       setQuestions([]);
       setTotalQuestions(0);
       setTotalQuestionPages(0);
-      setAnswers({});
-      setLoadingMap({});
-      setErrorMap({});
-      setSelectedSubQuestionMap({});
       setMissingScope(isMissingStudentScopeError(error));
       setMessage(getApiErrorMessage(error, "Unable to load subject data right now."));
     } finally {
@@ -777,74 +761,6 @@ function QuestionsPage() {
   const supportedPaperTypes = normalizeSupportedPaperTypes(currentSubject?.supported_paper_types);
   const showPaperSelector = hasPaperTypeSupport(currentSubject);
 
-  async function handleGetAnswer(question, index) {
-    const questionKey = getQuestionKey(question, index);
-
-    if (loadingMap[questionKey]) {
-      return;
-    }
-
-    setLoadingMap((prev) => ({ ...prev, [questionKey]: true }));
-    setErrorMap((prev) => ({ ...prev, [questionKey]: "" }));
-
-    const subQuestions = Array.isArray(question?.sub_questions) ? question.sub_questions : [];
-    const selectedSubQuestionLabel = selectedSubQuestionMap[questionKey] || "";
-    const selectedSubQuestion = selectedSubQuestionLabel
-      ? subQuestions.find((subQuestion, subIndex) => getSubQuestionLabel(subQuestion, subIndex) === selectedSubQuestionLabel)
-      : null;
-
-    const payload = getQuestionAnswerPayload(question, {
-      selectedLevel,
-      selectedBoard,
-      selectedYear,
-      selectedSubject,
-      selectedPaperType,
-      currentSubject,
-      currentSubjectId: currentSubject?.id ?? null,
-    }, {
-      sub_question_label: selectedSubQuestionLabel || null,
-      answer_mode: getSubQuestionAnswerMode(selectedSubQuestion) || null,
-    });
-
-    console.log("Get Answer payload", {
-      endpoint: "/generate-answer",
-      subject_code: payload.subject_code,
-      question_id: payload.question_id,
-      question_type: payload.question_type,
-      payload_question_preview: String(payload.question || "").slice(0, 500),
-      has_options: Array.isArray(payload.metadata?.options) && payload.metadata.options.length > 0,
-      has_description: Boolean(payload.metadata?.description),
-      has_sub_questions: Array.isArray(payload.metadata?.sub_questions) && payload.metadata.sub_questions.length > 0,
-      has_metadata: Boolean(payload.metadata),
-    });
-
-    try {
-      const response = await apiEndpoints.generateQuestionAnswer(payload);
-      console.log(response.data);
-
-      const responseData = response?.data ?? {};
-      const rawAnswer = responseData.answer ?? responseData.generated_answer ?? responseData;
-      const normalizedAnswer = typeof rawAnswer === "string"
-        ? rawAnswer
-        : rawAnswer && typeof rawAnswer === "object"
-          ? JSON.stringify(rawAnswer, null, 2)
-          : String(rawAnswer ?? "");
-
-      setAnswers((prev) => ({
-        ...prev,
-        [questionKey]: normalizedAnswer,
-      }));
-    } catch (error) {
-      logAnswerGenerationError("/generate-answer", payload, error);
-      setErrorMap((prev) => ({
-        ...prev,
-        [questionKey]: getAnswerGenerationErrorMessage(error, "Failed to generate answer."),
-      }));
-    } finally {
-      setLoadingMap((prev) => ({ ...prev, [questionKey]: false }));
-    }
-  }
-
   async function handlePaperTypeChange(nextPaperType) {
     if (!selectedSubject || loadingSubject) {
       return;
@@ -852,13 +768,6 @@ function QuestionsPage() {
 
     setSelectedPaperType(nextPaperType);
     await loadSubjectData(selectedSubject, 1, nextPaperType);
-  }
-
-  function handleSelectSubQuestion(questionKey, subQuestionLabel) {
-    setSelectedSubQuestionMap((prev) => ({
-      ...prev,
-      [questionKey]: subQuestionLabel,
-    }));
   }
 
   // Tutor API handlers
@@ -1121,9 +1030,6 @@ function QuestionsPage() {
             ) : (
               questions.map((question, index) => {
                 const questionKey = getQuestionKey(question, index);
-                const isLoadingAnswer = Boolean(loadingMap[questionKey]);
-                const questionAnswer = answers[questionKey];
-                const questionError = errorMap[questionKey];
 
                 // Format question number display
                 let displayQuestionNo = "";
@@ -1165,40 +1071,12 @@ function QuestionsPage() {
                   <QuestionRenderer question={question} index={index} />
 
                   <div className="mt-5">
-                    <button
-                      type="button"
-                      onClick={() => handleGetAnswer(question, index)}
-                      disabled={isLoadingAnswer}
-                      className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 disabled:opacity-50"
-                    >
-                      {isLoadingAnswer ? "Generating..." : "Get Answer"}
-                    </button>
-
-                    {isLoadingAnswer && (
-                      <p className="mt-3 text-sm text-slate-500">Generating answer...</p>
-                    )}
-
-                    {questionError && (
-                      <p className="mt-3 text-sm text-red-500">{questionError}</p>
-                    )}
-
-                    {questionAnswer && (
-                      <div className="mt-4 overflow-hidden rounded-lg bg-gray-100 p-4 transition-all duration-300 ease-out">
-                        <h4 className="mb-2 font-semibold">Answer:</h4>
-                        <p className="whitespace-pre-line text-sm leading-7 text-slate-700">
-                          {typeof questionAnswer === "string"
-                            ? questionAnswer
-                            : JSON.stringify(questionAnswer, null, 2)}
-                        </p>
-                      </div>
-                    )}
-
                     {/* Explain with Tutor button (opens modal) */}
                     <button
                       type="button"
                       onClick={() => handleExplainWithTutor(question)}
                       disabled={tutorLoading && selectedTutorQuestion?.id === question?.id}
-                      className="mt-4 ml-3 rounded-lg bg-amber-600 px-4 py-2 text-white transition hover:bg-amber-700 disabled:opacity-50"
+                      className="mt-4 rounded-lg bg-amber-600 px-4 py-2 text-white transition hover:bg-amber-700 disabled:opacity-50"
                     >
                       {tutorLoading && selectedTutorQuestion?.id === question?.id ? "Loading Tutor..." : "Explain with Tutor"}
                     </button>
@@ -1243,6 +1121,7 @@ function QuestionsPage() {
             loading={tutorLoading}
             error={tutorError}
             onRetry={handleRetryTutor}
+            selectedTutorQuestion={selectedTutorQuestion}
           />
     </ResponsiveContainer>
   );
