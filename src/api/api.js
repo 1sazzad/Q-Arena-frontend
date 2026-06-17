@@ -343,6 +343,27 @@ const TUTOR_CHAT_PATH = (id) => {
     : `/v1/tutor/questions/${encodePath(id)}/chat`;
 };
 
+export const TUTOR_EXPLAIN_PAYLOAD = {
+  mode: "simple_explanation",
+  language: "en",
+  student_level: "beginner",
+  include_whiteboard: true,
+  include_hints: true,
+  include_practice: true,
+};
+
+async function postGenerateAnswer(payload) {
+  try {
+    return await API.post("/answers/generate", payload);
+  } catch (error) {
+    const status = error?.response?.status ?? error?.status ?? null;
+    if (status === 404 || status === 405) {
+      return API.post("/generate-answer", payload);
+    }
+    throw error;
+  }
+}
+
 export const apiEndpoints = {
   register: (payload) => API.post("/auth/register", payload),
   login: (payload) =>
@@ -379,14 +400,16 @@ export const apiEndpoints = {
     API.get(`/subjects/${encodePath(subject_code)}/suggestions`, {
       params: buildPaperTypeParams({ query, top_k, paper_type }),
     }),
-  generateAnswer: (payload) => API.post("/generate-answer", payload),
-  generateQuestionAnswer: (payload) => API.post("/generate-answer", payload),
+  generateAnswer: (payload) => postGenerateAnswer(payload),
+  generateQuestionAnswer: (payload) => postGenerateAnswer(payload),
   // Tutor metadata-only explanation endpoint
-  explainTutorQuestion: (questionId, payload) =>
+  explainTutorQuestion: (questionId, payload = TUTOR_EXPLAIN_PAYLOAD) =>
     API.post(TUTOR_EXPLAIN_PATH(questionId), payload),
   // Tutor chat endpoint (interactive)
   chatTutorQuestion: (questionId, payload) =>
     API.post(TUTOR_CHAT_PATH(questionId), payload),
+  // Classroom-level tutor chat endpoint (no question id required)
+  chatTutorClassroom: (payload) => API.post("/tutor/classroom/chat", payload),
   submitFeedback: (payload) => API.post("/feedback", payload),
   getPublicFeedback: (params) => API.get("/feedback/public", { params }),
   getDonationInfo: () => API.get("/donation-info"),

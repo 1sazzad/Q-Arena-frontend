@@ -1,6 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Badge, Card } from "./index";
+import { Card } from "./index";
 
 // A compact reusable workflow steps component for public and logged-in pages.
 export default function WorkflowSteps({ mode = "public", selectedSubject = "" }) {
@@ -18,7 +17,7 @@ export default function WorkflowSteps({ mode = "public", selectedSubject = "" })
       number: 2,
       title: "View Smart Predictions",
       description: "See likely exam topics based on repeated questions, frequency, marks, and previous-year patterns.",
-      action: () => navigate("/predict"),
+      action: () => navigate("/predictions"),
     },
     {
       number: 3,
@@ -36,16 +35,16 @@ export default function WorkflowSteps({ mode = "public", selectedSubject = "" })
       number: 5,
       title: "Export your report",
       description: "Download a clean prediction PDF for focused revision.",
-      action: () => navigate("/predict"),
+      action: () => navigate("/predictions"),
     },
   ];
 
   const loggedInSteps = [
     { key: "select", title: "Select a subject", description: "Start with the subject you are preparing for.", to: "/subjects" },
-    { key: "predict", title: "Smart Prediction", description: "Find high-priority topics using previous-year patterns.", to: "/predict" },
+    { key: "predict", title: "Smart Prediction", description: "Find high-priority topics using previous-year patterns.", to: "/predictions" },
     { key: "analysis", title: "Topic Analysis", description: "Check frequency, marks, and repeated question trends.", to: "/analysis" },
     { key: "search", title: "Similar Question Search", description: "Paste a question and find related previous questions.", to: "/search" },
-    { key: "export", title: "Export & Answer", description: "Download a PDF report or generate an exam-style answer.", to: "/predict" },
+    { key: "export", title: "Export & Answer", description: "Download a PDF report or generate an exam-style answer.", to: "/predictions" },
   ];
 
   const stepsToRender = isLoggedIn ? loggedInSteps : publicSteps;

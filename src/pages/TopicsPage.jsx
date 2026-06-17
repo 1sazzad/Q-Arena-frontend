@@ -254,7 +254,7 @@ function TopicsPage() {
         eyebrow="Subject analysis"
         title="Understand repeated topics and exam patterns"
         description="View frequency, marks, appeared years, and sample questions for one subject."
-        actions={<Button onClick={() => navigate("/predict", { state: { subject_code: selectedSubject } })}>View predictions</Button>}
+        actions={<Button onClick={() => navigate("/predictions", { state: { subject_code: selectedSubject } })}>View predictions</Button>}
       />
 
         <Card>

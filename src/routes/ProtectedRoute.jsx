@@ -30,7 +30,7 @@ function ProtectedRoute({ children }) {
       "/suggestions",
       "/generate-answer",
       "/analysis",
-      "/predict",
+      "/predictions",
       "/answers",
     ].some((p) => location.pathname.startsWith(p))
   ) {

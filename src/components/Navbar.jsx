@@ -18,6 +18,7 @@ const publicNavItems = [
 ];
 
 const studentNavItems = [
+  { to: "/dashboard", label: "Dashboard" },
   { to: "/profile", label: "Profile" },
   { to: "/subjects", label: "Subjects" },
   { to: "/board-papers", label: "Board Papers" },
