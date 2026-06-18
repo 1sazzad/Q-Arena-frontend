@@ -128,7 +128,8 @@ function QuestionRenderer({ question, index }) {
         </div>
       )}
 
-      <QuestionDiagram diagramType={diagramType} diagramSvg={diagramSvg} />
+            <QuestionDiagram diagramType={diagramType} diagramSvg={diagramSvg} diagramDescription={diagramDescription} diagramRequired={diagramRequired} />
+
 
             {!diagramSvg && diagramRequired && diagramDescription && (
 

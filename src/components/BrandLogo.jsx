@@ -1,4 +1,4 @@
-import logoUrl from "../assets/branding/q_arena_logo.png";
+import logoUrl from "../assets/branding/q_arena_logo_optimized.webp";
 import { APP_NAME } from "../config/app";
 
 function BrandLogo({ className = "", imageClassName = "h-10 w-10", textClassName = "text-lg font-semibold tracking-tight text-slate-950", showText = true, showTagline = false }) {

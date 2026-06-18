@@ -21,7 +21,7 @@ function inlineCommonSvgStyles(svg) {
           // keep the original class attribute, and append attributes after it
           return 'class=' + quote + clsContent + quote + ' ' + attrs;
         });
-      } catch (err) {
+      } catch {
         // ignore regex errors for unexpected class names
       }
     });
@@ -39,27 +39,41 @@ function inlineCommonSvgStyles(svg) {
   return out;
 }
 
-function QuestionDiagram({ diagramType = "", diagramSvg = "", className = "" }) {
+function QuestionDiagram({ diagramType = "", diagramSvg = "", className = "", diagramDescription = "", diagramRequired = false }) {
   if (!diagramSvg || String(diagramType).toLowerCase() !== "svg") return null;
 
-  let cleanSvg = "";
-  let normalizedSvg = "";
+  let cleanSvg;
   try {
     const preprocessed = inlineCommonSvgStyles(diagramSvg);
-    normalizedSvg = preprocessed;
     cleanSvg = DOMPurify.sanitize(preprocessed, {
       USE_PROFILES: { svg: true, svgFilters: true },
     });
-  } catch (e) {
+  } catch {
     cleanSvg = "";
   }
 
   if (!cleanSvg) return null;
 
+  // Accessibility: expose accessible name/description for meaningful diagrams.
+  // Priority: use provided diagramDescription; if missing and diagram is required, use generic label; otherwise mark as decorative.
+  const hasDescription = Boolean(diagramDescription && String(diagramDescription).trim());
+  const accessibleLabel = hasDescription ? String(diagramDescription).trim() : diagramRequired ? "Question diagram" : null;
+
+  const wrapperClass = className || "mt-4 rounded-xl border border-slate-200 bg-white p-4 overflow-x-auto";
+
   return (
-    <div className={className || "mt-4 rounded-xl border border-slate-200 bg-white p-4 overflow-x-auto"}>
-      <div className="diagram-svg question-svg-diagram w-full max-w-full overflow-x-auto" dangerouslySetInnerHTML={{ __html: cleanSvg }} />
-    </div>
+    <figure className={wrapperClass}>
+      <div
+        className="diagram-svg question-svg-diagram w-full max-w-full overflow-x-auto"
+        // If we have an accessible label, expose role=img and aria-label. Otherwise mark as decorative for AT.
+        {...(accessibleLabel ? { role: "img", "aria-label": accessibleLabel, "aria-atomic": "true" } : { "aria-hidden": "true" })}
+        dangerouslySetInnerHTML={{ __html: cleanSvg }}
+      />
+      {accessibleLabel ? (
+        // sr-only caption for screen readers and assistive tech
+        <figcaption className="sr-only">{accessibleLabel}</figcaption>
+      ) : null}
+    </figure>
   );
 }
 

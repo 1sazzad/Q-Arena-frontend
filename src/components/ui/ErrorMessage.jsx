@@ -12,7 +12,21 @@ function ErrorMessage({ children, tone = "error" }) {
           ? "border-indigo-200 bg-indigo-50 text-indigo-800"
           : "border-rose-200 bg-rose-50 text-rose-700";
 
-  return <div className={`whitespace-pre-line rounded-[1.25rem] border px-4 py-3 text-sm leading-6 shadow-sm ${classes}`}>{children}</div>;
+  // Accessibility: use live regions so dynamic messages are announced to assistive technologies.
+  // - Error/Warning (default/error/warning): urgent -> role="alert" + aria-live="assertive"
+  // - Success/Info: non-urgent -> role="status" + aria-live="polite"
+  const a11yProps = (tone === "success" || tone === "info")
+    ? { role: "status", "aria-live": "polite", "aria-atomic": "true" }
+    : { role: "alert", "aria-live": "assertive", "aria-atomic": "true" };
+
+  return (
+    <div
+      {...a11yProps}
+      className={`whitespace-pre-line rounded-[1.25rem] border px-4 py-3 text-sm leading-6 shadow-sm ${classes}`}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default ErrorMessage;

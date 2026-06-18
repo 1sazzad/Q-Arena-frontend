@@ -2,23 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate, NavLink } from "react-router-dom";
 import { apiEndpoints } from "../api/api";
 import { Badge, Card, EmptyState, LoadingSpinner } from "../components/ui";
-import BrandLogo from "../components/BrandLogo";
-import {
-  LayoutDashboard,
-  BookCheck,
-  Brain,
-  Search as SearchIcon,
-  WandSparkles,
-  BookMarked,
-  Target,
-  TestTubeDiagonal,
-  Notebook,
-  Settings,
-  CircleHelp,
-  Menu,
-  X,
-  Bell,
-} from "lucide-react";
+
+import PublicSidebar from "../components/PublicSidebar";
+import { Search as SearchIcon, Bell, Menu, X } from "lucide-react";
 
 // Sample fallback data used only when API fails
 const SAMPLE = {
@@ -112,83 +98,6 @@ function DonutChart({ data = [], size = 120 }) {
         ))}
       </div>
     </div>
-  );
-}
-
-function Sidebar({ onNavigate }) {
-  const location = useLocation();
-  const currentPath = location.pathname;
-  const baseClass = "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition";
-  const items = [
-    { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-    { label: "My Subjects", to: "/subjects", icon: BookCheck },
-    { label: "Smart Predictions", to: "/predictions", icon: Brain },
-    { label: "Search Questions", to: "/search", icon: SearchIcon },
-    { label: "AI Tutor", to: "/ai-tutor", icon: WandSparkles },
-    { label: "Bookmarks", to: "/bookmarks", icon: BookMarked },
-    { label: "Practice", to: "/subjects", icon: Target },
-    { label: "Mock Tests", to: "/mock-tests", icon: TestTubeDiagonal },
-    { label: "Notes", to: "/notes", icon: Notebook },
-  ];
-  return (
-    <aside className="flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white">
-      <div className="px-5 pb-5 pt-6">
-        <BrandLogo className="gap-3" imageClassName="h-9 w-9" textClassName="text-lg font-semibold text-slate-900" />
-      </div>
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {items.map((item) => {
-          const isActiveItem =
-            item.label === "My Subjects"
-              ? currentPath === "/subjects" || currentPath.startsWith("/subjects/")
-              : item.label === "Practice"
-                ? false
-                : currentPath === item.to || currentPath.startsWith(`${item.to}/`);
-          return (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              onClick={onNavigate}
-              className={`${baseClass} ${
-                isActiveItem
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
-              }`}
-            >
-              <item.icon className="h-4 w-4" />
-              <span>{item.label}</span>
-            </NavLink>
-          );
-        })}
-      </nav>
-      <div className="border-t border-slate-100 p-4">
-        <NavLink to="/profile" onClick={onNavigate} className="flex items-center gap-3 rounded-2xl bg-white p-3 mb-3 border border-slate-200">
-          <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-semibold">AC</div>
-          <div>
-            <div className="text-sm font-semibold text-slate-900">Alex Chen</div>
-            <div className="text-xs text-slate-500">Student</div>
-          </div>
-        </NavLink>
-        <div className="space-y-2">
-          <NavLink
-            to="/settings"
-            onClick={onNavigate}
-            className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
-          >
-            <Settings className="h-4 w-4" />
-            <span>Settings</span>
-          </NavLink>
-
-          <NavLink
-            to="/help"
-            onClick={onNavigate}
-            className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
-          >
-            <CircleHelp className="h-4 w-4" />
-            <span>Help</span>
-          </NavLink>
-        </div>
-      </div>
-    </aside>
   );
 }
 
@@ -569,9 +478,9 @@ function AnalysisPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]"><Sidebar onNavigate={() => setSidebarOpen(false)} /></div>
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]"><PublicSidebar onNavigate={() => setSidebarOpen(false)} /></div>
       {sidebarOpen && <div className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[1px] lg:hidden" onClick={() => setSidebarOpen(false)} aria-hidden="true" />}
-      <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen?"translate-x-0":"-translate-x-full"}`}><Sidebar onNavigate={() => setSidebarOpen(false)} /></div>
+      <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen?"translate-x-0":"-translate-x-full"}`}><PublicSidebar onNavigate={() => setSidebarOpen(false)} /></div>
       <div className="lg:pl-[240px]">
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
           <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">

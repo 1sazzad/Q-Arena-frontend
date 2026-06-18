@@ -1,64 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  Bell,
-  BookCheck,
-  BookMarked,
-  Bot,
-  Brain,
-  ChevronDown,
-  ChevronRight,
-  CircleHelp,
-  LayoutDashboard,
-  Loader2,
-  LogOut,
-  Menu,
-  Mic,
-  MicOff,
-  Notebook,
-  Search,
-  Send,
-  Settings,
-  Target,
-  TestTubeDiagonal,
-  UserCircle2,
-  WandSparkles,
-  X,
-} from "lucide-react";
-import BrandLogo from "../components/BrandLogo";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Bell, Bot, ChevronRight, Loader2, Menu, Mic, MicOff, Search, Send, X } from "lucide-react";
+
+import PublicSidebar from "../components/PublicSidebar";
 import MathRenderer from "../components/MathRenderer";
 import { apiEndpoints } from "../api/api";
 import { useAuth } from "../context/useAuth";
 import { Badge, Card } from "../components/ui";
-
-const AVAILABLE_ROUTES = new Set([
-  "/dashboard",
-  "/subjects",
-  "/search",
-  "/predictions",
-  "/analysis",
-  "/profile",
-  "/board-papers",
-  "/suggestions",
-  "/answers",
-  "/generate-answer",
-  "/ai-tutor",
-]);
-
-const SIDEBAR_ITEMS = [
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "My Subjects", to: "/subjects", icon: BookCheck },
-  { label: "Smart Predictions", to: "/predictions", icon: Brain },
-  { label: "Search Questions", to: "/search", icon: Search },
-  { label: "AI Tutor", to: "/ai-tutor", icon: WandSparkles },
-  { label: "Bookmarks", to: "/bookmarks", icon: BookMarked },
-  { label: "Practice", to: "/subjects", icon: Target },
-  { label: "Mock Tests", to: "/mock-tests", icon: TestTubeDiagonal },
-  { label: "Notes", to: "/notes", icon: Notebook },
-  { label: "Profile", to: "/profile", icon: UserCircle2 },
-  { label: "Settings", to: "/settings", icon: Settings },
-  { label: "Help", to: "/support", icon: CircleHelp },
-];
 
 function getInitials(name = "Alex Chen") {
   const parts = String(name || "")
@@ -75,96 +23,6 @@ function getInitials(name = "Alex Chen") {
   }
 
   return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-}
-
-function SidebarSection({ user, accountMenuOpen, onToggleAccountMenu, onNavigate, onLogout }) {
-  return (
-    <aside className="flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white">
-      <div className="px-5 pb-5 pt-6">
-        <BrandLogo className="gap-3" imageClassName="h-9 w-9" textClassName="text-lg font-semibold text-slate-900" />
-      </div>
-
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {SIDEBAR_ITEMS.map((item) => {
-          const Icon = item.icon;
-          const enabled = AVAILABLE_ROUTES.has(item.to);
-          const baseClass = "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition";
-
-          if (!enabled) {
-            return (
-              <div key={item.label} className={`${baseClass} cursor-not-allowed text-slate-500 opacity-70`} title="Coming soon">
-                <Icon className="h-4 w-4" />
-                <span>{item.label}</span>
-                <Badge tone="slate" className="ml-auto">Coming soon</Badge>
-              </div>
-            );
-          }
-
-          return (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              onClick={onNavigate}
-              className={({ isActive }) => `${baseClass} ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"}`}
-            >
-              <Icon className="h-4 w-4" />
-              <span>{item.label}</span>
-            </NavLink>
-          );
-        })}
-      </nav>
-
-      <div className="space-y-3 border-t border-slate-100 px-4 py-4">
-
-        <div className="relative">
-          <div className="flex items-center gap-2">
-            <Link
-              to="/profile"
-              onClick={onNavigate}
-              className="flex min-w-0 flex-1 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 transition hover:bg-slate-100"
-            >
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
-                {getInitials(user?.full_name || "Alex Chen")}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-slate-900">{user?.full_name || "Alex Chen"}</p>
-                <p className="text-xs text-slate-500">Student</p>
-              </div>
-            </Link>
-            <button type="button" onClick={onToggleAccountMenu} className="rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-100">
-              <ChevronDown className={`h-4 w-4 transition ${accountMenuOpen ? "rotate-180" : ""}`} />
-            </button>
-          </div>
-
-          {accountMenuOpen ? (
-            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
-              <Link to="/profile" onClick={onNavigate} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                <UserCircle2 className="h-4 w-4" />
-                Profile
-              </Link>
-              <button type="button" className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-slate-400" disabled>
-                <Settings className="h-4 w-4" />
-                Settings
-              </button>
-              <Link to="/support" onClick={onNavigate} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                <CircleHelp className="h-4 w-4" />
-                Help
-              </Link>
-              <div className="border-t border-slate-100" />
-              <button
-                type="button"
-                onClick={onLogout}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-rose-600 hover:bg-rose-50"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </aside>
-  );
 }
 
 const DEFAULT_CLASSROOM_CONTEXT = {
@@ -428,10 +286,11 @@ export default function AITutorPage() {
   return (
     <div className="h-screen overflow-hidden bg-slate-50">
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]">
-        <SidebarSection
+        <PublicSidebar
           user={user}
           accountMenuOpen={accountMenuOpen}
           onToggleAccountMenu={() => setAccountMenuOpen((current) => !current)}
+          onNavigate={() => { }}
           onLogout={handleLogout}
         />
       </div>
@@ -439,7 +298,7 @@ export default function AITutorPage() {
       {sidebarOpen ? <div className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[1px] lg:hidden" onClick={() => setSidebarOpen(false)} aria-hidden="true" /> : null}
 
       <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <SidebarSection
+        <PublicSidebar
           user={user}
           accountMenuOpen={accountMenuOpen}
           onToggleAccountMenu={() => setAccountMenuOpen((current) => !current)}
@@ -461,7 +320,7 @@ export default function AITutorPage() {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 lg:hidden"
                 aria-label="Toggle dashboard menu"
               >
-                {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {sidebarOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
               </button>
               <div className="min-w-0">
                 <h1 className="text-2xl font-semibold text-slate-900">AI Tutor</h1>
@@ -471,7 +330,7 @@ export default function AITutorPage() {
 
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="relative hidden sm:block sm:w-[300px] lg:w-[400px]">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
                 <input
                   type="search"
                   value={searchValue}
@@ -481,7 +340,7 @@ export default function AITutorPage() {
                 />
               </div>
               <button type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600">
-                <Bell className="h-4 w-4" />
+                <Bell className="h-4 w-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
@@ -495,7 +354,7 @@ export default function AITutorPage() {
           </div>
         </header>
 
-        <div className="mx-auto h-[calc(100vh-5rem)] w-full max-w-[1600px] overflow-hidden px-4 py-4 sm:px-6 lg:px-8">
+        <main className="mx-auto h-[calc(100vh-5rem)] w-full max-w-[1600px] overflow-hidden px-4 py-4 sm:px-6 lg:px-8">
           <div className="grid h-full grid-rows-[auto_minmax(0,1fr)] gap-4">
             <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
@@ -547,7 +406,7 @@ export default function AITutorPage() {
                   {isSending ? (
                     <div className="flex justify-start pb-1">
                       <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600">
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                         Q Arena is preparing your answer...
                       </div>
                     </div>
@@ -582,9 +441,9 @@ export default function AITutorPage() {
                         }}
                         disabled={!voiceSupported}
                         className={`inline-flex h-10 w-10 items-center justify-center rounded-lg border ${isListening ? "border-red-200 bg-red-50 text-red-600" : "border-slate-200 bg-white text-slate-700"} disabled:cursor-not-allowed disabled:opacity-50`}
-                        title={voiceSupported ? (isListening ? "Stop voice input" : "Start voice input") : "Voice input unsupported"}
+                        title={voiceSupported ? (isListening ? "Stop voice input" : "Start voice input") : "Voice input unsupported"} aria-label={voiceSupported ? (isListening ? "Stop voice input" : "Start voice input") : "Voice input unsupported"} aria-pressed={isListening}
                       >
-                        {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                        {isListening ? <MicOff className="h-4 w-4" aria-hidden="true" /> : <Mic className="h-4 w-4" aria-hidden="true" />}
                       </button>
 
                       <textarea
@@ -611,7 +470,7 @@ export default function AITutorPage() {
                         disabled={isSending || !String(chatInput || "").trim()}
                         className="inline-flex h-10 items-center gap-2 rounded-lg bg-indigo-600 px-3 text-sm font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        <Send className="h-4 w-4" />
+                        <Send className="h-4 w-4" aria-hidden="true" />
                         Send
                       </button>
                     </div>
@@ -640,7 +499,7 @@ export default function AITutorPage() {
                 <Card className="rounded-2xl border-slate-200 bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-violet-100 text-violet-700">
-                      <Bot className="h-6 w-6" />
+                      <Bot className="h-6 w-6" aria-hidden="true" />
                       <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
                     </div>
                     <div>
@@ -656,7 +515,7 @@ export default function AITutorPage() {
                     {["Explain a Question", "Generate Practice", "Formula Help", "Step-by-Step Solution"].map((tool) => (
                       <button key={tool} type="button" className="flex w-full items-center justify-between rounded-xl bg-slate-50 px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100">
                         {tool}
-                        <ChevronRight className="h-4 w-4 text-slate-400" />
+                        <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
                       </button>
                     ))}
                   </div>
@@ -678,7 +537,7 @@ export default function AITutorPage() {
               </aside>
             </section>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

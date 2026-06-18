@@ -1,30 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  Bell,
-  BookCheck,
-  BookMarked,
-  Brain,
-  ChevronDown,
-  ChevronRight,
-  CircleHelp,
-  Compass,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Settings,
-  UserCircle2,
-  Notebook,
-  Plus,
-  Search,
-  Sparkles,
-  Target,
-  TestTubeDiagonal,
-  WandSparkles,
-  X,
-} from "lucide-react";
-import BrandLogo from "../components/BrandLogo";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Bell, Brain, ChevronRight, Compass, Menu, Search, Sparkles, WandSparkles, Plus, X } from "lucide-react";
+
+import PublicSidebar from "../components/PublicSidebar";
 import { useAuth } from "../context/useAuth";
 import { apiEndpoints } from "../api/api";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
@@ -72,20 +50,6 @@ const FALLBACK_DASHBOARD_DATA = {
   overallProgress: 64,
 };
 
-const sidebarItems = [
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "My Subjects", to: "/subjects", icon: BookCheck },
-  { label: "Smart Predictions", to: "/predictions", icon: Brain },
-  { label: "Search Questions", to: "/search", icon: Search },
-  { label: "AI Tutor", to: "/ai-tutor", icon: WandSparkles },
-  { label: "Bookmarks", to: "/bookmarks", icon: BookMarked },
-  { label: "Practice", to: "/subjects", icon: Target },
-  { label: "Mock Tests", to: "/mock-tests", icon: TestTubeDiagonal },
-  { label: "Notes", to: "/notes", icon: Notebook },
-  { label: "Profile", to: "/profile", icon: UserCircle2 },
-  { label: "Settings", to: "/settings", icon: Settings },
-  { label: "Help", to: "/support", icon: CircleHelp },
-];
 
 const quickActions = [
   { title: "Smart Predictions", to: "/predictions", description: "See probable questions", icon: Brain, accent: "text-blue-700 bg-blue-100" },
@@ -307,93 +271,6 @@ function normalizeDashboardSubjects(subjects, searchTerm = "") {
   return filtered.slice(0, 3);
 }
 
-function SidebarSection({ user, onNavigate, accountMenuOpen, onToggleAccountMenu, onLogout }) {
-  return (
-    <aside className="flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white">
-      <div className="px-5 pb-5 pt-6">
-        <BrandLogo className="gap-3" imageClassName="h-9 w-9" textClassName="text-lg font-semibold text-slate-900" />
-      </div>
-
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {sidebarItems.map((item) => {
-          const enabled = isRouteEnabled(item.to);
-          const Icon = item.icon;
-          const baseClass = "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition";
-
-          if (!enabled) {
-            return (
-              <div key={item.label} className={`${baseClass} cursor-not-allowed text-slate-500 opacity-70`} title="Coming soon">
-                <Icon className="h-4 w-4" />
-                <span>{item.label}</span>
-                <Badge className="ml-auto" tone="slate">Coming soon</Badge>
-              </div>
-            );
-          }
-
-          return (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              onClick={onNavigate}
-              className={({ isActive }) => `${baseClass} ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"}`}
-            >
-              <Icon className="h-4 w-4" />
-              <span>{item.label}</span>
-            </NavLink>
-          );
-        })}
-      </nav>
-
-      <div className="space-y-3 border-t border-slate-100 px-4 py-4">
-
-        <div className="relative">
-          <div className="flex items-center gap-2">
-            <Link
-              to="/profile"
-              onClick={onNavigate}
-              className="flex min-w-0 flex-1 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 transition hover:bg-slate-100"
-            >
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">{getInitials(user?.full_name || "Alex Chen")}</div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-slate-900">{user?.full_name || "Alex Chen"}</p>
-                <p className="text-xs text-slate-500">Student</p>
-              </div>
-            </Link>
-            <button type="button" onClick={onToggleAccountMenu} className="rounded-xl border border-slate-200 bg-white p-2 text-slate-500 hover:bg-slate-100">
-              <ChevronDown className={`h-4 w-4 transition ${accountMenuOpen ? "rotate-180" : ""}`} />
-            </button>
-          </div>
-
-          {accountMenuOpen ? (
-            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
-              <Link to="/profile" onClick={onNavigate} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                <UserCircle2 className="h-4 w-4" />
-                Profile
-              </Link>
-              <button type="button" disabled className="flex w-full cursor-not-allowed items-center gap-2 px-3 py-2 text-left text-sm text-slate-400">
-                <Settings className="h-4 w-4" />
-                Settings
-              </button>
-              <Link to="/support" onClick={onNavigate} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                <CircleHelp className="h-4 w-4" />
-                Help
-              </Link>
-              <div className="border-t border-slate-100" />
-              <button
-                type="button"
-                onClick={onLogout}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-rose-600 hover:bg-rose-50"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </aside>
-  );
-}
 
 function QuickActionCard({ action, selectedSubjectCode }) {
   const Icon = action.icon;
@@ -809,10 +686,11 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]">
-        <SidebarSection
+        <PublicSidebar
           user={user}
           accountMenuOpen={accountMenuOpen}
           onToggleAccountMenu={() => setAccountMenuOpen((current) => !current)}
+          onNavigate={() => {}}
           onLogout={handleLogout}
         />
       </div>
@@ -820,7 +698,7 @@ function DashboardPage() {
       {sidebarOpen && <div className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[1px] lg:hidden" onClick={() => setSidebarOpen(false)} aria-hidden="true" />}
 
       <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <SidebarSection
+        <PublicSidebar
           user={user}
           accountMenuOpen={accountMenuOpen}
           onToggleAccountMenu={() => setAccountMenuOpen((current) => !current)}

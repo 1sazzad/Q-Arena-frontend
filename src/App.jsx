@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 
 import Navbar from "./components/Navbar";
 import AnalyticsTracker from "./components/AnalyticsTracker";
@@ -11,47 +11,51 @@ import { useSidebarCollapsed } from "./hooks/useSidebarCollapsed";
 import { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from "./config/sidebar";
 import { PERMISSION_DENIED_MESSAGE } from "./utils/auth";
 
-import UploadPage from "./pages/UploadPage";
+const UploadPage = lazy(() => import("./pages/UploadPage"));
 
-import BoardPapersPage from "./pages/BoardPapersPage";
-import SimilarQuestionsPage from "./pages/SimilarQuestionsPage";
-import AnalysisPage from "./pages/AnalysisPage";
-import PredictionsPage from "./pages/PredictionsPage";
-import SuggestionsPage from "./pages/SuggestionsPage";
-import AITutorPage from "./pages/AITutorPage";
-import GenerateAnswerPage from "./pages/GenerateAnswerPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import VerifyEmailPage from "./pages/VerifyEmailPage";
-import ResendVerificationPage from "./pages/ResendVerificationPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import FeedbackPage from "./pages/FeedbackPage";
-import DonationPage from "./pages/DonationPage";
-import HomePage from "./pages/HomePage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import TermsOfServicePage from "./pages/TermsOfServicePage";
-import ContactPage from "./pages/ContactPage";
-import AdminLoginPage from "./pages/AdminLoginPage";
-import DashboardPage from "./pages/DashboardPage";
-import SubjectsPage from "./pages/SubjectsPage";
-import SubjectQuestionsPage from "./pages/SubjectQuestionsPage";
-import AdminCreatePage from "./pages/AdminCreatePage";
-import ProfilePage from "./pages/ProfilePage";
-import JobStatusPage from "./pages/JobStatusPage";
-import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
-import AdminUploadPage from "./pages/admin/AdminUploadPage";
-import ManageQuestionsPage from "./pages/admin/ManageQuestionsPage";
-import ManageSubjectsPage from "./pages/admin/ManageSubjectsPage";
-import ManageUniversitiesPage from "./pages/admin/ManageUniversitiesPage";
-import ManageDepartmentsPage from "./pages/admin/ManageDepartmentsPage";
-import AdminProfilePage from "./pages/admin/AdminProfilePage";
+const BoardPapersPage = lazy(() => import("./pages/BoardPapersPage"));
+const SimilarQuestionsPage = lazy(() => import("./pages/SimilarQuestionsPage"));
+const AnalysisPage = lazy(() => import("./pages/AnalysisPage"));
+const PredictionsPage = lazy(() => import("./pages/PredictionsPage"));
+const SuggestionsPage = lazy(() => import("./pages/SuggestionsPage"));
+const AITutorPage = lazy(() => import("./pages/AITutorPage"));
+const GenerateAnswerPage = lazy(() => import("./pages/GenerateAnswerPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const VerifyEmailPage = lazy(() => import("./pages/VerifyEmailPage"));
+const ResendVerificationPage = lazy(() => import("./pages/ResendVerificationPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
+const FeedbackPage = lazy(() => import("./pages/FeedbackPage"));
+const HelpPage = lazy(() => import("./pages/HelpPage"));
+const DonationPage = lazy(() => import("./pages/DonationPage"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const SubjectsPage = lazy(() => import("./pages/SubjectsPage"));
+const SubjectQuestionsPage = lazy(() => import("./pages/SubjectQuestionsPage"));
+const AdminCreatePage = lazy(() => import("./pages/AdminCreatePage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const JobStatusPage = lazy(() => import("./pages/JobStatusPage"));
+const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
+const AdminUploadPage = lazy(() => import("./pages/admin/AdminUploadPage"));
+const ManageQuestionsPage = lazy(() => import("./pages/admin/ManageQuestionsPage"));
+const ManageSubjectsPage = lazy(() => import("./pages/admin/ManageSubjectsPage"));
+const ManageUniversitiesPage = lazy(() => import("./pages/admin/ManageUniversitiesPage"));
+const ManageDepartmentsPage = lazy(() => import("./pages/admin/ManageDepartmentsPage"));
+const AdminProfilePage = lazy(() => import("./pages/admin/AdminProfilePage"));
 
 function App() {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const { isCollapsed } = useSidebarCollapsed();
   const [permissionMessage, setPermissionMessage] = useState("");
+  // Gate super-admin setup UI behind an opt-in env flag to avoid exposing setup in production by default
+  const isSuperAdminSetupEnabled = import.meta.env.VITE_ENABLE_SUPERADMIN_SETUP === "1";
 
   // Show PublicNavbar only on homepage
   const isHomePage = location.pathname === "/";
@@ -66,7 +70,9 @@ function App() {
   const isSearchPage = location.pathname === "/search";
   const isProfilePage = location.pathname === "/profile";
   const isAnalysisPage = location.pathname === "/analysis";
-  const usesStudentShellLayout = isStudentDashboard || isMySubjects || isSubjectQuestionsPage || isSubjectAnalysisPage || isSearchPage || isProfilePage || location.pathname === "/predictions" || isAnalysisPage || location.pathname === "/ai-tutor";
+  const isSettingsPage = location.pathname === "/settings";
+  const isHelpPage = location.pathname === "/help";
+  const usesStudentShellLayout = isStudentDashboard || isMySubjects || isSubjectQuestionsPage || isSubjectAnalysisPage || isSearchPage || isProfilePage || isSettingsPage || isHelpPage || location.pathname === "/predictions" || isAnalysisPage || location.pathname === "/ai-tutor";
 
   useEffect(() => {
     function handleForbidden() {
@@ -99,7 +105,8 @@ function App() {
             : undefined
         }
       >
-        <Routes>
+        <Suspense fallback={<div className="min-h-screen bg-slate-50 px-6 py-10 text-slate-600">Loading Q Arena...</div>}>
+          <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -113,7 +120,7 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
-          <Route path="/admin/create" element={<AdminCreatePage />} />
+          <Route path="/admin/create" element={isSuperAdminSetupEnabled ? <AdminCreatePage /> : <Navigate to="/admin/login" replace />} />
           <Route path="/jobs/:jobId" element={<JobStatusPage />} />
 
           <Route element={<ProtectedRoute />}>
@@ -132,6 +139,8 @@ function App() {
             <Route path="/generate-answer" element={<GenerateAnswerPage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/help" element={<HelpPage />} />
 
             <Route path="/predictions" element={<PredictionsPage />} />
             <Route path="/answers" element={<GenerateAnswerPage />} />
@@ -153,6 +162,7 @@ function App() {
             <Route path="/admin/departments" element={<ManageDepartmentsPage />} />
           </Route>
         </Routes>
+        </Suspense>
       </div>
     </>
   );

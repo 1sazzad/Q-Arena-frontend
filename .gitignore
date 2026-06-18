@@ -41,3 +41,7 @@ dist-ssr
 
 # design
 docs/design
+
+# Frontend env ignore additions
+.env.local
+.env.*.local

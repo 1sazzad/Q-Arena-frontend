@@ -8,12 +8,15 @@ function PublicNavbar() {
     const navigate = useNavigate();
   const location = useLocation();
 
-  const navItems = [
-    { label: "Home", href: "#home" },
+    const navItems = [
     { label: "Features", href: "#features" },
-    { label: "How It Works", href: "/#how-it-works" },
-    { label: "Support", href: "#support" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "AI Tutor", href: "#ai-tutor" },
+    { label: "Predictions", href: "#predictions" },
+    { label: "Subjects", href: "#subjects" },
+    { label: "Help", href: "#contact" },
   ];
+
 
   const handleNavClick = (href) => {
     // Close mobile menu in all cases when a nav item is clicked
@@ -81,13 +84,13 @@ function PublicNavbar() {
               onClick={() => navigate("/login")}
               className="rounded-2xl px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
             >
-              Log In
+              Login
             </button>
             <button
               onClick={() => navigate("/register")}
               className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:from-indigo-700 hover:to-cyan-700"
             >
-              <Sparkles className="h-4 w-4" />
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
               Create Free Account
             </button>
           </div>
@@ -98,7 +101,7 @@ function PublicNavbar() {
             className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 md:hidden"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" /> }
           </button>
         </div>
 
@@ -128,7 +131,7 @@ function PublicNavbar() {
                 }}
                 className="block w-full rounded-2xl px-3 py-2 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
               >
-                Log In
+                Login
               </button>
               <button
                 onClick={() => {

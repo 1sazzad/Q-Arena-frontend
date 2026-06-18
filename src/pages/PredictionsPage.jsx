@@ -1,26 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  Bell,
-  BookCheck,
-  BookMarked,
-  Brain,
-  CircleHelp,
-  ClipboardList,
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Bell, ClipboardList, FileDown, GraduationCap, Menu, Search, Sparkles, Target, WandSparkles, X } from "lucide-react";
 
-  FileDown,
-  GraduationCap,
-  LayoutDashboard,
-  Menu,
-  Search,
-  Settings,
-  Sparkles,
-  Target,
-  TestTubeDiagonal,
-  WandSparkles,
-  X,
-} from "lucide-react";
-import BrandLogo from "../components/BrandLogo";
+import PublicSidebar from "../components/PublicSidebar";
 import { useAuth } from "../context/useAuth";
 import { Badge, Card } from "../components/ui";
 import { apiEndpoints, downloadPredictionPdf } from "../api/api";
@@ -80,21 +62,7 @@ const FALLBACK_PREDICTION_DATA = {
   sessions: FALLBACK_SESSIONS,
 };
 
-const sidebarItems = [
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "My Subjects", to: "/subjects", icon: BookCheck },
-  { label: "Smart Predictions", to: "/predictions", icon: Brain },
-  { label: "Search Questions", to: "/search", icon: Search },
-  { label: "AI Tutor", to: "/ai-tutor", icon: WandSparkles },
-  { label: "Bookmarks", to: "/bookmarks", icon: BookMarked },
-  { label: "Practice", to: "/subjects", icon: Target },
-  { label: "Mock Tests", to: "/mock-tests", icon: TestTubeDiagonal },
-];
 
-const sidebarBottomItems = [
-  { label: "Settings", to: "/settings", icon: Settings },
-  { label: "Help", to: "/help", icon: CircleHelp },
-];
 
 const predictionReasons = [
   { title: "Repeated in Past Exams", text: "Topics frequently appeared in past exams." },
@@ -298,65 +266,7 @@ function filterPredictions(predictionData, filters) {
   };
 }
 
-function Sidebar({ user, onNavigate }) {
-  const name = user?.full_name || "Alex Chen";
 
-  const renderNavItem = (item) => {
-    const Icon = item.icon;
-    const enabled = isRouteEnabled(item.to);
-    const baseClass = "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition";
-
-    if (!enabled) {
-      return (
-        <div key={item.label} className={`${baseClass} cursor-not-allowed text-slate-500 opacity-70`}>
-          <Icon className="h-4 w-4" />
-          <span>{item.label}</span>
-          <Badge tone="slate" className="ml-auto">Coming soon</Badge>
-        </div>
-      );
-    }
-
-    return (
-      <NavLink
-        key={item.label}
-        to={item.to}
-        onClick={onNavigate}
-        className={({ isActive }) =>
-          `${baseClass} ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"}`
-        }
-      >
-        <Icon className="h-4 w-4" />
-        <span>{item.label}</span>
-      </NavLink>
-    );
-  };
-
-  return (
-    <aside className="flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white">
-      <div className="px-5 pb-5 pt-6">
-        <BrandLogo className="gap-3" imageClassName="h-9 w-9" textClassName="text-lg font-semibold text-slate-900" />
-      </div>
-
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {sidebarItems.map(renderNavItem)}
-      </nav>
-
-      <div className="space-y-1 border-t border-slate-100 px-3 py-3">
-        {sidebarBottomItems.map(renderNavItem)}
-      </div>
-
-      <div className="border-t border-slate-100 p-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">AC</div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-900">{name}</p>
-            <p className="text-xs text-slate-500">Student</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-  );
-}
 
 function FilterSelect({ icon: Icon, label, value, options, onChange }) {
   return (
@@ -601,16 +511,16 @@ function PredictionsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]">
-        <Sidebar user={user} />
+            <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]">
+        <PublicSidebar user={user} onNavigate={() => {}} />
       </div>
 
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[1px] lg:hidden" onClick={() => setSidebarOpen(false)} aria-hidden="true" />
       )}
 
-      <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <Sidebar user={user} onNavigate={() => setSidebarOpen(false)} />
+            <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <PublicSidebar user={user} onNavigate={() => setSidebarOpen(false)} />
       </div>
 
       <div className="lg:pl-[240px]">

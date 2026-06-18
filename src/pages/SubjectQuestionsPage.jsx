@@ -1,33 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
-import {
-  ArrowLeft,
-  Bell,
-  BookCheck,
-  BookMarked,
-  Brain,
-  ChevronRight,
-  CircleHelp,
-  CircleUser,
-  LayoutDashboard,
-  Menu,
-  MoreHorizontal,
-  Notebook,
-  Search,
-  Settings,
-  Target,
-  TestTubeDiagonal,
-  WandSparkles,
-  X,
-} from "lucide-react";
-import BrandLogo from "../components/BrandLogo";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, Bell, BookMarked, ChevronRight, Menu, MoreHorizontal, Search, X } from "lucide-react";
+
+import PublicSidebar from "../components/PublicSidebar";
 import MathRenderer from "../components/MathRenderer";
-import { Badge, Card } from "../components/ui";
+import { Badge, Card, DiagramRenderer } from "../components/ui";
 import TutorClassroomModal from "../components/ui/TutorClassroomModal";
 import { apiEndpoints } from "../api/api";
 import { useAuth } from "../context/useAuth";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
 import { normalizeSubjectList } from "../utils/subjectLookups";
+import { normalizeQuestionForRenderer } from "../utils/questionRenderUtils";
 
 const AVAILABLE_ROUTES = new Set(["/dashboard", "/subjects", "/predictions", "/search", "/ai-tutor", "/analysis", "/profile"]);
 const QUESTION_TABS = ["all", "past-year", "repeated", "predicted"];
@@ -72,7 +55,9 @@ const FALLBACK_QUESTIONS = [
 
 function normalizeQuestions(payload) {
   const items = payload?.questions || payload?.items || payload?.data || payload || [];
-  return Array.isArray(items) ? items : [];
+  const arr = Array.isArray(items) ? items : [];
+  // Normalize each question for consistent renderer fields (diagram_svg, diagram_type, etc.)
+  return arr.map((item, idx) => normalizeQuestionForRenderer(item, { index: idx }));
 }
 
 function getQuestionText(question) {
@@ -125,80 +110,6 @@ function isRouteEnabled(pathname) {
   return AVAILABLE_ROUTES.has(pathname);
 }
 
-const sidebarItems = [
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "My Subjects", to: "/subjects", icon: BookCheck },
-  { label: "Smart Predictions", to: "/predictions", icon: Brain },
-  { label: "Search Questions", to: "/search", icon: Search },
-  { label: "AI Tutor", to: "/ai-tutor", icon: WandSparkles },
-  { label: "Bookmarks", to: "/bookmarks", icon: BookMarked },
-  { label: "Practice", to: "/practice", icon: Target },
-  { label: "Mock Tests", to: "/mock-tests", icon: TestTubeDiagonal },
-  { label: "Notes", to: "/notes", icon: Notebook },
-  { label: "Profile", to: "/profile", icon: CircleUser },
-];
-
-const sidebarBottomItems = [
-  { label: "Settings", to: "/settings", icon: Settings },
-  { label: "Help", to: "/help", icon: CircleHelp },
-];
-
-function Sidebar({ user, onNavigate }) {
-  const baseClass = "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition";
-
-  const renderItem = (item) => {
-    const Icon = item.icon;
-    const enabled = isRouteEnabled(item.to);
-
-    if (!enabled) {
-      return (
-        <div key={item.label} className={`${baseClass} cursor-not-allowed text-slate-500 opacity-70`}>
-          <Icon className="h-4 w-4" />
-          <span>{item.label}</span>
-          <Badge tone="slate" className="ml-auto">Coming soon</Badge>
-        </div>
-      );
-    }
-
-    return (
-      <NavLink
-        key={item.label}
-        to={item.to}
-        onClick={onNavigate}
-        className={({ isActive }) => `${baseClass} ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"}`}
-      >
-        <Icon className="h-4 w-4" />
-        <span>{item.label}</span>
-      </NavLink>
-    );
-  };
-
-  return (
-    <aside className="flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white">
-      <div className="px-5 pb-5 pt-6">
-        <BrandLogo className="gap-3" imageClassName="h-9 w-9" textClassName="text-lg font-semibold text-slate-900" />
-      </div>
-
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {sidebarItems.map(renderItem)}
-      </nav>
-
-      <div className="space-y-1 border-t border-slate-100 px-3 py-3">
-        {sidebarBottomItems.map(renderItem)}
-      </div>
-
-      <div className="border-t border-slate-100 p-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">AC</div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-900">{user?.full_name || "Alex Chen"}</p>
-            <p className="text-xs text-slate-500">Student</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-  );
-}
 
 function SubjectQuestionsPage() {
   const navigate = useNavigate();
@@ -570,7 +481,7 @@ function SubjectQuestionsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:block lg:w-[240px]">
-        <Sidebar user={user} />
+        <PublicSidebar user={user} onNavigate={() => {}} />
       </div>
 
       {sidebarOpen && (
@@ -578,7 +489,7 @@ function SubjectQuestionsPage() {
       )}
 
       <div className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white transition-transform lg:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <Sidebar user={user} onNavigate={() => setSidebarOpen(false)} />
+        <PublicSidebar user={user} onNavigate={() => setSidebarOpen(false)} />
       </div>
 
       <div className="lg:pl-[240px]">
@@ -734,6 +645,7 @@ function SubjectQuestionsPage() {
                             <div className="mt-2 text-sm leading-7 text-slate-700">
                               <MathRenderer value={getQuestionText(question)} className="prose max-w-none" />
                             </div>
+                            <DiagramRenderer question={question} />
                           </div>
 
                           <button type="button" className="rounded-lg border border-slate-200 p-2 text-slate-500" aria-label="More options">
