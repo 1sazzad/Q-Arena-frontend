@@ -6,7 +6,6 @@ import {
   MicOff,
   MoreHorizontal,
   MousePointer2,
-  Paperclip,
   Pause,
   PenTool,
   Play,
@@ -80,7 +79,7 @@ function renderExplanationBlock(block, index) {
 
     if (headers.length || rows.length) {
       return (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <div className="min-w-0 max-w-full overflow-x-auto rounded-xl border border-slate-200 bg-white">
           <table className="min-w-full text-left text-sm text-slate-700">
             {headers.length > 0 ? (
               <thead>
@@ -281,11 +280,49 @@ export default function TutorClassroomModal({
     }
   };
 
+  const SessionControls = () => {
+    return (
+      <div className="space-y-3">
+        <section className="rounded-2xl border border-slate-200 bg-white p-3">
+          <h4 className="text-sm font-semibold text-slate-900">Session Controls</h4>
+          <p className="mt-2 text-xs text-slate-600">Live Session</p>
+          <p className="text-lg font-semibold text-indigo-700">{formatDuration(sessionSeconds)}</p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <button type="button" onClick={() => setSessionPaused((v) => !v)} className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs font-semibold text-slate-700">
+              {sessionPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+              {sessionPaused ? "Resume" : "Pause Session"}
+            </button>
+            <button type="button" onClick={onClose} className="inline-flex items-center justify-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2 py-2 text-xs font-semibold text-rose-700">
+              <StopCircle className="h-3.5 w-3.5" />
+              End Session
+            </button>
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-slate-200 bg-white p-3">
+          <h4 className="text-sm font-semibold text-slate-900">Conversation Flow</h4>
+          <ol className="mt-2 space-y-2 text-xs text-slate-700">
+            <li className="rounded-lg border border-indigo-100 bg-indigo-50 px-2 py-1.5">Initial Explanation</li>
+            <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">{topic || "Current topic"} step</li>
+            <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">Current follow-up step</li>
+            <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">Summary</li>
+          </ol>
+        </section>
+
+        <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3">
+          <h4 className="text-sm font-semibold text-indigo-800">Continue Class</h4>
+          <p className="mt-1 text-xs text-indigo-700">We'll continue from here</p>
+          <button type="button" className="mt-3 w-full rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white">Continue Class</button>
+        </section>
+      </div>
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto p-2 sm:p-4 lg:p-6"
       role="dialog"
       aria-modal="true"
       onClick={(e) => {
@@ -294,10 +331,10 @@ export default function TutorClassroomModal({
     >
       <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-md" />
 
-      <Card className="relative z-10 flex h-[90vh] w-full max-w-[1180px] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-0 shadow-2xl">
-        <header className="shrink-0 border-b border-slate-200 bg-white px-5 py-4">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
+      <Card className="relative z-10 mx-auto flex max-h-[calc(100dvh-16px)] w-[calc(100vw-16px)] max-w-[calc(100vw-16px)] sm:w-[min(92vw,48rem)] lg:w-[min(90vw,72rem)] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-0 shadow-2xl">
+        <header className="shrink-0 border-b border-slate-200 bg-white px-4 sm:px-5 py-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">
                 <Bot className="h-5 w-5" />
               </div>
@@ -318,7 +355,7 @@ export default function TutorClassroomModal({
             </button>
           </div>
 
-          <div className="mt-3 grid grid-cols-2 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs lg:grid-cols-3 xl:grid-cols-6">
+          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs lg:grid-cols-3 xl:grid-cols-6">
             <p className="text-slate-600">Subject: <span className="font-semibold text-slate-900">{subject}</span></p>
             <p className="text-slate-600">Subject Code: <span className="font-semibold text-slate-900">{subjectCode}</span></p>
             <p className="text-slate-600">Topic: <span className="font-semibold text-slate-900">{topic}</span></p>
@@ -328,10 +365,13 @@ export default function TutorClassroomModal({
           </div>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-0 xl:grid-cols-[minmax(0,1fr)_280px]">
-          <main className="min-h-0 overflow-hidden border-r border-slate-100">
+        <div className="grid min-h-0 flex-1 min-w-0 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+          <main className="min-h-0 overflow-visible lg:overflow-hidden lg:border-r border-slate-100 min-w-0">
             <div className="flex h-full min-h-0 flex-col">
-              <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4" ref={chatScrollRef}>
+              <div className="min-h-[260px] max-h-[45dvh] overflow-y-auto px-4 sm:px-5 py-4 lg:flex-1 lg:min-h-0" ref={chatScrollRef}>
+                <div className="mb-4 px-4 sm:px-5 lg:hidden">
+                  <SessionControls />
+                </div>
                 <section className="relative rounded-2xl border border-indigo-100 bg-white p-4">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(99,102,241,0.14)_1px,transparent_1px)] [background-size:16px_16px]" />
                   <div className="relative z-10 space-y-3">
@@ -369,7 +409,7 @@ export default function TutorClassroomModal({
 
                   {chatMessages.map((message) => (
                     <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                      <div className={`max-w-[86%] rounded-2xl px-3 py-2 text-sm ${message.role === "user" ? "bg-indigo-600 text-white" : "border border-slate-200 bg-white text-slate-800"}`}>
+                      <div className={`max-w-[86%] min-w-0 rounded-2xl px-3 py-2 text-sm ${message.role === "user" ? "bg-indigo-600 text-white" : "border border-slate-200 bg-white text-slate-800"}`}>
                         <MathRenderer value={normalizeText(message.text)} />
                         {message.role === "assistant" ? <p className="mt-1 text-[11px] text-slate-500">Q Arena AI Teacher</p> : null}
                       </div>
@@ -380,7 +420,7 @@ export default function TutorClassroomModal({
                 </section>
               </div>
 
-              <div className="shrink-0 border-t border-slate-200 bg-slate-50/70 px-5 py-2">
+              <div className="shrink-0 border-t border-slate-200 bg-slate-50/70 px-4 sm:px-5 py-2">
                 <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
                   <span className="rounded-md border border-slate-200 bg-white px-2 py-1">Whiteboard tools</span>
                   <button type="button" className="rounded-md border border-slate-200 bg-white p-1.5"><Undo2 className="h-3.5 w-3.5" /></button>
@@ -400,15 +440,13 @@ export default function TutorClassroomModal({
                 </div>
               </div>
 
-              <div className="sticky bottom-0 shrink-0 border-t border-slate-200 bg-white px-5 py-3">
+              <div className="sticky bottom-0 shrink-0 border-t border-slate-200 bg-white px-4 sm:px-5 py-3">
                 {chatError ? <p className="mb-2 text-sm text-rose-600">{chatError}</p> : null}
                 {voiceError ? <p className="mb-2 text-sm text-amber-700">{voiceError}</p> : null}
 
-                <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
-                  <button type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50" aria-label="Attach">
-                    <Paperclip className="h-4 w-4" />
-                  </button>
-
+                {/* Mobile-first: stack input full width, buttons on the next row. On sm+ keep horizontal layout. */}
+                <div className="flex flex-wrap items-end gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:flex-nowrap">
+                  {/* Textarea first on mobile (order-1), then buttons. On sm the attach button appears left of the textarea via sm:order classes. */}
                   <textarea
                     rows={2}
                     value={chatInput}
@@ -420,7 +458,7 @@ export default function TutorClassroomModal({
                       }
                     }}
                     placeholder="Ask a follow-up question..."
-                    className="max-h-28 min-h-[42px] flex-1 resize-y rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-indigo-300 focus:bg-white"
+                    className="order-1 sm:order-2 max-h-28 min-h-[42px] min-w-0 w-full flex-none sm:flex-1 resize-y rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-indigo-300 focus:bg-white"
                   />
 
                   <button
@@ -430,7 +468,7 @@ export default function TutorClassroomModal({
                       else startListening();
                     }}
                     disabled={!voiceSupported}
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border ${isListening ? "border-red-200 bg-red-50 text-red-600" : "border-slate-200 text-slate-700"} disabled:opacity-50`}
+                    className={`order-2 sm:order-1 inline-flex h-10 w-10 items-center justify-center rounded-xl border ${isListening ? "border-red-200 bg-red-50 text-red-600" : "border-slate-200 text-slate-700"} disabled:opacity-50`}
                     aria-label={isListening ? "Stop voice input" : "Start voice input"}
                   >
                     {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -440,7 +478,7 @@ export default function TutorClassroomModal({
                     type="button"
                     onClick={sendChat}
                     disabled={!String(chatInput || "").trim() || chatSending || !questionId}
-                    className="inline-flex h-10 items-center gap-1 rounded-xl bg-indigo-600 px-3 text-sm font-semibold text-white disabled:opacity-50"
+                    className="order-3 sm:order-3 inline-flex h-10 items-center gap-1 rounded-xl bg-indigo-600 px-3 text-sm font-semibold text-white disabled:opacity-50"
                   >
                     <Send className="h-4 w-4" />
                     Send
@@ -452,40 +490,8 @@ export default function TutorClassroomModal({
             </div>
           </main>
 
-          <aside className="hidden min-h-0 overflow-y-auto bg-slate-50 p-4 xl:block">
-            <div className="space-y-3">
-              <section className="rounded-2xl border border-slate-200 bg-white p-3">
-                <h4 className="text-sm font-semibold text-slate-900">Session Controls</h4>
-                <p className="mt-2 text-xs text-slate-600">Live Session</p>
-                <p className="text-lg font-semibold text-indigo-700">{formatDuration(sessionSeconds)}</p>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <button type="button" onClick={() => setSessionPaused((v) => !v)} className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs font-semibold text-slate-700">
-                    {sessionPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
-                    {sessionPaused ? "Resume" : "Pause Session"}
-                  </button>
-                  <button type="button" onClick={onClose} className="inline-flex items-center justify-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2 py-2 text-xs font-semibold text-rose-700">
-                    <StopCircle className="h-3.5 w-3.5" />
-                    End Session
-                  </button>
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-slate-200 bg-white p-3">
-                <h4 className="text-sm font-semibold text-slate-900">Conversation Flow</h4>
-                <ol className="mt-2 space-y-2 text-xs text-slate-700">
-                  <li className="rounded-lg border border-indigo-100 bg-indigo-50 px-2 py-1.5">Initial Explanation</li>
-                  <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">{topic || "Current topic"} step</li>
-                  <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">Current follow-up step</li>
-                  <li className="rounded-lg border border-slate-200 bg-white px-2 py-1.5">Summary</li>
-                </ol>
-              </section>
-
-              <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3">
-                <h4 className="text-sm font-semibold text-indigo-800">Continue Class</h4>
-                <p className="mt-1 text-xs text-indigo-700">We'll continue from here</p>
-                <button type="button" className="mt-3 w-full rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white">Continue Class</button>
-              </section>
-            </div>
+          <aside className="hidden lg:block min-h-0 overflow-y-auto bg-slate-50 p-4 min-w-0">
+            <SessionControls />
           </aside>
         </div>
       </Card>

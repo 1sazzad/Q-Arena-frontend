@@ -309,7 +309,7 @@ const ACCENT_PALETTE = [
 
 function SummaryCard({ title, value, subtitle, icon: Icon, accent }) {
   return (
-    <Card className="flex items-center gap-4 rounded-2xl border-slate-200 bg-white p-5 shadow-sm">
+    <Card className="flex items-center gap-4 rounded-2xl border-slate-200 bg-white p-5 shadow-sm min-w-0">
       <div className={`rounded-xl p-3 text-lg ${accent.bg} ${accent.text}`}>
         <Icon className="h-5 w-5" />
       </div>
@@ -334,7 +334,7 @@ function SubjectCard({ subject, onContinue, onViewAnalysis }) {
   const accentBg = subject.accent?.bg || "bg-slate-100";
   const accentText = subject.accent?.text || "text-slate-600";
   return (
-    <Card className="relative flex h-full flex-col rounded-2xl border-slate-200 bg-white p-5 shadow-sm">
+    <Card className="relative flex h-full flex-col rounded-2xl border-slate-200 bg-white p-4 sm:p-5 shadow-sm min-w-0">
       <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${accentBg} ${accentText}`}>
         <BookOpen className="h-5 w-5" />
       </div>
@@ -354,11 +354,11 @@ function SubjectCard({ subject, onContinue, onViewAnalysis }) {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-3">
+      <div className="mt-5 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap items-center">
         <button
           type="button"
           onClick={() => onContinue(subject)}
-          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+          className="inline-flex w-full justify-center items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 sm:w-auto"
         >
           Continue
           <ChevronRight className="h-4 w-4" />
@@ -367,7 +367,7 @@ function SubjectCard({ subject, onContinue, onViewAnalysis }) {
         <button
           type="button"
           onClick={() => onViewAnalysis && onViewAnalysis(subject)}
-          className="inline-flex items-center gap-2 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50"
+          className="inline-flex w-full justify-center items-center gap-2 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 sm:w-auto"
         >
           View Analysis
         </button>
@@ -385,7 +385,7 @@ function WeeklyGoalCard() {
         <h3 className="text-sm font-semibold text-slate-900">Weekly Goal</h3>
         <span className="text-xs font-medium text-slate-500">Edit <Badge tone="slate">Coming soon</Badge></span>
       </div>
-      <div className="mt-4 flex items-center gap-4">
+      <div className="mt-4 flex flex-col sm:flex-row items-center gap-4">
         <div className="relative h-24 w-24 rounded-full p-1.5" style={{ background: "conic-gradient(#22c55e 70%, #e2e8f0 70%)" }}>
           <div className="flex h-full w-full items-center justify-center rounded-full bg-white text-xl font-semibold text-slate-900">70%</div>
         </div>
@@ -420,12 +420,12 @@ function UpcomingExamsCard({ exams }) {
       </div>
       <div className="mt-4 space-y-3">
         {exams.map((exam) => (
-          <div key={`${exam.date}-${exam.title}`} className="flex items-center justify-between rounded-2xl bg-slate-50 p-3">
-            <div>
+          <div key={`${exam.date}-${exam.title}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-50 p-3 gap-2 sm:gap-0">
+            <div className="min-w-0">
               <p className="text-sm font-semibold text-slate-900">{exam.subject}</p>
               <p className="text-xs text-slate-500">{exam.title}</p>
             </div>
-            <div className="text-right text-xs font-semibold text-indigo-600">
+            <div className="text-right text-xs font-semibold text-indigo-600 min-w-0 sm:text-right">
               <p>{exam.date}</p>
               <p className="mt-1 text-rose-500">{exam.remaining}</p>
             </div>
@@ -646,10 +646,10 @@ function SubjectsPage() {
           </div>
         </header>
 
-        <div className="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8 min-w-0">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
             <main className="space-y-6">
-              <section className="grid gap-4 lg:grid-cols-4">
+              <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 <SummaryCard
                   title="Enrolled Subjects"
                   value={stats.enrolled}
@@ -664,8 +664,8 @@ function SubjectsPage() {
                   icon={Target}
                   accent={{ bg: "bg-emerald-100", text: "text-emerald-600" }}
                 />
-                <Card className="flex items-center gap-4 rounded-2xl border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="rounded-xl bg-indigo-100 p-3 text-indigo-600">
+                <Card className="flex items-center gap-4 rounded-2xl border-slate-200 bg-white p-5 shadow-sm min-w-0">
+                  <div className="rounded-xl bg-indigo-100 p-3 text-indigo-600 flex-shrink-0">
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div className="flex items-center gap-4">
@@ -687,7 +687,7 @@ function SubjectsPage() {
 
               <section className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
                 <div className="flex flex-wrap items-center gap-3">
-                  <label className="relative flex-1 min-w-[220px]">
+                  <label className="relative flex-1 min-w-0 w-full sm:w-auto">
                     <input
                       value={searchTerm}
                       onChange={(event) => setSearchTerm(event.target.value)}
@@ -698,7 +698,7 @@ function SubjectsPage() {
                     <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   </label>
 
-                  <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 text-sm font-medium text-slate-600">
+                  <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 text-sm font-medium text-slate-600 min-w-0 flex-wrap">
                     {STATUS_TABS.map((tab) => (
                       <button
                         key={tab.id}
@@ -728,7 +728,7 @@ function SubjectsPage() {
 
               <section>
                 {loading ? (
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                     {[0, 1, 2, 3, 4, 5].map((item) => (
                       <Card key={item} className="h-full rounded-2xl border-slate-200 bg-white/80 p-5 shadow-sm">
                         <div className="h-10 w-10 rounded-xl bg-slate-200" />
@@ -744,7 +744,7 @@ function SubjectsPage() {
                     No subjects match these filters yet.
                   </Card>
                 ) : (
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                     {filteredSubjects.map((subject) => (
                       <SubjectCard
                         key={subject.id}
@@ -778,7 +778,7 @@ function SubjectsPage() {
               </section>
             </main>
 
-            <aside className="space-y-4">
+            <aside className="space-y-4 min-w-0">
               <UpcomingExamsCard exams={FALLBACK_EXAMS} />
               <StudyTipCard />
               <WeeklyGoalCard />

@@ -56,7 +56,7 @@ function renderTableCell(row, column, cellIndex) {
 
 
 function QuestionRenderer({ question, index }) {
-  
+
   const questionNo = getOptionalText(question?.question_no);
   const marks = question?.marks ?? question?.question_marks ?? question?.total_marks ?? null;
   const section = getOptionalText(question?.section);
@@ -88,19 +88,19 @@ function QuestionRenderer({ question, index }) {
 
 
 
-    return (
-    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5 min-w-0">
+  return (
+    <article className="w-full max-w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5 min-w-0">
 
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0 space-y-2">
+        <div className="w-full max-w-full min-w-0 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm">Question {questionNo || index + 1}</span>
             {section && <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">Section: {section}</span>}
             {questionType && <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">Type: {questionType}</span>}
           </div>
 
-                    {instruction && (
-            <p className="rounded-2xl border border-cyan-100 bg-white px-3 py-2 text-sm leading-6 text-slate-700">
+          {instruction && (
+            <p className="rounded-2xl border border-cyan-100 bg-white px-3 py-2 text-sm leading-6 text-slate-700 overflow-hidden">
               <span className="font-semibold text-slate-950">Instruction:</span>{' '}<MathRenderer value={instruction} className="inline prose max-w-none" />
             </p>
           )}
@@ -117,21 +117,21 @@ function QuestionRenderer({ question, index }) {
       </div>
 
       {stem && (
-        <div className="mt-4 text-sm leading-7 text-slate-800 sm:text-base">
+        <div className="mt-4 w-full max-w-full min-w-0 qa-content break-words overflow-hidden text-sm leading-7 text-slate-800 sm:text-base">
           <MathRenderer value={stem} className="prose max-w-none" />
         </div>
       )}
 
       {questionText && questionText !== stem && (
-        <div className="mt-4 text-sm leading-7 text-slate-800 sm:text-base">
+        <div className="mt-4 w-full max-w-full min-w-0 qa-content break-words overflow-hidden text-sm leading-7 text-slate-800 sm:text-base">
           <MathRenderer value={questionText} className="prose max-w-none" />
         </div>
       )}
 
-            <QuestionDiagram diagramType={diagramType} diagramSvg={diagramSvg} diagramDescription={diagramDescription} diagramRequired={diagramRequired} />
+      <QuestionDiagram diagramType={diagramType} diagramSvg={diagramSvg} diagramDescription={diagramDescription} diagramRequired={diagramRequired} />
 
 
-            {!diagramSvg && diagramRequired && diagramDescription && (
+      {!diagramSvg && diagramRequired && diagramDescription && (
 
         <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
           <strong>Diagram:</strong>{' '}<MathRenderer value={diagramDescription} className="inline prose max-w-none" />
@@ -145,24 +145,24 @@ function QuestionRenderer({ question, index }) {
       )}
 
       {wordBoxWords.length > 0 && (
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="mt-4 w-full max-w-full min-w-0 rounded-2xl border border-slate-200 bg-white p-3">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Word Box</p>
           <div className="flex flex-wrap gap-2">
-          {wordBoxWords.map((word, wordIndex) => (
-            <span key={`${wordIndex}-${String(word)}`} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
-              <MathRenderer value={word} className="inline prose max-w-none" />
-            </span>
-          ))}
+            {wordBoxWords.map((word, wordIndex) => (
+              <span key={`${wordIndex}-${String(word)}`} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+                <MathRenderer value={word} className="inline prose max-w-none" />
+              </span>
+            ))}
           </div>
         </div>
       )}
 
       {columns.length > 0 && rows.length > 0 && (
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <div className="mt-4 qa-scroll-x max-w-full w-full min-w-0 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
           <table className="min-w-full border-collapse text-left text-sm text-slate-700">
             <thead>
               <tr>
-                                {columns.map((column, columnIndex) => (
+                {columns.map((column, columnIndex) => (
                   <th key={`${columnIndex}-${String(column)}`} className="border border-slate-200 px-3 py-2 font-semibold align-top">
                     <MathRenderer value={column} />
                   </th>
@@ -174,7 +174,7 @@ function QuestionRenderer({ question, index }) {
                 <tr key={rowIndex}>
                   {columns.map((column, columnIndex) => (
                     <td key={`${rowIndex}-${columnIndex}`} className="border border-slate-200 px-3 py-2 align-top">
-                  <MathRenderer value={renderTableCell(row, column, columnIndex) ?? ""} />
+                      <MathRenderer value={renderTableCell(row, column, columnIndex) ?? ""} />
                     </td>
                   ))}
                 </tr>
@@ -185,7 +185,7 @@ function QuestionRenderer({ question, index }) {
       )}
 
       {subQuestions.length > 0 && (
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 w-full max-w-full min-w-0 space-y-3">
           {subQuestions.map((subQuestion, subIndex) => (
             <SubQuestionRenderer key={`${subIndex}-${getOptionalText(subQuestion?.question_no) || getOptionalText(subQuestion?.display_label) || getOptionalText(subQuestion?.label) || subIndex}`} subQuestion={subQuestion} index={subIndex} />
           ))}

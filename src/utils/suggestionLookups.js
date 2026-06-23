@@ -4,21 +4,27 @@ export const MAX_SUGGESTION_TOP_K = 50;
 const SUGGESTION_ITEM_KEYS = [
   "question_text",
   "question",
+  "questionText",
   "text",
   "title",
   "prompt",
   "suggestion",
+  "suggestionText",
   "predicted_question",
+  "predictedQuestion",
   "predicted_topic",
 ];
 
-const SUGGESTION_TOPIC_KEYS = ["topic", "final_topic", "suggested_topic", "predicted_topic", "name"];
+const SUGGESTION_TOPIC_KEYS = ["topic", "final_topic", "suggested_topic", "predicted_topic", "predictedTopic", "name"];
 const SUGGESTION_MARK_KEYS = ["marks", "total_marks", "expected_marks", "question_marks"];
 const SUGGESTION_SCORE_KEYS = [
   "prediction_score",
+  "predictionScore",
   "confidence_score",
+  "confidenceScore",
   "confidence",
   "score",
+  "matchPercent",
   "importance_score",
   "importance",
   "probability_score",

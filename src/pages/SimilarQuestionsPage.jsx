@@ -8,7 +8,7 @@ import { Bell, Bookmark, ChevronDown, LayoutGrid, List, Menu, Search, Sparkles, 
 import PublicSidebar from "../components/PublicSidebar";
 import { useAuth } from "../context/useAuth";
 import { apiEndpoints } from "../api/api";
-import { Badge, Card, LoadingSpinner } from "../components/ui";
+import { Badge, Card, LoadingSpinner, DiagramRenderer } from "../components/ui";
 import TutorClassroomModal from "../components/ui/TutorClassroomModal";
 import MathRenderer from "../components/MathRenderer";
 import { buildSubjectScopeParams, getAcademicProfileSignature } from "../utils/academicProfile";
@@ -147,6 +147,14 @@ function normalizeResults(payload) {
       examType: String(item?.exam_type || item?.paper_type || item?.paper || "").trim(),
       matchPercent: percent,
       matchLevel,
+      // preserve diagram / figure / table fields for renderer usage
+      diagram_svg: item?.diagram_svg ?? item?.diagramSvg ?? item?.figure_svg ?? "",
+      diagram_type: item?.diagram_type ?? item?.diagramType ?? ((item?.diagram_svg || item?.diagramSvg) ? "svg" : ""),
+      diagram_description: item?.diagram_description ?? item?.diagramDescription ?? "",
+      diagram_required: item?.diagram_required ?? item?.diagramRequired ?? false,
+      table_data: item?.table_data ?? item?.tableData ?? null,
+      diagrams: item?.diagrams ?? [],
+      figures: item?.figures ?? [],
     };
   });
 }
@@ -155,6 +163,62 @@ function getBadgeTone(level) {
   if (level === "High Match") return "emerald";
   if (level === "Medium Match") return "amber";
   return "slate";
+}
+
+// Render compact table preview for a search result (supports a few common shapes)
+function renderResultTable(result) {
+  const table = result?.table_data ?? result?.tableData ?? null;
+  if (!table) return null;
+
+  let columns = Array.isArray(table?.columns) ? table.columns : Array.isArray(table?.headers) ? table.headers : [];
+  let rows = Array.isArray(table?.rows) ? table.rows : Array.isArray(table?.data) ? table.data : [];
+
+  // If table itself is an array (array-of-rows), treat it as rows
+  if (Array.isArray(table) && !Array.isArray(table?.columns) && !table?.rows && !table?.data) {
+    rows = table;
+  }
+
+  // If rows are present and first row is an object but no columns provided, derive columns from keys
+  if ((!columns || columns.length === 0) && Array.isArray(rows) && rows.length > 0 && rows[0] && typeof rows[0] === 'object' && !Array.isArray(rows[0])) {
+    columns = Object.keys(rows[0]);
+  }
+
+  // If rows are arrays and no columns, create index-based column labels
+  if ((!columns || columns.length === 0) && Array.isArray(rows) && rows.length > 0 && Array.isArray(rows[0])) {
+    const maxCols = rows.reduce((max, r) => Math.max(max, Array.isArray(r) ? r.length : 0), 0);
+    columns = Array.from({ length: maxCols }).map((_, i) => `col_${i}`);
+  }
+
+  if (!Array.isArray(columns) || columns.length === 0 || !Array.isArray(rows) || rows.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-4 qa-scroll-x max-w-full w-full min-w-0 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table className="min-w-full border-collapse text-left text-sm text-slate-700">
+        <thead>
+          <tr>
+            {columns.map((column, columnIndex) => (
+              <th key={`${columnIndex}-${String(column)}`} className="border border-slate-200 px-2 py-1 font-semibold align-top">
+                <MathRenderer value={column} />
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {columns.map((column, columnIndex) => (
+                <td key={`${rowIndex}-${columnIndex}`} className="border border-slate-200 px-2 py-1 align-top">
+                  <MathRenderer value={Array.isArray(row) ? row[columnIndex] ?? "" : (row && typeof row === 'object') ? (row[column] ?? row[String(column).trim()] ?? "") : (row ?? "")} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 function buildFilterOptions(results, subjects) {
@@ -237,6 +301,14 @@ function ResultCard({ result, rank, onAskTutor }) {
         <MathRenderer value={result.questionText || "Question unavailable"} className="prose max-w-none text-base text-slate-900" />
         {result.description ? <p className="mt-2 text-sm text-slate-600">{result.description}</p> : null}
       </div>
+
+      {/* Diagram (if present) */}
+      <div className="mt-2">
+        <DiagramRenderer question={result} />
+      </div>
+
+      {/* Table preview (if present) */}
+      {renderResultTable(result)}
 
       <div className="mt-4 flex flex-wrap gap-2">
         {result.topic ? <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{result.topic}</span> : null}

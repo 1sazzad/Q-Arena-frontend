@@ -294,3 +294,52 @@
   overflow: auto;
 }
 
+/* Q Arena responsive math safety */
+/* Scope to common prose and QA content, with fallback to .katex-display */
+.qa-content .katex-display,
+.prose .katex-display,
+.katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.qa-content .katex-display > .katex,
+.prose .katex-display > .katex,
+.katex-display > .katex {
+  max-width: 100%;
+}
+
+.katex,
+.katex .katex-html,
+.katex .katex-mathml {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Q Arena rendered math/content overflow safety */
+.qa-math-renderer {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+.qa-math-renderer p,
+.qa-math-renderer li,
+.qa-math-renderer div {
+  max-width: 100%;
+}
+
+.qa-math-renderer .katex,
+.qa-math-renderer .katex-html,
+.qa-math-renderer .katex-mathml {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* end of file */
+

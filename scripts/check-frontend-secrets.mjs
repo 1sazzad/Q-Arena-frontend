@@ -82,21 +82,22 @@ for (const file of tracked) {
   if (file === '.env.example') continue;
 
   for (const c of checks) {
-    let m;
-    while ((m = c.re.exec(content)) !== null) {
-      const match = m[0];
-      // Extract value part for assignment patterns like KEY=VALUE
-      let value = match;
-      const eqIdx = match.indexOf('=');
-      if (eqIdx !== -1) {
-        value = match.slice(eqIdx + 1).trim();
-      }
-      if (looksLikePlaceholder(value)) continue;
-      // don't log the value
-      found.push({ file, rule: c.name });
-      // For this file, break on first match of a rule to avoid noise
-      break;
+    const match = content.match(c.re);
+    if (!match) continue;
+
+    let value = match[0];
+    const eqIdx = value.indexOf("=");
+    if (eqIdx !== -1) {
+      value = value.slice(eqIdx + 1).trim();
     }
+
+    if (looksLikePlaceholder(value)) continue;
+
+    if (c.fail === false) {
+      continue;
+    }
+
+    found.push({ file, rule: c.name });
   }
 }
 

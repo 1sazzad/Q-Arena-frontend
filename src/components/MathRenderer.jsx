@@ -217,10 +217,12 @@ function MathRenderer({ value = "", className = "" }) {
   if (safe === null) return null;
   if (!safe.trim()) return null;
 
-  const normalizedValue = normalizeMixedMath(safe);
+    const normalizedValue = normalizeMixedMath(safe);
+
+  const wrapperClass = `qa-math-renderer qa-content w-full max-w-full min-w-0 ${className || ""}`.trim();
 
   return (
-    <div className={className}>
+    <div className={wrapperClass}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}

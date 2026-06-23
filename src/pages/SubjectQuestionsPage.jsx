@@ -110,6 +110,88 @@ function isRouteEnabled(pathname) {
   return AVAILABLE_ROUTES.has(pathname);
 }
 
+// Local table helpers: normalize and render table_data/tableData for question cards
+function getQuestionTableData(question) {
+  const raw = question?.table_data ?? question?.tableData;
+  if (!raw) return null;
+
+  // If raw is an array: treat as rows; possibly first row is header
+  if (Array.isArray(raw)) {
+    const rows = raw.filter((r) => r !== null && r !== undefined);
+    if (rows.length === 0) return null;
+
+    const first = rows[0];
+    const looksLikeHeader = Array.isArray(first) && first.every((c) => typeof c === "string" && String(c).trim() !== "");
+    if (looksLikeHeader && rows.length > 1) {
+      return { columns: first, rows: rows.slice(1) };
+    }
+
+    return { columns: [], rows };
+  }
+
+  if (typeof raw === "object") {
+    const columns = Array.isArray(raw.columns) ? raw.columns : Array.isArray(raw.headers) ? raw.headers : [];
+    const rows = Array.isArray(raw.rows) ? raw.rows : Array.isArray(raw.data) ? raw.data : [];
+
+    if ((!columns || columns.length === 0) && (!rows || rows.length === 0)) return null;
+
+    return { columns, rows };
+  }
+
+  return null;
+}
+
+function renderQuestionTable(question) {
+  const table = getQuestionTableData(question);
+  if (!table) return null;
+  const { columns, rows } = table;
+  if ((!columns || columns.length === 0) && (!rows || rows.length === 0)) return null;
+
+  function renderTableCell(row, column, cellIndex) {
+    if (Array.isArray(row)) return row[cellIndex];
+    if (row && typeof row === "object") return row[column] ?? row[String(column).trim()] ?? "";
+    return row;
+  }
+
+  return (
+    <div className="mt-4 qa-scroll-x max-w-full w-full min-w-0 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table className="min-w-full border-collapse text-left text-sm text-slate-700">
+        {Array.isArray(columns) && columns.length > 0 && (
+          <thead>
+            <tr>
+              {columns.map((col, colIndex) => (
+                <th key={`th-${colIndex}-${String(col)}`} className="border border-slate-200 px-3 py-2 font-semibold align-top">
+                  <MathRenderer value={col} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          {Array.isArray(rows) && rows.map((row, rowIndex) => (
+            <tr key={`tr-${rowIndex}`}>
+              {Array.isArray(columns) && columns.length > 0 ? (
+                columns.map((col, colIndex) => (
+                  <td key={`td-${rowIndex}-${colIndex}`} className="border border-slate-200 px-3 py-2 align-top">
+                    <MathRenderer value={renderTableCell(row, col, colIndex) ?? ""} />
+                  </td>
+                ))
+              ) : (
+                // No headers/columns provided: render each cell in row
+                (Array.isArray(row) ? row : [row]).map((cell, cellIndex) => (
+                  <td key={`td-${rowIndex}-${cellIndex}`} className="border border-slate-200 px-3 py-2 align-top">
+                    <MathRenderer value={cell ?? ""} />
+                  </td>
+                ))
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 
 function SubjectQuestionsPage() {
   const navigate = useNavigate();
@@ -558,8 +640,8 @@ function SubjectQuestionsPage() {
             <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-700">{statusMessage}</p>
           ) : null}
 
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-            <main className="space-y-6">
+          <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <main className="min-w-0 space-y-6">
               <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="rounded-2xl border-slate-200 bg-white p-4 shadow-sm">
                   <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Total Questions</p>
@@ -638,22 +720,23 @@ function SubjectQuestionsPage() {
                     const difficulty = getQuestionDifficulty(question);
 
                     return (
-                      <Card key={question?.id || `${subjectCode}-${index}`} className="rounded-2xl border-slate-200 bg-white p-4 shadow-sm">
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div>
+                      <Card key={question?.id || `${subjectCode}-${index}`} className="w-full max-w-full min-w-0 rounded-2xl border-slate-200 bg-white p-4 shadow-sm">
+                        <div className="flex w-full max-w-full min-w-0 flex-wrap items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1 max-w-full">
                             <p className="text-sm font-semibold text-slate-900">#{question?.question_no || index + 1}</p>
-                            <div className="mt-2 text-sm leading-7 text-slate-700">
-                              <MathRenderer value={getQuestionText(question)} className="prose max-w-none" />
+                            <div className="mt-2 w-full max-w-full min-w-0 qa-scroll-x text-sm leading-7 text-slate-700">
+                              <MathRenderer value={getQuestionText(question)} className="prose max-w-full" />
                             </div>
                             <DiagramRenderer question={question} />
+                            {renderQuestionTable(question)}
                           </div>
 
-                          <button type="button" className="rounded-lg border border-slate-200 p-2 text-slate-500" aria-label="More options">
+                          <button type="button" className="shrink-0 rounded-lg border border-slate-200 p-2 text-slate-500" aria-label="More options">
                             <MoreHorizontal className="h-4 w-4" />
                           </button>
                         </div>
 
-                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <div className="mt-3 flex w-full max-w-full min-w-0 flex-wrap items-center gap-2">
                           {year ? <Badge tone="slate">{year}</Badge> : null}
                           {marks ? <Badge tone="indigo">{marks} Marks</Badge> : null}
                           {repeatedCount > 0 ? <Badge tone="amber">Repeated {repeatedCount} times</Badge> : null}
@@ -663,7 +746,7 @@ function SubjectQuestionsPage() {
                           </button>
                         </div>
 
-                        <div className="mt-4 flex flex-wrap items-center gap-2">
+                        <div className="mt-4 flex w-full max-w-full min-w-0 flex-wrap items-center gap-2">
                           <button
                             type="button"
                             disabled
@@ -732,7 +815,7 @@ function SubjectQuestionsPage() {
               {statusMessage && !usingFallback ? <p className="text-xs text-slate-500">{statusMessage}</p> : null}
             </main>
 
-            <aside className="space-y-4">
+            <aside className="min-w-0 space-y-4">
               <Card className="rounded-2xl border-slate-200 bg-white p-5 shadow-sm">
                 <h3 className="text-base font-semibold text-slate-900">Filters</h3>
                 <div className="mt-4 space-y-3">
